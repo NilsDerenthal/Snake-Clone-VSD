@@ -1,4 +1,4 @@
-package my_project.model;
+package my_project.model.visual_ds;
 
 import KAGO_framework.control.Interactable;
 import KAGO_framework.model.GraphicalObject;
