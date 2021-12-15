@@ -18,7 +18,6 @@ public class InputManager extends InteractiveGraphicalObject {
      */
     public InputManager(ProgramController programController){
         this.programController = programController;
-
     }
 
     @Override
