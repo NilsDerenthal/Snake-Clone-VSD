@@ -43,13 +43,15 @@ public class ProgramController {
         player.addBodyPart();
     }
 
-    public void playerDoStuff(String stuff){
-        if(stuff.equals("up")) player.movePlayer(0,-40);
-        if(stuff.equals("down")) player.movePlayer(0,40);
-        if(stuff.equals("right")) player.movePlayer(40,0);
-        if(stuff.equals("left")) player.movePlayer(-40,0);
-        if(stuff.equals("add")) player.addBodyPart();
-        if(stuff.equals("delete")) player.deleteBodyPart();
+    public void doPlayerAction(String action){
+        switch (action) {
+            case "up" -> player.movePlayer(0,-40);
+            case "down" -> player.movePlayer(0,40);
+            case "right" -> player.movePlayer(40,0);
+            case "left" -> player.movePlayer(-40,0);
+            case "add" -> player.addBodyPart();
+            case "delete" -> player.deleteBodyPart();
+        }
     }
     /**
      * Aufruf mit jeder Frame

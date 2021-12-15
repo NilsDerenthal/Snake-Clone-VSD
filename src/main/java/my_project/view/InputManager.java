@@ -32,11 +32,11 @@ public class InputManager extends InteractiveGraphicalObject {
 
     @Override
     public void keyReleased(int key) {
-        if(key == KeyEvent.VK_W) programController.playerDoStuff("up");
-        if(key == KeyEvent.VK_A) programController.playerDoStuff("left");
-        if(key == KeyEvent.VK_S) programController.playerDoStuff("down");
-        if(key == KeyEvent.VK_D) programController.playerDoStuff("right");
-        if(key == KeyEvent.VK_F) programController.playerDoStuff("add");
-        if(key == KeyEvent.VK_G) programController.playerDoStuff("delete");
+        if(key == KeyEvent.VK_W) programController.doPlayerAction("up");
+        if(key == KeyEvent.VK_A) programController.doPlayerAction("left");
+        if(key == KeyEvent.VK_S) programController.doPlayerAction("down");
+        if(key == KeyEvent.VK_D) programController.doPlayerAction("right");
+        if(key == KeyEvent.VK_F) programController.doPlayerAction("add");
+        if(key == KeyEvent.VK_G) programController.doPlayerAction("delete");
     }
 }
