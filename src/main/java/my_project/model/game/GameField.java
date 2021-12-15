@@ -1,6 +1,7 @@
 package my_project.model.game;
 
 import KAGO_framework.control.ViewController;
+import my_project.control.SceneConfig;
 import my_project.model.visual_ds.Visual2DArray;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ public class GameField extends Visual2DArray<Entity> {
                         null, Color.BLACK, Color.WHITE
                 )
         );
-        vc.draw(this);
+        vc.draw(this, SceneConfig.GAME_SCENE);
     }
 
 
