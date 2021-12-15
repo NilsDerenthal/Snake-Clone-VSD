@@ -143,7 +143,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
                 }
             }
 
-            viewController.draw(content);
+            viewController.draw(content,1);
             content.fadeIn();
             allowed = false;
         }
@@ -259,9 +259,13 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
             queue = tmp;
             allowed = true;
         }
+    }
 
-
-
+    public List<Double> xPositionList(){
+        return helpX;
+    }
+    public List<Double> yPositionList(){
+        return helpY;
     }
 }
 
