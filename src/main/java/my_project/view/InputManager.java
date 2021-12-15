@@ -15,6 +15,7 @@ public class InputManager extends InteractiveGraphicalObject {
 
     private ProgramController programController;
     private ViewController viewController;
+
     /**
      * Objekterzeugung
      * @param programController Nötig als Objekt vom Controllerbereich, das informiert wird
@@ -25,7 +26,6 @@ public class InputManager extends InteractiveGraphicalObject {
         viewController.register(this);
     }
 
-    public void keyReleased(){}
     @Override
     public void mouseReleased(MouseEvent e) {
 
@@ -33,11 +33,13 @@ public class InputManager extends InteractiveGraphicalObject {
 
     @Override
     public void keyReleased(int key) {
-        if(key == KeyEvent.VK_W) programController.doPlayerAction("up");
-        if(key == KeyEvent.VK_A) programController.doPlayerAction("left");
-        if(key == KeyEvent.VK_S) programController.doPlayerAction("down");
-        if(key == KeyEvent.VK_D) programController.doPlayerAction("right");
-        if(key == KeyEvent.VK_F) programController.doPlayerAction("add");
-        if(key == KeyEvent.VK_G) programController.doPlayerAction("delete");
+        switch (key) {
+            case KeyEvent.VK_W -> programController.doPlayerAction("up");
+            case KeyEvent.VK_A -> programController.doPlayerAction("left");
+            case KeyEvent.VK_S -> programController.doPlayerAction("down");
+            case KeyEvent.VK_D -> programController.doPlayerAction("right");
+            case KeyEvent.VK_F -> programController.doPlayerAction("add");
+            case KeyEvent.VK_G -> programController.doPlayerAction("delete");
+        }
     }
 }
