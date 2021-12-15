@@ -4,6 +4,7 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.Config;
+import my_project.control.SceneConfig;
 import my_project.model.visual_ds.VisualList;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ public class Menue extends GraphicalObject {
     private final VisualList<MenuePoint> leftList;
 
     public Menue(ViewController viewController){
-        viewController.draw(this);
+        viewController.draw(this, SceneConfig.MENU_SCENE);
         height=Config.WINDOW_HEIGHT;
         width=Config.WINDOW_WIDTH;
         leftList=new VisualList<>(0,50,20,40);
