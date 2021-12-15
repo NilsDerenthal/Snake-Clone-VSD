@@ -4,6 +4,7 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
+import my_project.control.SceneConfig;
 
 public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
 
@@ -143,7 +144,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
                 }
             }
 
-            viewController.draw(content,0);
+            viewController.draw(content, SceneConfig.GAME_SCENE);
             content.fadeIn();
             allowed = false;
         }
