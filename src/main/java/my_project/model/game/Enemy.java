@@ -9,12 +9,12 @@ public class Enemy extends Entity {
 
     }
 
-    @Override
+    //@Override
     public void fadeIn() {
 
     }
 
-    @Override
+    //@Override
     public void fadeOut() {
 
     }

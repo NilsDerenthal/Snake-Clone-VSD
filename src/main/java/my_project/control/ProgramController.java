@@ -1,6 +1,7 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import my_project.model.menu.Menue;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -30,7 +31,8 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
-
+        viewController.showScene(0);
+        new Menue(viewController);
     }
 
     /**
