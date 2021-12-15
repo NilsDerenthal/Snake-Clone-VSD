@@ -18,7 +18,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Außerdem sollten eure Objekte mit den parametern x,y,width,height und radius welche sie von der
      * Klasse GraphicalObject erben arbeiten. Andernfalls wirds hier und da problematisch.
      */
-    interface Animatible {
+    public interface Animatible {
 
         void fadeIn();
 
@@ -61,14 +61,14 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Mit moveQueue() kannst du die Queue dann bewegen.
      */
 
-    public VisualQueue(ViewController viewController, double posX, double posY, String direction){
+    public VisualQueue(ViewController viewController, double posX, double posY, String type){
         this.posX = posX;
         this.posY = posY;
         frontX = posX;
         frontY = posY;
-        this.direction = direction;
+        this.direction = type;
 
-        if(direction.equals("movable")) movable = true;
+        if(type.equals("movable")) movable = true;
 
         queue = new Queue<>();
 
@@ -155,7 +155,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * und danach von der Queue entfernt.
      * Hiernach werden die Positionen nach vorne hin um die breite des entfernten Objektes verschoben.
      * Dabei wird tX/tY auf die position durch setTx()/setTy() gesetzt (Nicht x/y!!)
-     *Falls movable aktiv ist, wird das Visuel HINTERSTE!! gelöscht.
+     * Falls movable aktiv ist, wird das Visuel HINTERSTE!! gelöscht, da alles wieder nach vorne bewegt wird.
      */
 
     public void dequeue(){
