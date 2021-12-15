@@ -20,6 +20,9 @@ public  class MenuePoint extends GraphicalObject implements VisualList.AnimableL
         viewController.draw(this);
         list=new VisualList<>(50,0,160,y+30);
         this.inList=inList;
+        StartMenue m=new StartMenue(y);
+        list.append(m);
+        viewController.draw(m);
     }
 
     public void draw(DrawTool drawTool){
@@ -44,5 +47,12 @@ public  class MenuePoint extends GraphicalObject implements VisualList.AnimableL
 
     public void chengeY(double newY) {
         sY=newY;
+        if(!list.isEmpty()){
+            list.toFirst();
+            while(list.getCurrent()!=null) {
+                list.getCurrent().changeY(newY);
+                list.next();
+            }
+        }
     }
 }

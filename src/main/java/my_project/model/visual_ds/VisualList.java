@@ -189,5 +189,11 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
         toCurrent();
         return null;
     }
+
+    /**
+     *gibt zurück ob die List leer ist
+     */
+
+    public boolean isEmpty(){ return list.isEmpty(); }
 }
 
