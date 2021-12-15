@@ -5,9 +5,9 @@ import KAGO_framework.view.DrawTool;
 
 import java.awt.*;
 
-public class StartMenue extends MenueUnderPoint{
+public class StartMenu extends MenuUnderPoint {
 
-    public StartMenue(double y){
+    public StartMenu(double y){
         this.y=y;
         sY=y;
         //Todo fix sY

@@ -3,7 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import my_project.model.game.GameField;
 import my_project.model.game.Player;
-import my_project.model.menu.Menue;
+import my_project.model.menu.Menu;
 import my_project.view.InputManager;
 
 /**
@@ -35,7 +35,7 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.showScene(SceneConfig.MENU_SCENE);
-        new Menue(viewController);
+        new Menu(viewController);
         new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this,viewController);
 

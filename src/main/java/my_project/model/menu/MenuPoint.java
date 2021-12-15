@@ -8,19 +8,19 @@ import my_project.Config;
 
 import java.awt.*;
 
-public  class MenuePoint extends GraphicalObject implements VisualList.AnimableList {
+public  class MenuPoint extends GraphicalObject implements VisualList.AnimableList {
 
-    private final VisualList<MenueUnderPoint> list;
-    private final VisualList<MenuePoint> inList;
+    private final VisualList<MenuUnderPoint> list;
+    private final VisualList<MenuPoint> inList;
     private double sY;
 
-    public MenuePoint(double y, ViewController viewController,VisualList inList){
+    public MenuPoint(double y, ViewController viewController, VisualList inList){
         this.y=y;
         sY=y;
         viewController.draw(this);
         list=new VisualList<>(50,0,160,y+30);
         this.inList=inList;
-        StartMenue m=new StartMenue(y);
+        StartMenu m=new StartMenu(y);
         list.append(m);
         viewController.draw(m);
     }

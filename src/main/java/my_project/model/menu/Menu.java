@@ -9,18 +9,14 @@ import my_project.model.visual_ds.VisualList;
 
 import java.awt.*;
 
-public class Menue extends GraphicalObject {
+public class Menu extends GraphicalObject {
 
-    private final VisualList<MenuePoint> leftList;
+    private final VisualList<MenuPoint> leftList;
 
-    public Menue(ViewController viewController){
+    public Menu(ViewController viewController){
         viewController.draw(this, SceneConfig.MENU_SCENE);
         leftList=new VisualList<>(0,50,20,40);
-        new MenuePoint(100,viewController,leftList);
-    }
-
-    public void createMenue(){
-
+        new MenuPoint(100,viewController,leftList);
     }
 
     public void draw(DrawTool drawTool){
