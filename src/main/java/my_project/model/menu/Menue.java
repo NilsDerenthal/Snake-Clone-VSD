@@ -20,7 +20,7 @@ public class Menue extends GraphicalObject {
         height=Config.WINDOW_HEIGHT;
         width=Config.WINDOW_WIDTH;
         leftList=new VisualList<>(0,50,20,40);
-        new MenuePoint(10,viewController);
+        new MenuePoint(100,viewController,leftList);
     }
 
     public void draw(DrawTool drawTool){
