@@ -143,7 +143,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
                 }
             }
 
-            viewController.draw(content,1);
+            viewController.draw(content,0);
             content.fadeIn();
             allowed = false;
         }
@@ -226,7 +226,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Die teile davor nehmen die Position von dem, der vor ihm war ein.
      */
 
-    public void moveQueue(double inY, double inX){
+    public void moveQueue(double inX, double inY){
         if(!queue.isEmpty()) {
             frontX += inX;
             frontY += inY;

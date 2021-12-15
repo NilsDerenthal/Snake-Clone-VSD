@@ -2,7 +2,9 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import my_project.model.game.GameField;
+import my_project.model.game.Player;
 import my_project.model.menu.Menue;
+import my_project.view.InputManager;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -15,7 +17,7 @@ public class ProgramController {
 
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
-
+    private Player player;
     /**
      * Konstruktor
      * Dieser legt das Objekt der Klasse ProgramController an, das den Programmfluss steuert.
@@ -35,8 +37,20 @@ public class ProgramController {
         viewController.showScene(SceneConfig.MENU_SCENE);
         new Menue(viewController);
         new GameField(viewController, 10, 10, 10, 10);
+        new InputManager(this,viewController);
+
+        player = new Player(viewController, 200, 200);
+        player.addBodyPart();
     }
 
+    public void playerDoStuff(String stuff){
+        if(stuff.equals("up")) player.movePlayer(0,-40);
+        if(stuff.equals("down")) player.movePlayer(0,40);
+        if(stuff.equals("right")) player.movePlayer(40,0);
+        if(stuff.equals("left")) player.movePlayer(-40,0);
+        if(stuff.equals("add")) player.addBodyPart();
+        if(stuff.equals("delete")) player.deleteBodyPart();
+    }
     /**
      * Aufruf mit jeder Frame
      * @param dt Zeit seit letzter Frame

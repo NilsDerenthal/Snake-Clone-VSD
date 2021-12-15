@@ -5,19 +5,31 @@ import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.model.visual_ds.VisualQueue;
 
+import java.awt.*;
+
 public class Player {
 
     //Anfang innerer Klasse
 
     class Body extends GraphicalObject implements VisualQueue.Animatible {
 
+        private boolean head;
+
         public Body(double radius){
             this.radius = radius;
+            head = false;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
             drawTool.drawFilledCircle(x,y,radius);
+            drawTool.setCurrentColor(Color.red);
+            if(head) drawTool.drawCircle(x,y,radius);
+            drawTool.setCurrentColor(Color.black);
+        }
+
+        public void setHead(boolean head) {
+            this.head = head;
         }
 
         @Override
@@ -65,7 +77,7 @@ public class Player {
         bodyPart = new VisualQueue<>(viewcontroller, startX, startY, "movable");
         Body firstPart = new Body(20);
         bodyPart.enqueue(firstPart);
-
+        bodyPart.getFront().setHead(true);
     }
 
     public void movePlayer(double moveX, double moveY){
@@ -75,10 +87,12 @@ public class Player {
     public void addBodyPart(){
         Body body = new Body(20);
         bodyPart.enqueue(body);
+        bodyPart.getFront().setHead(true);
     }
 
     public void deleteBodyPart(){
         bodyPart.dequeue();
+        bodyPart.getFront().setHead(true);
     }
 
     public double PositionX(){
