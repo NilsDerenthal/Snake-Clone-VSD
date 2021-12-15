@@ -14,10 +14,8 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
 
     private Stack<T> stack;
     private ViewController viewController;
-    private int counter;
 
     public VisualStack(ViewController viewController){
-        counter = 1;
         stack = new Stack<>();
         this.viewController = viewController;
     }
@@ -34,9 +32,7 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
         if (contentType != null) {
             stack.push(contentType);
             contentType.comeIn();
-            contentType.setX(counter * (contentType.getRadius()*2));
             viewController.draw(contentType);
-            counter++;
         }
     }
 
@@ -56,7 +52,6 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
             stack.top().goOut();
             viewController.removeDrawable(stack.top());
             stack.pop();
-            counter--;
         }
     }
 }

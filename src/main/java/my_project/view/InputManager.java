@@ -25,6 +25,7 @@ public class InputManager extends InteractiveGraphicalObject {
         viewController.register(this);
     }
 
+    public void keyReleased(){}
     @Override
     public void mouseReleased(MouseEvent e) {
 
