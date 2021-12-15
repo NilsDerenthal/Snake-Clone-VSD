@@ -6,6 +6,8 @@ import my_project.model.game.Player;
 import my_project.model.menu.Menu;
 import my_project.view.InputManager;
 
+import java.awt.event.KeyEvent;
+
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
  * mit jeder Frame im laufenden Programm aufgerufen.
@@ -43,14 +45,14 @@ public class ProgramController {
         player.addBodyPart();
     }
 
-    public void doPlayerAction(String action){
-        switch (action) {
-            case "up" -> player.movePlayer(0,-40);
-            case "down" -> player.movePlayer(0,40);
-            case "right" -> player.movePlayer(40,0);
-            case "left" -> player.movePlayer(-40,0);
-            case "add" -> player.addBodyPart();
-            case "delete" -> player.deleteBodyPart();
+    public void doPlayerAction(int key){
+        switch (key) {
+            case KeyEvent.VK_W -> player.movePlayer(0, -40);
+            case KeyEvent.VK_A -> player.movePlayer(0, 40);
+            case KeyEvent.VK_S -> player.movePlayer(40, 0);
+            case KeyEvent.VK_D -> player.movePlayer(-40, 0);
+            case KeyEvent.VK_F -> player.addBodyPart();
+            case KeyEvent.VK_G -> player.deleteBodyPart();
         }
     }
     /**

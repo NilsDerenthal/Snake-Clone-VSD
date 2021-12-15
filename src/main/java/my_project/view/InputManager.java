@@ -33,13 +33,6 @@ public class InputManager extends InteractiveGraphicalObject {
 
     @Override
     public void keyReleased(int key) {
-        switch (key) {
-            case KeyEvent.VK_W -> programController.doPlayerAction("up");
-            case KeyEvent.VK_A -> programController.doPlayerAction("left");
-            case KeyEvent.VK_S -> programController.doPlayerAction("down");
-            case KeyEvent.VK_D -> programController.doPlayerAction("right");
-            case KeyEvent.VK_F -> programController.doPlayerAction("add");
-            case KeyEvent.VK_G -> programController.doPlayerAction("delete");
-        }
+        programController.doPlayerAction(key);
     }
 }
