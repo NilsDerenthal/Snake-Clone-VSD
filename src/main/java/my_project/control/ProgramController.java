@@ -31,7 +31,7 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
-        viewController.showScene(0);
+        viewController.showScene(SceneConfig.MENU_SCENE);
         new Menue(viewController);
     }
 
