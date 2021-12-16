@@ -12,7 +12,7 @@ public abstract class Entity extends GraphicalObject implements Visual2DArray.An
     private boolean fadingIn;
     private boolean fadingOut;
 
-    private double alpha;
+    protected double alpha;
     private final double alphaChangeRate;
 
     public Entity(double alphaChangeRate) {

@@ -1,45 +1,37 @@
 package my_project.model.game;
 
 import KAGO_framework.control.ViewController;
-import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.model.visual_ds.VisualQueue;
 
 import java.awt.*;
 
-public class Player {
+public class Player extends Entity {
 
-    //Anfang innerer Klasse
-
-    class Body extends GraphicalObject implements VisualQueue.Animatible {
+    private static class BodyPart extends Entity implements VisualQueue.Animatible {
 
         private boolean head;
 
-        public Body(double radius){
+        public BodyPart(double radius){
+            super(Integer.MAX_VALUE);
+
             this.radius = radius;
-            head = false;
+            this.head = false;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
-            drawTool.drawFilledCircle(x,y,radius);
-            drawTool.setCurrentColor(Color.red);
-            if(head) drawTool.drawCircle(x,y,radius);
-            drawTool.setCurrentColor(Color.black);
+            drawTool.setCurrentColor(Color.BLACK);
+            drawTool.drawFilledCircle(x, y, radius);
+
+            if(head) {
+                drawTool.setCurrentColor(Color.RED);
+                drawTool.drawCircle(x, y, radius);
+            }
         }
 
         public void setHead(boolean head) {
             this.head = head;
-        }
-
-        @Override
-        public void fadeIn() {
-
-        }
-
-        @Override
-        public void fadeOut(boolean fadeOut) {
-
         }
 
         @Override
@@ -66,48 +58,59 @@ public class Player {
         public boolean isArrived() {
             return true;
         }
+
+        // ignore
+        @Override
+        public void fadeIn() {}
+
+        @Override
+        public void fadeOut(boolean fadeOut) {}
     }
 
-    //Ende innerer Klasse
 
-    private final VisualQueue<Body> bodyPart;
+    private final VisualQueue<BodyPart> body;
 
     public Player(ViewController viewcontroller, double startX, double startY){
+        // infinitely fast fading -> no fading
+        super(Integer.MAX_VALUE);
 
-        bodyPart = new VisualQueue<>(viewcontroller, startX, startY, "movable");
-        Body firstPart = new Body(20);
-        bodyPart.enqueue(firstPart);
-        bodyPart.getFront().setHead(true);
+        body = new VisualQueue<>(viewcontroller, startX, startY, "movable");
+        BodyPart firstPart = new BodyPart(20);
+
+        body.enqueue(firstPart);
+        body.getFront().setHead(true);
     }
 
     public void movePlayer(double moveX, double moveY){
-        if(moveX != 0 || moveY != 0) bodyPart.moveQueue(moveX,moveY);
+        if(moveX != 0 || moveY != 0)
+            body.moveQueue(moveX, moveY);
     }
 
     public void addBodyPart(){
-        Body body = new Body(20);
-        bodyPart.enqueue(body);
-        bodyPart.getFront().setHead(true);
+        BodyPart body = new BodyPart(20);
+        this.body.enqueue(body);
+        this.body.getFront().setHead(true);
     }
 
     public void deleteBodyPart(){
-        bodyPart.dequeue();
-        bodyPart.getFront().setHead(true);
+        body.dequeue();
+        body.getFront().setHead(true);
     }
 
-    public double PositionX(){
-        return bodyPart.getFront().getX();
+    @Override
+    public void draw(DrawTool drawTool) {
+
     }
 
-    public double PositionY(){
-        return bodyPart.getFront().getY();
+    public boolean isAlive(){
+        return body.getFront() != null;
     }
 
-    public boolean alive(){
-        if(bodyPart.getFront() != null){
-            return true;
-        }else{
-            return false;
-        }
+    public double getPosX(){
+        return body.getFront().getX();
+    }
+
+    public double getPosY(){
+        return body.getFront().getY();
     }
 }

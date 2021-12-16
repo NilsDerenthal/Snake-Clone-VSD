@@ -39,7 +39,7 @@ public class ProgramController {
         viewController.showScene(SceneConfig.MENU_SCENE);
         new Menu(viewController);
         new GameField(viewController, 10, 10, 10, 10);
-        new InputManager(this,viewController);
+        new InputManager(this, viewController);
 
         player = new Player(viewController, 200, 200);
         player.addBodyPart();
