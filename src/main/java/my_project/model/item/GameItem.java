@@ -8,6 +8,7 @@ public class GameItem extends Entity {
 
     protected boolean active;
     protected Player player;
+    protected int duration;
 
     public GameItem(double alphaChangeRate, Player player) {
         super(alphaChangeRate);

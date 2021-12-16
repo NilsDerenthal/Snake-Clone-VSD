@@ -69,6 +69,9 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
+    private boolean stunned;
+    private boolean shieldet;
+    private boolean reversed;
 
     public Player(ViewController viewcontroller, double startX, double startY){
         // infinitely fast fading -> no fading
@@ -81,9 +84,14 @@ public class Player extends Entity {
         body.getFront().setHead(true);
     }
 
-    public void movePlayer(double moveX, double moveY){
-        if(moveX != 0 || moveY != 0)
+    public void movePlayer(double moveX, double moveY) {
+        if (moveX != 0 || moveY != 0 && !stunned) {
+            if(reversed){
+                moveX *= -1;
+                moveY *= -1;
+            }
             body.moveQueue(moveX, moveY);
+        }
     }
 
     public void addBodyPart(){
@@ -112,5 +120,18 @@ public class Player extends Entity {
 
     public double getPosY(){
         return body.getFront().getY();
+    }
+
+    public void setStunned(boolean stunned) {
+
+        if(!shieldet) this.stunned = stunned;
+    }
+
+    public void setShieldet(boolean shieldet) {
+        this.shieldet = shieldet;
+    }
+
+    public void setReversed(boolean reversed) {
+        this.reversed = reversed;
     }
 }
