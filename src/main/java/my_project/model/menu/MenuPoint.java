@@ -15,7 +15,6 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     private final VisualList<MenuPoint> inList;
     private final ViewController viewController;
     private final String text;
-    private double sY;
     private double yS;
     private boolean up=false;
 
@@ -23,7 +22,6 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         x=30;
         this.y=y;
         this.yS = yS;
-        this.sY = yS;
         this.inList = inList;
         this.viewController=viewController;
         this.text=text;
@@ -72,16 +70,13 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     @Override
     public void update(double dt){
         if(up){
-            if(yS < sY - 1){
-                yS += 1000 * dt;
-            }
             if(yS>Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
         }else{
-            if(yS < sY - 1){
-                yS += 1000 * dt;
-            }
             if(yS<Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
         }
+        list.forEach((double d)->{
+            y=d;
+        },yS);
     }
 
     @Override
