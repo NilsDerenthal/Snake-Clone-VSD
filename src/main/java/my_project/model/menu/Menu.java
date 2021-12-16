@@ -63,20 +63,18 @@ public class Menu extends GraphicalObject {
 
     public void next(){
         if(leftList.getCurrent()!=null) {
-            leftList.getCurrent().changeY(Config.WINDOW_HEIGHT + 300);
+            leftList.getCurrent().changeUp(false);
             leftList.next();
             if(leftList.getCurrent()==null){
                 leftList.previous();
             }
-            if(leftList.getCurrent()!=null) leftList.getCurrent().changeY(Config.WINDOW_HEIGHT / 2 - 150);
+            if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
         }
     }
 
     public void previous(){
-        if(leftList.getCurrent()!=null) {
-            leftList.getCurrent().changeY(Config.WINDOW_HEIGHT + 300);
-            leftList.previous();
-            if (leftList.getCurrent() != null) leftList.getCurrent().changeY(Config.WINDOW_HEIGHT / 2 - 150);
-        }
+        if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(false);
+        leftList.previous();
+        if (leftList.getCurrent() != null) leftList.getCurrent().changeUp(true);
     }
 }

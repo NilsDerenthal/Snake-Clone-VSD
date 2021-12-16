@@ -17,6 +17,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     private final String text;
     private double sY;
     private double yS;
+    private boolean up=false;
 
     public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList,String text){
         x=30;
@@ -64,18 +65,22 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
                 150, yS + 170,
                 130, yS + 150
         );
-        drawTool.drawText(30,y+25,text);
+        drawTool.drawText(35,y+20,text);
         drawTool.drawRectangle(30,y,30,20);
     }
 
     @Override
     public void update(double dt){
-        if(yS != sY){
+        if(up){
             if(yS < sY - 1){
-                yS += 10 * dt;
-            } else if(yS > sY + 1){
-                yS -= 10 * dt;
+                yS += 1000 * dt;
             }
+            if(yS>Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
+        }else{
+            if(yS < sY - 1){
+                yS += 1000 * dt;
+            }
+            if(yS<Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
         }
     }
 
@@ -84,15 +89,8 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         return false;
     }
 
-    public void changeY(double newY) {
-        sY = newY;
-        if(!list.isEmpty()){
-            list.toFirst();
-            while(list.getCurrent() != null) {
-                list.getCurrent().changeY(newY);
-                list.next();
-            }
-        }
+    public void changeUp(boolean to){
+        up=to;
     }
 
     public void append(MenuUnderPoint m){
