@@ -258,6 +258,26 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
         }
     }
 
+    /**
+     * Überprüft, ob der Kopf der Schlange mit seinem Körperteil
+     * kolidieren würde, wenn es sich in x/y richtung bewegen würde.
+     */
+
+    public boolean isPlaceFree(double x, double y){
+        double tmpX = queue.front().getTx() + x;
+        double tmpY = queue.front().getTy() + y;
+        helpX.toFirst();
+        helpY.toFirst();
+        while(helpX.hasAccess()){
+            if(tmpX == helpX.getContent() && tmpY == helpY.getContent()){
+                return false;
+            }
+            helpX.next();
+            helpY.next();
+        }
+        return true;
+    }
+
     public List<Double> xPositionList(){
         return helpX;
     }

@@ -90,7 +90,7 @@ public class Player extends Entity {
                 moveX *= -1;
                 moveY *= -1;
             }
-            body.moveQueue(moveX, moveY);
+            if(body.isPlaceFree(moveX, moveY)) body.moveQueue(moveX, moveY);
         }
     }
 
