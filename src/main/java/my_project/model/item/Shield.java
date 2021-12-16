@@ -10,6 +10,7 @@ public class Shield extends GameItem{
     public Shield(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
         duration = 10000;
+        timer = 0;
     }
 
     @Override
@@ -20,9 +21,9 @@ public class Shield extends GameItem{
 
     @Override
     public void update(double dt) {
-        if(duration > dt){
+        if(timer < duration){
             player.setShieldet(false);
-            duration += dt;
+            timer += dt;
         }
     }
 

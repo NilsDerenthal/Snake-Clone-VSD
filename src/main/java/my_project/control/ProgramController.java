@@ -3,6 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import my_project.model.game.GameField;
 import my_project.model.game.Player;
+import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.InputManager;
 
@@ -21,6 +22,9 @@ public class ProgramController {
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
     private Menu menue;
+    private GameField gameField;
+    private GameItem[] gameItems;
+    private double spawnItem;
 
     /**
      * Konstruktor
@@ -31,6 +35,7 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
+        gameItems = new GameItem[5];
     }
 
     /**
@@ -39,12 +44,16 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.showScene(SceneConfig.MENU_SCENE);
-        menue=new Menu(viewController);
-        new GameField(viewController, 10, 10, 10, 10);
+        menue = new Menu(viewController);
+        gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
-
         player = new Player(viewController, 200, 200);
         player.addBodyPart();
+        gameItems[0] = new AddBodypart(255,player);
+        gameItems[1] = new DeleteBodypart(255,player);
+        gameItems[2] = new Stun(255,player);
+        gameItems[3] = new SwitchControll(255,player);
+        gameItems[4] = new Shield(255,player);
     }
 
     public void doPlayerAction(int key){
@@ -61,6 +70,7 @@ public class ProgramController {
             case KeyEvent.VK_S -> menue.next();
         }
     }
+
 
     public void showScene(int scene) {
         viewController.showScene(scene);

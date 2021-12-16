@@ -9,6 +9,7 @@ public class GameItem extends Entity {
     protected boolean active;
     protected Player player;
     protected int duration;
+    protected int timer;
 
     public GameItem(double alphaChangeRate, Player player) {
         super(alphaChangeRate);
@@ -25,6 +26,10 @@ public class GameItem extends Entity {
 
     public void effect(){
 
+    }
+
+    public void spawn(){
+        timer = 0;
     }
 
     @Override
