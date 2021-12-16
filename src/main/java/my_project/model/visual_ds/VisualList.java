@@ -196,6 +196,10 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
 
     public boolean isEmpty(){ return list.isEmpty(); }
 
+    /**
+     * setzt alle y Werte der Objekte in der List auf @param newY
+     */
+
     public void updateAllY(double newY){
         list.toFirst();
         while(list.getContent()!=null){

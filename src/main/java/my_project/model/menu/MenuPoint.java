@@ -70,9 +70,17 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     @Override
     public void update(double dt){
         if(up){
-            if(yS>Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
+            if(yS>Config.WINDOW_HEIGHT/2-140){
+                yS-=1000*dt;
+            }else{
+                yS=Config.WINDOW_HEIGHT/2-150;
+            }
         }else{
-            if(yS<Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
+            if(yS<Config.WINDOW_HEIGHT+ 300){
+                yS+=1000*dt;
+            }else{
+                yS=Config.WINDOW_HEIGHT+ 300;
+            }
         }
         list.updateAllY(yS);
     }
