@@ -71,7 +71,7 @@ public class Player extends Entity {
     private final VisualQueue<BodyPart> body;
     private boolean stunned;
     private boolean shieldet;
-    private boolean reversed;
+    private boolean switchControll;
 
     public Player(ViewController viewcontroller, double startX, double startY){
         // infinitely fast fading -> no fading
@@ -86,7 +86,7 @@ public class Player extends Entity {
 
     public void movePlayer(double moveX, double moveY) {
         if (moveX != 0 || moveY != 0 && !stunned) {
-            if(reversed){
+            if(switchControll){
                 moveX *= -1;
                 moveY *= -1;
             }
@@ -131,7 +131,7 @@ public class Player extends Entity {
         this.shieldet = shieldet;
     }
 
-    public void setReversed(boolean reversed) {
-        this.reversed = reversed;
+    public void setSwitchControll(boolean switchControll) {
+        this.switchControll = switchControll;
     }
 }
