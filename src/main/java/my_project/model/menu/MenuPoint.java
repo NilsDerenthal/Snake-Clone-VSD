@@ -14,17 +14,18 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     private final VisualList<MenuUnderPoint> list;
     private final VisualList<MenuPoint> inList;
     private final ViewController viewController;
-
+    private final String text;
     private double sY;
     private double yS;
 
-    public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList){
+    public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList,String text){
         x=30;
         this.y=y;
         this.yS = yS;
         this.sY = yS;
         this.inList = inList;
         this.viewController=viewController;
+        this.text=text;
         viewController.draw(this);
 
         list = new VisualList<>(50, 0, 160, y + 30);
@@ -36,6 +37,10 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
 
     @Override
     public void draw(DrawTool drawTool) {
+        if(inList.getCurrent()==this){
+            drawTool.setCurrentColor(Color.YELLOW);
+            drawTool.drawFilledRectangle(30,y,30,20);
+        }
         drawTool.setCurrentColor(Color.GRAY);
         // not better-looking, but easier to read
         drawTool.drawFilledPolygon(
@@ -59,6 +64,8 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
                 150, yS + 170,
                 130, yS + 150
         );
+        drawTool.drawText(30,y+25,text);
+        drawTool.drawRectangle(30,y,30,20);
     }
 
     @Override
