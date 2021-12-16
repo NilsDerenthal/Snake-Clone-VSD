@@ -15,11 +15,12 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     private final Color color;
     private final String text;
     private double sY;
-    private Command command;
+    private final Command command;
 
     public MenuUnderPoint(double y, double x, double heigth, double widht, Command command, Color color,String text){
         this.y = y;
         sY = this.y;
+        //TODO fix sY
         this.command = command;
         this.color=color;
         this.text=text;
