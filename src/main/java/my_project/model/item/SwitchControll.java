@@ -5,9 +5,9 @@ import my_project.model.game.Player;
 
 import java.awt.*;
 
-public class ReverseControll extends GameItem{
+public class SwitchControll extends GameItem{
 
-    public ReverseControll(double alphaChangeRate, Player player) {
+    public SwitchControll(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
         duration = 10000;
     }
@@ -28,6 +28,6 @@ public class ReverseControll extends GameItem{
 
     @Override
     public void effect() {
-        player.setReversed(true);
+        player.setSwitchControll(true);
     }
 }
