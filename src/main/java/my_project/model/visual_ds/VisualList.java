@@ -196,14 +196,10 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
 
     public boolean isEmpty(){ return list.isEmpty(); }
 
-
-    public interface Command {
-        void execute(double d);
-    }
-    public void forEach(Command c,double d){
+    public void updateAllY(double newY){
         list.toFirst();
-        while(list.getContent()!=null) {
-            c.execute(d);
+        while(list.getContent()!=null){
+            list.getContent().setY(newY);
             list.next();
         }
     }
