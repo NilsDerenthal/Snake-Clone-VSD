@@ -2,6 +2,7 @@ package my_project.model.menu;
 
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.Config;
 import my_project.model.visual_ds.VisualList;
 
 import java.awt.*;
@@ -14,13 +15,10 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
 
     private final Color color;
     private final String text;
-    private double sY;
     private final Command command;
 
     public MenuUnderPoint(double y, double x, double heigth, double widht, Command command, Color color,String text){
         this.y = y;
-        sY = this.y;
-        //TODO fix sY
         this.command = command;
         this.color=color;
         this.text=text;
@@ -39,23 +37,12 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
 
     @Override
     public void update(double dt){
-        // TODO duplicate code with MenuPoint
-        if(y != sY){
-            if(y < sY - 1){
-                y += 10 * dt;
-            }else if(y > sY + 1){
-                y -= 10 * dt;
-            }
-        }
+
     }
 
     @Override
     public boolean tryToDelete() {
         return false;
-    }
-
-    public void changeY(double newY){
-        sY=newY;
     }
 
     public void clickOn(){
