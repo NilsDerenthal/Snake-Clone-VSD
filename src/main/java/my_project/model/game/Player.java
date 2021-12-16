@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Player extends Entity {
 
-    private static class BodyPart extends Entity implements VisualQueue.Animatible {
+    private static class BodyPart extends Entity implements VisualQueue.Animatable {
 
         private boolean head;
 

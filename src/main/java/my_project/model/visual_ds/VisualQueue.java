@@ -6,7 +6,7 @@ import KAGO_framework.model.abitur.datenstrukturen.List;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
 import my_project.control.SceneConfig;
 
-public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
+public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
 
     /**
      * Achtet darauf, dass ich setter ung getter für tX/tY (Soll Target X/Y bedeuten)
@@ -19,7 +19,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Außerdem sollten eure Objekte mit den parametern x,y,width,height und radius welche sie von der
      * Klasse GraphicalObject erben arbeiten. Andernfalls wirds hier und da problematisch.
      */
-    public interface Animatible {
+    public interface Animatable {
 
         void fadeIn();
 
@@ -40,10 +40,13 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
     //Ende Interface
 
     private Queue<T> queue;
-    private ViewController viewController;
+    private final ViewController viewController;
+
     private double posX;
     private double posY;
-    private String direction;
+
+    private final String direction;
+
     /**
      * Parameter unter dem Kommentar noch unwichtig
      */
@@ -52,6 +55,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
     private boolean allowed;
     private final List<Double> helpX;
     private final List<Double> helpY;
+
     /**
      * Dem Konstruktor können posX und posY weitergegeben werden.
      * Diese sind die Position eures ersten Objektes.
@@ -61,7 +65,6 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Da wird die queue zu einer art "Schlange".
      * Mit moveQueue() kannst du die Queue dann bewegen.
      */
-
     public VisualQueue(ViewController viewController, double posX, double posY, String type){
         this.posX = posX;
         this.posY = posY;
@@ -79,11 +82,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
         allowed = true;
     }
 
-    /**
-     * Still in progress ~
-     */
-
-
+    // still in progress
 
     /**
      * Es wird ein neues Objekt hinzugefügt und an die position posX/posY gepackt.
@@ -93,7 +92,6 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Bei movable: Es kann nur ein neues Objekt hinzugefügt werden, nachdem es sich min. 1 mal nach
      * dem hinzufügen eines Objektes vergehen, damit man ein neues Objekt hinzufügen kann.
      */
-
     public void enqueue(T content){
         if(content != null & allowed) {
             queue.enqueue(content);
@@ -158,7 +156,6 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Dabei wird tX/tY auf die position durch setTx()/setTy() gesetzt (Nicht x/y!!)
      * Falls movable aktiv ist, wird das Visuel HINTERSTE!! gelöscht, da alles wieder nach vorne bewegt wird.
      */
-
     public void dequeue(){
         if(!queue.isEmpty()){
             if(queue.front().isArrived()){
@@ -226,7 +223,6 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
      * Bewegt den Kopf der Schlange in richtung der weitergegebenen werte in x oder y richtung.
      * Die teile davor nehmen die Position von dem, der vor ihm war ein.
      */
-
     public void moveQueue(double inX, double inY){
         if(!queue.isEmpty()) {
             frontX += inX;
@@ -265,6 +261,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatible> {
     public List<Double> xPositionList(){
         return helpX;
     }
+
     public List<Double> yPositionList(){
         return helpY;
     }
