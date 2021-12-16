@@ -38,6 +38,7 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.showScene(SceneConfig.MENU_SCENE);
+
         new Menu(viewController);
         new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
