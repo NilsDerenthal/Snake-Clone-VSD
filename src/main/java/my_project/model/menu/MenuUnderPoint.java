@@ -1,11 +1,40 @@
 package my_project.model.menu;
 
 import KAGO_framework.model.GraphicalObject;
+import KAGO_framework.view.DrawTool;
 import my_project.model.visual_ds.VisualList;
 
-public abstract class MenuUnderPoint extends GraphicalObject implements VisualList.AnimableList {
+import java.awt.*;
 
-    protected double sY;
+public class MenuUnderPoint extends GraphicalObject implements VisualList.AnimableList {
+
+    public interface Command {
+        void execute();
+    }
+
+    private final Color color;
+    private final String text;
+    private double sY;
+    private Command command;
+
+    public MenuUnderPoint(double y, double x, double heigth, double widht, Command command, Color color,String text){
+        this.y = y;
+        sY = this.y;
+        this.command = command;
+        this.color=color;
+        this.text=text;
+        this.x=x;
+        this.height=heigth;
+        this.width=widht;
+    }
+
+    public void draw(DrawTool drawTool){
+        drawTool.setCurrentColor(color);
+        drawTool.drawFilledRectangle(x,y,width,height);
+        drawTool.setCurrentColor(Color.BLACK);
+        drawTool.drawRectangle(x,y,width,height);
+        drawTool.drawText(x,y+height-2,text);
+    }
 
     @Override
     public void update(double dt){
@@ -28,5 +57,7 @@ public abstract class MenuUnderPoint extends GraphicalObject implements VisualLi
         sY=newY;
     }
 
-    public abstract void clickOn();
+    public void clickOn(){
+        command.execute();
+    }
 }
