@@ -20,6 +20,7 @@ public class ProgramController {
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
+
     /**
      * Konstruktor
      * Dieser legt das Objekt der Klasse ProgramController an, das den Programmfluss steuert.
@@ -55,6 +56,11 @@ public class ProgramController {
             case KeyEvent.VK_G -> player.deleteBodyPart();
         }
     }
+
+    public void showScene(int scene) {
+        viewController.showScene(scene);
+    }
+
     /**
      * Aufruf mit jeder Frame
      * @param dt Zeit seit letzter Frame
