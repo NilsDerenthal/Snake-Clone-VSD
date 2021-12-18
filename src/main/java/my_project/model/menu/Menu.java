@@ -19,18 +19,24 @@ public class Menu extends GraphicalObject {
         viewController.draw(this, SceneConfig.MENU_SCENE);
         leftList = new VisualList<>(0, 50, 20, 40);
         creatMenue();
-        leftList.toFirst();
     }
 
     public void creatMenue(){
         leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen"));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{
+            System.exit(0);
+        },Color.RED,"Spiel beenden"));
         leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
         leftList.next();
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,""));
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,""));
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,""));
+
+
+        leftList.toFirst();
+        leftList.getCurrent().changeUp(true);
     }
 
     @Override

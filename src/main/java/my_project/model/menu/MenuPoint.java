@@ -17,6 +17,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     private final String text;
     private double yS;
     private boolean up=false;
+    private MenuUnderPoint current;
 
     public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList,String text){
         x=30;
@@ -27,6 +28,8 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         this.text=text;
         viewController.draw(this);
         list = new VisualList<>(120, 0, 190, yS+50);
+        list.toFirst();
+        current=list.getCurrent();
     }
 
     @Override
@@ -93,5 +96,9 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         list.append(m);
         m.setY(yS+50);
         viewController.draw(m,SceneConfig.MENU_SCENE);
+    }
+
+    public MenuUnderPoint getCurrent() {
+        return current;
     }
 }
