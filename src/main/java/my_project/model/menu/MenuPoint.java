@@ -26,45 +26,40 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         this.viewController=viewController;
         this.text=text;
         viewController.draw(this);
-
-        list = new VisualList<>(50, 0, 160, y + 30);
-
-        new MenuUnderPoint(1, 1, 1, 1, () -> {
-
-        },Color.WHITE,"");
+        list = new VisualList<>(120, 0, 190, yS+50);
     }
 
     @Override
     public void draw(DrawTool drawTool) {
         if(inList.getCurrent()==this){
             drawTool.setCurrentColor(Color.YELLOW);
-            drawTool.drawFilledRectangle(30,y,30,20);
+            drawTool.drawFilledRectangle(30,y,50,30);
         }
         drawTool.setCurrentColor(Color.GRAY);
         // not better-looking, but easier to read
         drawTool.drawFilledPolygon(
-                130, yS+20,
-                150, yS,
+                160, yS+20,
+                180, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                180, yS + 170,
+                160, yS + 150
         );
         drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawPolygon(
-                130, yS+20,
-                150, yS,
+                160, yS+20,
+                180, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                180, yS + 170,
+                160, yS + 150
         );
         drawTool.drawText(35,y+20,text);
-        drawTool.drawRectangle(30,y,30,20);
+        drawTool.drawRectangle(30,y,50,30);
     }
 
     @Override
@@ -82,7 +77,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
                 yS=Config.WINDOW_HEIGHT+ 300;
             }
         }
-        list.updateAllY(yS);
+        list.updateAllY(yS+50);
     }
 
     @Override
@@ -96,7 +91,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
 
     public void append(MenuUnderPoint m){
         list.append(m);
-        m.setY(yS);
+        m.setY(yS+50);
         viewController.draw(m,SceneConfig.MENU_SCENE);
     }
 }

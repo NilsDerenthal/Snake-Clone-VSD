@@ -23,12 +23,14 @@ public class Menu extends GraphicalObject {
     }
 
     public void creatMenue(){
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"a"));
+        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(0,(Config.WINDOW_WIDTH-130)/2+130,30,100,()->{},Color.GREEN,"beginnen"));
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"b"));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen"));
+        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(0,(Config.WINDOW_WIDTH-130)/2+130,30,100,()->{},Color.GRAY,"text"));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,""));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,""));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,""));
     }
 
     @Override
@@ -43,10 +45,10 @@ public class Menu extends GraphicalObject {
                 10, 30,
                 10, Config.WINDOW_HEIGHT - 70,
                 30, Config.WINDOW_HEIGHT - 50,
-                80, Config.WINDOW_HEIGHT - 50,
-                100, Config.WINDOW_HEIGHT - 70,
-                100, 30,
-                80, 10
+                110, Config.WINDOW_HEIGHT - 50,
+                130, Config.WINDOW_HEIGHT - 70,
+                130, 30,
+                110, 10
         );
         drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawPolygon(
@@ -54,10 +56,10 @@ public class Menu extends GraphicalObject {
                 10, 30,
                 10, Config.WINDOW_HEIGHT - 70,
                 30, Config.WINDOW_HEIGHT - 50,
-                80, Config.WINDOW_HEIGHT - 50,
-                100, Config.WINDOW_HEIGHT - 70,
-                100, 30,
-                80, 10
+                110, Config.WINDOW_HEIGHT - 50,
+                130, Config.WINDOW_HEIGHT - 70,
+                130, 30,
+                110, 10
         );
     }
 
@@ -65,9 +67,7 @@ public class Menu extends GraphicalObject {
         if(leftList.getCurrent()!=null) {
             leftList.getCurrent().changeUp(false);
             leftList.next();
-            if(leftList.getCurrent()==null){
-                leftList.previous();
-            }
+            if(leftList.getCurrent()==null) leftList.previous();
             if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
         }
     }

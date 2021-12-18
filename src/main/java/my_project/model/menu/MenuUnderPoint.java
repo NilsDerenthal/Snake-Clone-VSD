@@ -17,12 +17,10 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     private final String text;
     private final Command command;
 
-    public MenuUnderPoint(double y, double x, double heigth, double widht, Command command, Color color,String text){
-        this.y = y;
+    public MenuUnderPoint(double heigth, double widht, Command command, Color color,String text){
         this.command = command;
         this.color=color;
         this.text=text;
-        this.x=x;
         this.height=heigth;
         this.width=widht;
     }
@@ -32,7 +30,7 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
         drawTool.drawFilledRectangle(x,y,width,height);
         drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawRectangle(x,y,width,height);
-        drawTool.drawText(x,y+height-2,text);
+        drawTool.drawText(x+5,y+height-5,text);
     }
 
     @Override
