@@ -28,7 +28,7 @@ public class Menu extends GraphicalObject {
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{
             System.exit(0);
         },Color.RED,"Spiel beenden"));
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
+        leftList.append(new MenuPoint(800,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
         leftList.next();
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,""));
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,""));
