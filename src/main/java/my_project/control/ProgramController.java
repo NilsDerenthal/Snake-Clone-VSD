@@ -1,6 +1,7 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
 import my_project.model.game.Player;
 import my_project.model.item.*;
@@ -24,7 +25,8 @@ public class ProgramController {
     private Menu menue;
     private GameField gameField;
     private GameItem[] gameItems;
-    private double spawnItem;
+    private int playerPosX;
+    private int playerPosY;
 
     /**
      * Konstruktor
@@ -48,6 +50,7 @@ public class ProgramController {
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
+        playerPosX = playerPosY = 4;
         player.addBodyPart();
         gameItems[0] = new AddBodypart(255,player);
         gameItems[1] = new DeleteBodypart(255,player);
@@ -56,21 +59,57 @@ public class ProgramController {
         gameItems[4] = new Shield(255,player);
     }
 
-    public void doPlayerAction(int key){
-        switch (key) {
-            case KeyEvent.VK_W -> player.movePlayer(0, -40);
-            case KeyEvent.VK_A -> player.movePlayer(0, 40);
-            case KeyEvent.VK_S -> player.movePlayer(40, 0);
-            case KeyEvent.VK_D -> player.movePlayer(-40, 0);
-            case KeyEvent.VK_F -> player.addBodyPart();
-            case KeyEvent.VK_G -> player.deleteBodyPart();
+    public void spawnRandomItem(){
+        int i = (int) (Math.random()*4);
+        int x = (int) ((Math.random()*9));
+        int y = (int) ((Math.random()*9));
+        if(!gameItems[i].isSpawned()){
+            gameItems[i].spawn();
+            gameField.set(gameItems[i],x,y);
+            gameItems[i].setPosX(x);
+            gameItems[i].setPosY(y);
         }
-        switch(key){
-            case KeyEvent.VK_W -> menue.previous();
-            case KeyEvent.VK_S -> menue.next();
-        }
+
     }
 
+    public void doPlayerAction(int key){
+        switch (key) {
+            case KeyEvent.VK_W -> {
+                if(playerPosY > 0) {
+                    if(player.movePlayer(0, -40)) playerPosY--;
+                }
+            }
+            case KeyEvent.VK_S -> {
+                if(playerPosY < 9) {
+                    if(player.movePlayer(0, 40)) playerPosY++;
+                }
+            }
+            case KeyEvent.VK_D -> {
+                if(playerPosX < 9) {
+                    if(player.movePlayer(40, 0)) playerPosX++;
+                }
+            }
+            case KeyEvent.VK_A -> {
+                if(playerPosX > 0) {
+                    if(player.movePlayer(-40, 0)) playerPosX--;
+                }
+            }
+            case KeyEvent.VK_G -> spawnRandomItem();
+        }
+        switch(key){
+            case KeyEvent.VK_1 -> menue.previous();
+            case KeyEvent.VK_2 -> menue.next();
+        }
+
+        //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
+        for(int i = 0; i < gameItems.length; i++){
+            if(gameItems[i].isSpawned() & gameItems[i].getPosX() == playerPosX & gameItems[i].getPosY() == playerPosY){
+                gameItems[i].effect();
+                gameField.set(null, gameItems[i].getPosX(), gameItems[i].getPosY());
+            }
+        }
+
+    }
 
     public void showScene(int scene) {
         viewController.showScene(scene);

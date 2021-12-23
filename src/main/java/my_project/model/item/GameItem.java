@@ -6,22 +6,13 @@ import my_project.model.game.Player;
 
 public class GameItem extends Entity {
 
-    protected boolean active;
+    protected boolean active, spawned;
     protected Player player;
-    protected int duration;
-    protected int timer;
+    protected int timer, posX, posY, duration;
 
     public GameItem(double alphaChangeRate, Player player) {
         super(alphaChangeRate);
         this.player = player;
-    }
-
-    public boolean itemPicked(){
-        if(player.getPosX() == getX() & player.getPosY() == getY()){
-            active = true;
-            return true;
-        }
-        return false;
     }
 
     public void effect(){
@@ -30,10 +21,31 @@ public class GameItem extends Entity {
 
     public void spawn(){
         timer = 0;
+        spawned = true;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
 
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public boolean isSpawned() {
+        return spawned;
     }
 }

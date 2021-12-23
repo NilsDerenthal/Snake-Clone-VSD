@@ -70,8 +70,9 @@ public class Player extends Entity {
 
     private final VisualQueue<BodyPart> body;
     private boolean stunned;
-    private boolean shieldet;
+    private boolean shielded;
     private boolean switchControll;
+    private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
         // infinitely fast fading -> no fading
@@ -84,25 +85,31 @@ public class Player extends Entity {
         body.getFront().setHead(true);
     }
 
-    public void movePlayer(double moveX, double moveY) {
+    public boolean movePlayer(double moveX, double moveY) {
         if (moveX != 0 || moveY != 0 && !stunned) {
             if(switchControll){
                 moveX *= -1;
                 moveY *= -1;
             }
-            if(body.isPlaceFree(moveX, moveY)) body.moveQueue(moveX, moveY);
+            if(body.isPlaceFree(moveX, moveY)){
+                body.moveQueue(moveX, moveY);
+                return true;
+            }
         }
+        return false;
     }
 
     public void addBodyPart(){
         BodyPart body = new BodyPart(20);
         this.body.enqueue(body);
         this.body.getFront().setHead(true);
+        length++;
     }
 
     public void deleteBodyPart(){
-        body.dequeue();
-        body.getFront().setHead(true);
+            body.dequeue();
+            body.getFront().setHead(true);
+            length--;
     }
 
     @Override
@@ -123,15 +130,18 @@ public class Player extends Entity {
     }
 
     public void setStunned(boolean stunned) {
-
-        if(!shieldet) this.stunned = stunned;
+        if(!shielded) this.stunned = stunned;
     }
 
-    public void setShieldet(boolean shieldet) {
-        this.shieldet = shieldet;
+    public void setShielded(boolean shielded) {
+        this.shielded = shielded;
     }
 
     public void setSwitchControll(boolean switchControll) {
         this.switchControll = switchControll;
+    }
+
+    public boolean deletable(){
+        return length > 1;
     }
 }

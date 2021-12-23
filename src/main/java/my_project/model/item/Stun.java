@@ -22,8 +22,11 @@ public class Stun extends GameItem{
 
     @Override
     public void update(double dt) {
-        if(timer < duration){
-            player.setStunned(false);
+        if(active) {
+            if (timer > duration) {
+                player.setShielded(false);
+                active = false;
+            }
             timer += dt;
         }
     }
@@ -31,5 +34,7 @@ public class Stun extends GameItem{
     @Override
     public void effect() {
         player.setStunned(true);
+        active = true;
+        spawned = false;
     }
 }

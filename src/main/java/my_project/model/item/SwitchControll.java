@@ -9,7 +9,7 @@ public class SwitchControll extends GameItem{
 
     public SwitchControll(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
-        duration = 10000;
+        duration = 100;
         timer = 0;
     }
 
@@ -21,8 +21,11 @@ public class SwitchControll extends GameItem{
 
     @Override
     public void update(double dt) {
-        if(timer < duration){
-            player.setStunned(false);
+        if(active) {
+            if (timer > duration) {
+                player.setShielded(false);
+                active = false;
+            }
             timer += dt;
         }
     }
@@ -30,5 +33,7 @@ public class SwitchControll extends GameItem{
     @Override
     public void effect() {
         player.setSwitchControll(true);
+        active = true;
+        spawned = false;
     }
 }

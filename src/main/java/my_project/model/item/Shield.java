@@ -21,14 +21,20 @@ public class Shield extends GameItem{
 
     @Override
     public void update(double dt) {
-        if(timer < duration){
-            player.setShieldet(false);
+        if(active) {
+            if (timer > duration) {
+                player.setShielded(false);
+                active = false;
+            }
             timer += dt;
         }
     }
 
     @Override
     public void effect() {
-        player.setShieldet(true);
+        player.setShielded(true);
+        active = true;
+        spawned = false;
     }
+
 }
