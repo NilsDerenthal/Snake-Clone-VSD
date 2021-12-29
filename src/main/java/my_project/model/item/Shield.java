@@ -9,31 +9,27 @@ public class Shield extends GameItem{
 
     public Shield(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
+        width = 30;
+        height = 20;
         duration = 10000;
         timer = 0;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.BLUE);
+        drawTool.setCurrentColor(Color.GREEN);
         drawTool.drawFilledRectangle(x,y,width,height);
+
     }
 
     @Override
     public void update(double dt) {
-        if(active) {
-            if (timer > duration) {
-                player.setShielded(false);
-                active = false;
-            }
-            timer += dt;
-        }
+
     }
 
     @Override
     public void effect() {
         player.setShielded(true);
-        active = true;
         spawned = false;
     }
 

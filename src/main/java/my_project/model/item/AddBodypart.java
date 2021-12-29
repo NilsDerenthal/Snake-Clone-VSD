@@ -15,7 +15,7 @@ public class AddBodypart extends GameItem{
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.YELLOW);
+        drawTool.setCurrentColor(Color.BLUE);
         drawTool.drawFilledRectangle(x,y,width,height);
     }
 

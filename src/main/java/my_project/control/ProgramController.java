@@ -50,8 +50,8 @@ public class ProgramController {
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
-        playerPosX = playerPosY = 4;
         player.addBodyPart();
+        playerPosY = playerPosX = 4;
         gameItems[0] = new AddBodypart(255,player);
         gameItems[1] = new DeleteBodypart(255,player);
         gameItems[2] = new Stun(255,player);
@@ -63,38 +63,76 @@ public class ProgramController {
         int i = (int) (Math.random()*4);
         int x = (int) ((Math.random()*9));
         int y = (int) ((Math.random()*9));
-        if(!gameItems[i].isSpawned()){
-            gameItems[i].spawn();
-            gameField.set(gameItems[i],x,y);
-            gameItems[i].setPosX(x);
-            gameItems[i].setPosY(y);
+        int numberSpawned = 0;
+        while(numberSpawned < 5){
+            if(!gameItems[i].isSpawned()){
+                gameItems[i].spawn();
+                gameField.set(gameItems[i],x,y);
+                gameItems[i].setPosX(x);
+                gameItems[i].setPosY(y);
+                numberSpawned = 5;
+            }
+            i++;
+            if(i >= 5) {
+                i = 0;
+            }
+            numberSpawned ++;
         }
+
 
     }
 
     public void doPlayerAction(int key){
-        switch (key) {
-            case KeyEvent.VK_W -> {
-                if(playerPosY > 0) {
-                    if(player.movePlayer(0, -40)) playerPosY--;
+        if(!player.isStunned()) {
+            if (!player.isSwitchControll()) {
+                switch (key) {
+                    case KeyEvent.VK_W -> {
+                        if (playerPosY > 0) {
+                            if (player.movePlayer(0, -40)) playerPosY--;
+                        }
+                    }
+                    case KeyEvent.VK_S -> {
+                        if (playerPosY < 9) {
+                            if (player.movePlayer(0, 40)) playerPosY++;
+                        }
+                    }
+                    case KeyEvent.VK_D -> {
+                        if (playerPosX < 9) {
+                            if (player.movePlayer(40, 0)) playerPosX++;
+                        }
+                    }
+                    case KeyEvent.VK_A -> {
+                        if (playerPosX > 0) {
+                            if (player.movePlayer(-40, 0)) playerPosX--;
+                        }
+                    }
+                    case KeyEvent.VK_G -> spawnRandomItem();
+                }
+            } else {
+                switch (key) {
+                    case KeyEvent.VK_S -> {
+                        if (playerPosY > 0) {
+                            if (player.movePlayer(0, -40)) playerPosY--;
+                        }
+                    }
+                    case KeyEvent.VK_W -> {
+                        if (playerPosY < 9) {
+                            if (player.movePlayer(0, 40)) playerPosY++;
+                        }
+                    }
+                    case KeyEvent.VK_A -> {
+                        if (playerPosX < 9) {
+                            if (player.movePlayer(40, 0)) playerPosX++;
+                        }
+                    }
+                    case KeyEvent.VK_D -> {
+                        if (playerPosX > 0) {
+                            if (player.movePlayer(-40, 0)) playerPosX--;
+                        }
+                    }
+                    case KeyEvent.VK_G -> spawnRandomItem();
                 }
             }
-            case KeyEvent.VK_S -> {
-                if(playerPosY < 9) {
-                    if(player.movePlayer(0, 40)) playerPosY++;
-                }
-            }
-            case KeyEvent.VK_D -> {
-                if(playerPosX < 9) {
-                    if(player.movePlayer(40, 0)) playerPosX++;
-                }
-            }
-            case KeyEvent.VK_A -> {
-                if(playerPosX > 0) {
-                    if(player.movePlayer(-40, 0)) playerPosX--;
-                }
-            }
-            case KeyEvent.VK_G -> spawnRandomItem();
         }
         switch(key){
             case KeyEvent.VK_1 -> menue.previous();
@@ -105,7 +143,9 @@ public class ProgramController {
         for(int i = 0; i < gameItems.length; i++){
             if(gameItems[i].isSpawned() & gameItems[i].getPosX() == playerPosX & gameItems[i].getPosY() == playerPosY){
                 gameItems[i].effect();
-                gameField.set(null, gameItems[i].getPosX(), gameItems[i].getPosY());
+                if(!gameItems[i].isSpawned()) {
+                    gameField.set(null, gameItems[i].getPosX(), gameItems[i].getPosY());
+                }
             }
         }
 

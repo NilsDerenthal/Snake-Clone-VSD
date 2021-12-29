@@ -15,13 +15,15 @@ public class DeleteBodypart extends GameItem{
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.ORANGE);
+        drawTool.setCurrentColor(Color.RED);
         drawTool.drawFilledRectangle(x,y,width,height);
     }
 
     @Override
     public void effect() {
-        if(player.deletable()) player.deleteBodyPart();
-        spawned = false;
+        if(player.deletable()) {
+            player.deleteBodyPart();
+            spawned = false;
+        }
     }
 }

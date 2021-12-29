@@ -9,31 +9,30 @@ public class SwitchControll extends GameItem{
 
     public SwitchControll(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
-        duration = 100;
-        timer = 0;
+        width = 30;
+        height = 20;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.GRAY);
+        drawTool.setCurrentColor(Color.ORANGE);
         drawTool.drawFilledRectangle(x,y,width,height);
     }
 
     @Override
     public void update(double dt) {
-        if(active) {
-            if (timer > duration) {
-                player.setShielded(false);
-                active = false;
-            }
-            timer += dt;
-        }
+
     }
 
     @Override
     public void effect() {
-        player.setSwitchControll(true);
-        active = true;
+        if(player.isShielded()){
+            player.setShielded(false);
+        }else if(player.isSwitchControll()){
+            player.setSwitchControll(false);
+        }else{
+            player.setSwitchControll(true);
+        }
         spawned = false;
     }
 }

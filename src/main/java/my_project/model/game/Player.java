@@ -11,27 +11,39 @@ public class Player extends Entity {
     private static class BodyPart extends Entity implements VisualQueue.Animatable {
 
         private boolean head;
+        private boolean shieldActive;
 
         public BodyPart(double radius){
             super(Integer.MAX_VALUE);
 
             this.radius = radius;
             this.head = false;
+            shieldActive = false;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
             drawTool.setCurrentColor(Color.BLACK);
             drawTool.drawFilledCircle(x, y, radius);
-
             if(head) {
-                drawTool.setCurrentColor(Color.RED);
+                if(shieldActive){
+                    drawTool.setCurrentColor(Color.GREEN);
+                }else {
+                    drawTool.setCurrentColor(Color.RED);
+                }
                 drawTool.drawCircle(x, y, radius);
             }
+
+
+
         }
 
         public void setHead(boolean head) {
             this.head = head;
+        }
+
+        public void setShield(boolean shield) {
+            this.shieldActive = shield;
         }
 
         @Override
@@ -69,9 +81,7 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean stunned;
-    private boolean shielded;
-    private boolean switchControll;
+    private boolean stunned, shielded, switchControll;
     private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
@@ -86,16 +96,13 @@ public class Player extends Entity {
     }
 
     public boolean movePlayer(double moveX, double moveY) {
-        if (moveX != 0 || moveY != 0 && !stunned) {
-            if(switchControll){
-                moveX *= -1;
-                moveY *= -1;
+            if (moveX != 0 || moveY != 0) {
+                if (body.isPlaceFree(moveX, moveY)) {
+                    body.moveQueue(moveX, moveY);
+                    return true;
+                }
             }
-            if(body.isPlaceFree(moveX, moveY)){
-                body.moveQueue(moveX, moveY);
-                return true;
-            }
-        }
+
         return false;
     }
 
@@ -121,12 +128,13 @@ public class Player extends Entity {
         return body.getFront() != null;
     }
 
-    public double getPosX(){
-        return body.getFront().getX();
+
+    public boolean isSwitchControll() {
+        return switchControll;
     }
 
-    public double getPosY(){
-        return body.getFront().getY();
+    public boolean isStunned() {
+        return stunned;
     }
 
     public void setStunned(boolean stunned) {
@@ -135,13 +143,19 @@ public class Player extends Entity {
 
     public void setShielded(boolean shielded) {
         this.shielded = shielded;
+        body.getFront().setShield(shielded);
     }
 
     public void setSwitchControll(boolean switchControll) {
         this.switchControll = switchControll;
     }
 
+    public boolean isShielded() {
+        return shielded;
+    }
+
     public boolean deletable(){
         return length > 1;
     }
+
 }

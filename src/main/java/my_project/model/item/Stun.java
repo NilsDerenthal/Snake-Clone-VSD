@@ -10,31 +10,37 @@ public class Stun extends GameItem{
 
     public Stun(double alphaChangeRate, Player player) {
         super(alphaChangeRate, player);
-        duration = 10000;
+        width = 30;
+        height = 20;
+        duration = 100;
         timer = 0;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.GRAY);
+        drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawFilledRectangle(x,y,width,height);
     }
 
     @Override
     public void update(double dt) {
-        if(active) {
-            if (timer > duration) {
-                player.setShielded(false);
-                active = false;
+            if(active) {
+                if (timer > duration) {
+                    active = false;
+                    player.setStunned(false);
             }
-            timer += dt;
-        }
+             timer += dt;
+            }
     }
 
     @Override
     public void effect() {
-        player.setStunned(true);
-        active = true;
+        if(player.isShielded()){
+            player.setShielded(false);
+        }else{
+            player.setStunned(true);
+            active = true;
+        }
         spawned = false;
     }
 }
