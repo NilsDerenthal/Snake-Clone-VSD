@@ -29,7 +29,7 @@ public class Stun extends GameItem{
                     active = false;
                     player.setStunned(false);
             }
-             timer += dt;
+             timer += 5;
             }
     }
 

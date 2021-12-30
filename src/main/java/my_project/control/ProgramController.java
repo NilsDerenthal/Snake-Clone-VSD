@@ -25,6 +25,7 @@ public class ProgramController {
     private Menu menue;
     private GameField gameField;
     private GameItem[] gameItems;
+    private int[][] itemPosition;
     private int playerPosX;
     private int playerPosY;
 
@@ -38,6 +39,7 @@ public class ProgramController {
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
         gameItems = new GameItem[5];
+        itemPosition = new int[5][2];
     }
 
     /**
@@ -64,13 +66,25 @@ public class ProgramController {
         int x = (int) ((Math.random()*9));
         int y = (int) ((Math.random()*9));
         int numberSpawned = 0;
+        boolean allowed = true;
         while(numberSpawned < 5){
             if(!gameItems[i].isSpawned()){
                 gameItems[i].spawn();
-                gameField.set(gameItems[i],x,y);
-                gameItems[i].setPosX(x);
-                gameItems[i].setPosY(y);
-                numberSpawned = 5;
+                for(int j = 0;j < itemPosition.length; j++) {
+                    if(itemPosition[j][0] == x & itemPosition[j][1] == y) {
+                        allowed = false;
+                    }
+                }
+                if(allowed){
+                    gameField.set(gameItems[i], x, y);
+                    gameItems[i].setPosX(x);
+                    gameItems[i].setPosY(y);
+                    numberSpawned = 5;
+                }else{
+                    x = (int) ((Math.random()*9));
+                    y = (int) ((Math.random()*9));
+                    numberSpawned = 0;
+                }
             }
             i++;
             if(i >= 5) {
@@ -78,8 +92,6 @@ public class ProgramController {
             }
             numberSpawned ++;
         }
-
-
     }
 
     public void doPlayerAction(int key){
@@ -137,6 +149,7 @@ public class ProgramController {
         switch(key){
             case KeyEvent.VK_1 -> menue.previous();
             case KeyEvent.VK_2 -> menue.next();
+            case KeyEvent.VK_F -> player.setStunned(false);
         }
 
         //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist

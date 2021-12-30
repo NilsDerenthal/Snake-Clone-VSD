@@ -11,8 +11,6 @@ public class Shield extends GameItem{
         super(alphaChangeRate, player);
         width = 30;
         height = 20;
-        duration = 10000;
-        timer = 0;
     }
 
     @Override
@@ -29,8 +27,10 @@ public class Shield extends GameItem{
 
     @Override
     public void effect() {
-        player.setShielded(true);
-        spawned = false;
+        if(!player.isShielded()) {
+            player.setShielded(true);
+            spawned = false;
+        }
     }
 
 }

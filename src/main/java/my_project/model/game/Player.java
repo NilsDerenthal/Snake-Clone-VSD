@@ -46,6 +46,10 @@ public class Player extends Entity {
             this.shieldActive = shield;
         }
 
+        public boolean isShieldActive() {
+            return shieldActive;
+        }
+
         @Override
         public void setTx(double tx) {
             x = tx;
@@ -114,9 +118,16 @@ public class Player extends Entity {
     }
 
     public void deleteBodyPart(){
-            body.dequeue();
-            body.getFront().setHead(true);
-            length--;
+        boolean shielded = false;
+        if(body.getFront().isShieldActive()){
+            shielded = true;
+        }
+        body.dequeue();
+        body.getFront().setHead(true);
+        if(shielded){
+            body.getFront().setShield(true);
+        }
+        length--;
     }
 
     @Override
