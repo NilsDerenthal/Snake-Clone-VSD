@@ -118,23 +118,23 @@ public class ProgramController {
             // normal
             switch (effectiveKey) {
                 case KeyEvent.VK_W -> {
-                    if (playerPosY > 0) {
-                        if (player.movePlayer(0, -40)) playerPosY--;
+                    if (playerPosY > 0 && player.movePlayer(0, -40)) {
+                        playerPosY--;
                     }
                 }
                 case KeyEvent.VK_S -> {
-                    if (playerPosY < 9) {
-                        if (player.movePlayer(0, 40)) playerPosY++;
+                    if (playerPosY < 9 && player.movePlayer(0, 40)) {
+                        playerPosY++;
                     }
                 }
                 case KeyEvent.VK_D -> {
-                    if (playerPosX < 9) {
-                        if (player.movePlayer(40, 0)) playerPosX++;
+                    if (playerPosX < 9 && player.movePlayer(40, 0)) {
+                        playerPosX++;
                     }
                 }
                 case KeyEvent.VK_A -> {
-                    if (playerPosX > 0) {
-                        if (player.movePlayer(-40, 0)) playerPosX--;
+                    if (playerPosX > 0 && player.movePlayer(-40, 0)) {
+                        playerPosX--;
                     }
                 }
                 case KeyEvent.VK_G -> spawnRandomItem();
