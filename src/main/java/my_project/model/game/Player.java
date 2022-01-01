@@ -149,7 +149,8 @@ public class Player extends Entity {
     }
 
     public void setStunned(boolean stunned) {
-        if(!shielded) this.stunned = stunned;
+        if(!shielded)
+            this.stunned = stunned;
     }
 
     public void setShielded(boolean shielded) {
@@ -157,8 +158,8 @@ public class Player extends Entity {
         body.getFront().setShield(shielded);
     }
 
-    public void setInvertedControls(boolean switchControll) {
-        this.invertedControls = switchControll;
+    public void setInvertedControls(boolean invertedControls) {
+        this.invertedControls = invertedControls;
     }
 
     public boolean isShielded() {
