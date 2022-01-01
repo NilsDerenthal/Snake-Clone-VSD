@@ -1,5 +1,9 @@
 import KAGO_framework.control.MainController;
 
+import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class MainProgram {
 
     /**

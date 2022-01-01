@@ -1,13 +1,13 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
-import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
 import my_project.model.game.Player;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.InputManager;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -54,11 +54,11 @@ public class ProgramController {
         player = new Player(viewController, 200, 200);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
-        gameItems[0] = new AddBodypart(255,player);
-        gameItems[1] = new DeleteBodypart(255,player);
-        gameItems[2] = new Stun(255,player);
-        gameItems[3] = new SwitchControll(255,player);
-        gameItems[4] = new Shield(255,player);
+        gameItems[0] = new AddBodypartItem(player, Color.BLUE);
+        gameItems[1] = new DeleteBodypartItem(player, Color.RED);
+        gameItems[2] = new Stun(player, Color.BLACK);
+        gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
+        gameItems[4] = new Shield(player, Color.GREEN);
     }
 
     public void spawnRandomItem(){
@@ -96,7 +96,7 @@ public class ProgramController {
 
     public void doPlayerAction(int key){
         if(!player.isStunned()) {
-            if (!player.isSwitchControll()) {
+            if (!player.isInvertedControls()) {
                 switch (key) {
                     case KeyEvent.VK_W -> {
                         if (playerPosY > 0) {

@@ -1,28 +1,13 @@
 package my_project.model.item;
 
-import KAGO_framework.view.DrawTool;
 import my_project.model.game.Player;
 
 import java.awt.*;
 
-public class Shield extends GameItem{
+public class Shield extends GameItem {
 
-    public Shield(double alphaChangeRate, Player player) {
-        super(alphaChangeRate, player);
-        width = 30;
-        height = 20;
-    }
-
-    @Override
-    public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(Color.GREEN);
-        drawTool.drawFilledRectangle(x,y,width,height);
-
-    }
-
-    @Override
-    public void update(double dt) {
-
+    public Shield(Player player, Color color) {
+        super(player, color);
     }
 
     @Override
@@ -32,5 +17,4 @@ public class Shield extends GameItem{
             spawned = false;
         }
     }
-
 }

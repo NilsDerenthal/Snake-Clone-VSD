@@ -4,15 +4,23 @@ import KAGO_framework.view.DrawTool;
 import my_project.model.game.Entity;
 import my_project.model.game.Player;
 
+import java.awt.*;
+
 public class GameItem extends Entity {
 
     protected boolean active, spawned;
     protected Player player;
     protected int timer, posX, posY, duration;
 
-    public GameItem(double alphaChangeRate, Player player) {
-        super(alphaChangeRate);
+    private final Color color;
+
+    public GameItem(Player player, Color color) {
+        super(255);
+
         this.player = player;
+        this.color = color;
+        this.width = 30;
+        this.height = 20;
     }
 
     public void effect(){
@@ -26,7 +34,8 @@ public class GameItem extends Entity {
 
     @Override
     public void draw(DrawTool drawTool) {
-
+        drawTool.setCurrentColor(color);
+        drawTool.drawFilledRectangle(x, y, width, height);
     }
 
     public int getPosX() {

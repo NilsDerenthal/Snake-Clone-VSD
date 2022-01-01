@@ -85,7 +85,7 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean stunned, shielded, switchControll;
+    private boolean stunned, shielded, invertedControls;
     private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
@@ -140,8 +140,8 @@ public class Player extends Entity {
     }
 
 
-    public boolean isSwitchControll() {
-        return switchControll;
+    public boolean isInvertedControls() {
+        return invertedControls;
     }
 
     public boolean isStunned() {
@@ -157,8 +157,8 @@ public class Player extends Entity {
         body.getFront().setShield(shielded);
     }
 
-    public void setSwitchControll(boolean switchControll) {
-        this.switchControll = switchControll;
+    public void setInvertedControls(boolean switchControll) {
+        this.invertedControls = switchControll;
     }
 
     public boolean isShielded() {
