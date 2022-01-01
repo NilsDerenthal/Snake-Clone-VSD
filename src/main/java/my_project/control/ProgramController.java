@@ -9,6 +9,7 @@ import my_project.view.InputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -24,8 +25,8 @@ public class ProgramController {
     private Player player;
     private Menu menue;
     private GameField gameField;
-    private GameItem[] gameItems;
-    private int[][] itemPosition;
+    private final GameItem[] gameItems;
+    private final int[][] itemPosition;
     private int playerPosX;
     private int playerPosY;
 
@@ -47,13 +48,17 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
+
         menue = new Menu(viewController);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
         player.addBodyPart();
+
         playerPosY = playerPosX = 4;
+
         gameItems[0] = new AddBodypartItem(player, Color.BLUE);
         gameItems[1] = new DeleteBodypartItem(player, Color.RED);
         gameItems[2] = new Stun(player, Color.BLACK);
@@ -62,16 +67,19 @@ public class ProgramController {
     }
 
     public void spawnRandomItem(){
-        int i = (int) (Math.random()*4);
-        int x = (int) ((Math.random()*9));
-        int y = (int) ((Math.random()*9));
+        var rand = new Random();
+        int i = rand.nextInt(4);
+        int x = rand.nextInt(9);
+        int y = rand.nextInt(9);
+
         int numberSpawned = 0;
         boolean allowed = true;
+
         while(numberSpawned < 5){
             if(!gameItems[i].isSpawned()){
                 gameItems[i].spawn();
-                for(int j = 0;j < itemPosition.length; j++) {
-                    if(itemPosition[j][0] == x & itemPosition[j][1] == y) {
+                for (int[] ints : itemPosition) {
+                    if (ints[0] == x && ints[1] == y) {
                         allowed = false;
                     }
                 }
@@ -81,71 +89,59 @@ public class ProgramController {
                     gameItems[i].setPosY(y);
                     numberSpawned = 5;
                 }else{
-                    x = (int) ((Math.random()*9));
-                    y = (int) ((Math.random()*9));
+                    x = rand.nextInt(9);
+                    y = rand.nextInt(9);
                     numberSpawned = 0;
                 }
             }
-            i++;
-            if(i >= 5) {
+            if(++i >= 5) {
                 i = 0;
             }
-            numberSpawned ++;
+            numberSpawned++;
         }
     }
 
     public void doPlayerAction(int key){
         if(!player.isStunned()) {
-            if (!player.isInvertedControls()) {
-                switch (key) {
-                    case KeyEvent.VK_W -> {
-                        if (playerPosY > 0) {
-                            if (player.movePlayer(0, -40)) playerPosY--;
-                        }
+
+            int effectiveKey = key;
+            if (player.isInvertedControls()) {
+                effectiveKey = switch (key) {
+                    case KeyEvent.VK_W -> KeyEvent.VK_S;
+                    case KeyEvent.VK_S -> KeyEvent.VK_W;
+                    case KeyEvent.VK_D -> KeyEvent.VK_A;
+                    case KeyEvent.VK_A -> KeyEvent.VK_D;
+                    default -> key;
+                };
+            }
+
+            // normal
+            switch (effectiveKey) {
+                case KeyEvent.VK_W -> {
+                    if (playerPosY > 0) {
+                        if (player.movePlayer(0, -40)) playerPosY--;
                     }
-                    case KeyEvent.VK_S -> {
-                        if (playerPosY < 9) {
-                            if (player.movePlayer(0, 40)) playerPosY++;
-                        }
-                    }
-                    case KeyEvent.VK_D -> {
-                        if (playerPosX < 9) {
-                            if (player.movePlayer(40, 0)) playerPosX++;
-                        }
-                    }
-                    case KeyEvent.VK_A -> {
-                        if (playerPosX > 0) {
-                            if (player.movePlayer(-40, 0)) playerPosX--;
-                        }
-                    }
-                    case KeyEvent.VK_G -> spawnRandomItem();
                 }
-            } else {
-                switch (key) {
-                    case KeyEvent.VK_S -> {
-                        if (playerPosY > 0) {
-                            if (player.movePlayer(0, -40)) playerPosY--;
-                        }
+                case KeyEvent.VK_S -> {
+                    if (playerPosY < 9) {
+                        if (player.movePlayer(0, 40)) playerPosY++;
                     }
-                    case KeyEvent.VK_W -> {
-                        if (playerPosY < 9) {
-                            if (player.movePlayer(0, 40)) playerPosY++;
-                        }
-                    }
-                    case KeyEvent.VK_A -> {
-                        if (playerPosX < 9) {
-                            if (player.movePlayer(40, 0)) playerPosX++;
-                        }
-                    }
-                    case KeyEvent.VK_D -> {
-                        if (playerPosX > 0) {
-                            if (player.movePlayer(-40, 0)) playerPosX--;
-                        }
-                    }
-                    case KeyEvent.VK_G -> spawnRandomItem();
                 }
+                case KeyEvent.VK_D -> {
+                    if (playerPosX < 9) {
+                        if (player.movePlayer(40, 0)) playerPosX++;
+                    }
+                }
+                case KeyEvent.VK_A -> {
+                    if (playerPosX > 0) {
+                        if (player.movePlayer(-40, 0)) playerPosX--;
+                    }
+                }
+                case KeyEvent.VK_G -> spawnRandomItem();
             }
         }
+
+        // menü
         switch(key){
             case KeyEvent.VK_1 -> menue.previous();
             case KeyEvent.VK_2 -> menue.next();
@@ -153,11 +149,11 @@ public class ProgramController {
         }
 
         //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
-        for(int i = 0; i < gameItems.length; i++){
-            if(gameItems[i].isSpawned() & gameItems[i].getPosX() == playerPosX & gameItems[i].getPosY() == playerPosY){
-                gameItems[i].effect();
-                if(!gameItems[i].isSpawned()) {
-                    gameField.set(null, gameItems[i].getPosX(), gameItems[i].getPosY());
+        for (GameItem gameItem : gameItems) {
+            if (gameItem.isSpawned() && gameItem.getPosX() == playerPosX && gameItem.getPosY() == playerPosY) {
+                gameItem.effect();
+                if (!gameItem.isSpawned()) {
+                    gameField.set(null, gameItem.getPosX(), gameItem.getPosY());
                 }
             }
         }
