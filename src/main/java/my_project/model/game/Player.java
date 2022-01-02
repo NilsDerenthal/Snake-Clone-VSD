@@ -26,16 +26,11 @@ public class Player extends Entity {
             drawTool.setCurrentColor(Color.BLACK);
             drawTool.drawFilledCircle(x, y, radius);
             if(head) {
-                if(shieldActive){
-                    drawTool.setCurrentColor(Color.GREEN);
-                }else {
-                    drawTool.setCurrentColor(Color.RED);
-                }
+                drawTool.setCurrentColor(
+                        shieldActive ? Color.GREEN : Color.RED
+                );
                 drawTool.drawCircle(x, y, radius);
             }
-
-
-
         }
 
         public void setHead(boolean head) {
@@ -118,10 +113,7 @@ public class Player extends Entity {
     }
 
     public void deleteBodyPart(){
-        boolean shielded = false;
-        if(body.getFront().isShieldActive()){
-            shielded = true;
-        }
+        boolean shielded = body.getFront().isShieldActive();
         body.dequeue();
         body.getFront().setHead(true);
         if(shielded){
