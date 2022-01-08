@@ -95,8 +95,13 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     public void append(MenuUnderPoint m){
         list.append(m);
         m.setY(yS+50);
+        m.setInList(list);
         viewController.draw(m,SceneConfig.MENU_SCENE);
     }
+
+    public void next(){ list.next(); }
+    public void previous(){ list.previous(); }
+    public void toFirst(){ list.toFirst(); }
 
     public MenuUnderPoint getCurrent() {
         return current;

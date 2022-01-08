@@ -68,6 +68,8 @@ public class ProgramController {
         switch(key){
             case KeyEvent.VK_W -> menue.previous();
             case KeyEvent.VK_S -> menue.next();
+            case KeyEvent.VK_A -> menue.left();
+            case KeyEvent.VK_D -> menue.right();
         }
     }
 

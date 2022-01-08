@@ -16,6 +16,7 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     private final Color color;
     private final String text;
     private final Command command;
+    private VisualList inList;
 
     public MenuUnderPoint(double heigth, double widht, Command command, Color color,String text){
         this.command = command;
@@ -26,6 +27,10 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     }
 
     public void draw(DrawTool drawTool){
+        if(inList.getCurrent()==this){
+            drawTool.setCurrentColor(Color.YELLOW);
+            drawTool.drawRectangle(x-10,y-10,width+20,height+20);
+        }
         drawTool.setCurrentColor(color);
         drawTool.drawFilledRectangle(x,y,width,height);
         drawTool.setCurrentColor(Color.BLACK);
@@ -35,13 +40,14 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
 
     @Override
     public void update(double dt){
-
     }
 
     @Override
     public boolean tryToDelete() {
         return false;
     }
+
+    public void setInList(VisualList list){ inList=list; }
 
     public void clickOn(){
         command.execute();

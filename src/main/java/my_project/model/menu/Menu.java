@@ -24,6 +24,7 @@ public class Menu extends GraphicalObject {
     public void creatMenue(){
         leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
+        leftList.getCurrent().toFirst();
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen"));
         leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{
             System.exit(0);
@@ -36,6 +37,7 @@ public class Menu extends GraphicalObject {
 
 
         leftList.toFirst();
+        leftList.getCurrent().toFirst();
         leftList.getCurrent().changeUp(true);
     }
 
@@ -82,5 +84,15 @@ public class Menu extends GraphicalObject {
         if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(false);
         leftList.previous();
         if (leftList.getCurrent() != null) leftList.getCurrent().changeUp(true);
+    }
+
+    public void left(){
+        if(leftList.getCurrent()!=null) {
+            leftList.getCurrent().previous();
+        }
+    }
+
+    public void right(){
+        if(leftList.getCurrent()!=null) leftList.getCurrent().next();
     }
 }
