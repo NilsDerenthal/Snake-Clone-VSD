@@ -10,7 +10,7 @@ public class GameItem extends Entity {
 
     protected boolean active, spawned;
     protected Player player;
-    protected int timer, posX, posY, duration;
+    protected int posX, posY;
 
     private final Color color;
 
@@ -28,7 +28,6 @@ public class GameItem extends Entity {
     }
 
     public void spawn(){
-        timer = 0;
         spawned = true;
     }
 

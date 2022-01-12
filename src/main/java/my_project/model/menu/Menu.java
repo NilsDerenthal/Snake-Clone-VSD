@@ -22,17 +22,15 @@ public class Menu extends GraphicalObject {
     }
 
     public void creatMenue(){
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
+        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen"));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{
-            System.exit(0);
-        },Color.RED,"Spiel beenden"));
-        leftList.append(new MenuPoint(800,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,/*()->{},*/Color.GREEN,"beginnen",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,/*()->{},*/Color.RED,"Spiel beenden",leftList.getCurrent().getList()));
+        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,""));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,""));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,""));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,/*()->{},*/Color.BLUE,"",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,/*()->{},*/Color.RED,"",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100,/*()->{},*/Color.GREEN,"",leftList.getCurrent().getList()));
 
 
         leftList.toFirst();
@@ -73,8 +71,8 @@ public class Menu extends GraphicalObject {
         if(leftList.getCurrent()!=null) {
             leftList.getCurrent().changeUp(false);
             leftList.next();
-            if(leftList.getCurrent()==null) leftList.previous();
             if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
+            if(leftList.getCurrent()==null) leftList.previous();
         }
     }
 
@@ -82,5 +80,17 @@ public class Menu extends GraphicalObject {
         if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(false);
         leftList.previous();
         if (leftList.getCurrent() != null) leftList.getCurrent().changeUp(true);
+    }
+
+    public void left(){
+        leftList.getCurrent().getList().previous();
+    }
+
+    public void right(){
+        leftList.getCurrent().getList().next();
+    }
+
+    public void clickOn(){
+        leftList.getCurrent().getList().getCurrent().clickOn();
     }
 }
