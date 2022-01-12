@@ -6,21 +6,16 @@ import java.awt.*;
 
 public class Stun extends GameItem{
 
+    public int counter;
+
     public Stun(Player player, Color color) {
         super(player, color);
         duration = 100;
-        timer = 0;
     }
 
     @Override
     public void update(double dt) {
-        if(active) {
-            if (timer > duration) {
-                active = false;
-                player.setStunned(false);
-            }
-            timer += 5;
-        }
+
     }
 
     @Override
@@ -29,8 +24,21 @@ public class Stun extends GameItem{
             player.setShielded(false);
         }else{
             player.setStunned(true);
+            counter = 0;
             active = true;
         }
         spawned = false;
+    }
+
+    public boolean StunCounter(){
+        if(active){
+            if(counter < 5){
+                counter++;
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return true;
     }
 }
