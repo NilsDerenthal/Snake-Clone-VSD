@@ -15,14 +15,12 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     private final VisualList<MenuUnderPoint> list;
     private final Color color;
     private final String text;
-    //private final Command command;
+    private final Command command;
 
-    public MenuUnderPoint(double heigth, double widht,/* Command command,*/ Color color,String text,VisualList<MenuUnderPoint> list){
-        this.y = y;
-        //this.command = command;
+    public MenuUnderPoint(double heigth, double widht, Command command, Color color,String text,VisualList<MenuUnderPoint> list){
+        this.command = command;
         this.color=color;
         this.text=text;
-        this.x=x;
         this.height=heigth;
         this.width=widht;
         this.list=list;
@@ -52,6 +50,6 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
 
     public void clickOn(){
         System.out.println("click on: "+text);
-        //command.execute();
+        command.execute();
     }
 }

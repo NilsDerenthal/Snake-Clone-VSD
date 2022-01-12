@@ -145,7 +145,7 @@ public class ProgramController {
         switch(key){
             case KeyEvent.VK_1 -> menue.previous();
             case KeyEvent.VK_2 -> menue.next();
-            case KeyEvent.VK_F -> player.setStunned(false);
+            //case KeyEvent.VK_F -> player.setStunned(false);
         }
         switch(key){
             case KeyEvent.VK_W -> menue.previous();
