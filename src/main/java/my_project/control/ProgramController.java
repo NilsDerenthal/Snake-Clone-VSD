@@ -147,6 +147,13 @@ public class ProgramController {
             case KeyEvent.VK_2 -> menue.next();
             case KeyEvent.VK_F -> player.setStunned(false);
         }
+        switch(key){
+            case KeyEvent.VK_W -> menue.previous();
+            case KeyEvent.VK_S -> menue.next();
+            case KeyEvent.VK_A -> menue.left();
+            case KeyEvent.VK_D -> menue.right();
+            case KeyEvent.VK_SPACE -> menue.clickOn();
+        }
 
         //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
         for (GameItem gameItem : gameItems) {
