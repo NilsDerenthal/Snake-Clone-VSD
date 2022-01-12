@@ -144,14 +144,6 @@ public class Player extends Entity {
         return invertedControls;
     }
 
-    public boolean isStunned() {
-        return stunned;
-    }
-
-    public void setStunned(boolean stunned) {
-        if(!shielded)
-            this.stunned = stunned;
-    }
 
     public void setShielded(boolean shielded) {
         this.shielded = shielded;

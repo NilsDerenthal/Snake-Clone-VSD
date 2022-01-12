@@ -10,7 +10,6 @@ public class Stun extends GameItem{
 
     public Stun(Player player, Color color) {
         super(player, color);
-        duration = 100;
     }
 
     @Override
@@ -23,7 +22,6 @@ public class Stun extends GameItem{
         if(player.isShielded()){
             player.setShielded(false);
         }else{
-            player.setStunned(true);
             counter = 0;
             active = true;
         }
