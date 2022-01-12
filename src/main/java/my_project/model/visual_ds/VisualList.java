@@ -41,7 +41,8 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
      */
 
     public void append(T t){
-        if(!list.isEmpty()&&t!=null) {
+        if(t!=null)
+        if(!list.isEmpty()) {
             list.append(t);
             t.setX(getPrevious(t).getX() + xAbstand);
             t.setY(getPrevious(t).getY() + yAbstand);
@@ -178,12 +179,12 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
         list.toFirst();
         if(!list.getContent().equals(t)) {
             int i=0;
-            while(list.getContent().equals(t)) {
+            while(!list.getContent().equals(t)) {
                 list.next();
                 i++;
             }
             list.toFirst();
-            for(int j=0;j<i;j++) list.next();
+            for(int j=0;j<i-1;j++) list.next();
             return list.getContent();
         }
         toCurrent();
@@ -195,5 +196,17 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
      */
 
     public boolean isEmpty(){ return list.isEmpty(); }
+
+    /**
+     * setzt alle y Werte der Objekte in der List auf @param newY
+     */
+
+    public void updateAllY(double newY){
+        list.toFirst();
+        while(list.getContent()!=null){
+            list.getContent().setY(newY);
+            list.next();
+        }
+    }
 }
 

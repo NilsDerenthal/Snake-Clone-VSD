@@ -15,73 +15,72 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     private final VisualList<MenuPoint> inList;
     private final ViewController viewController;
     private final String text;
-    private double sY;
     private double yS;
     private boolean up=false;
+    private MenuUnderPoint current;
 
     public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList,String text){
         x=30;
         this.y=y;
         this.yS = yS;
-        this.sY = yS;
         this.inList = inList;
         this.viewController=viewController;
         this.text=text;
         viewController.draw(this);
-
-        list = new VisualList<>(50, 0, 160, y + 30);
-
-        new MenuUnderPoint(1, 1, 1, 1, () -> {
-
-        },Color.WHITE,"");
+        list = new VisualList<>(120, 0, 190, yS+50);
+        list.toFirst();
+        current=list.getCurrent();
     }
 
     @Override
     public void draw(DrawTool drawTool) {
         if(inList.getCurrent()==this){
             drawTool.setCurrentColor(Color.YELLOW);
-            drawTool.drawFilledRectangle(30,y,30,20);
+            drawTool.drawFilledRectangle(30,y,50,30);
         }
         drawTool.setCurrentColor(Color.GRAY);
         // not better-looking, but easier to read
         drawTool.drawFilledPolygon(
-                130, yS+20,
-                150, yS,
+                160, yS+20,
+                180, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                180, yS + 170,
+                160, yS + 150
         );
         drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawPolygon(
-                130, yS+20,
-                150, yS,
+                160, yS+20,
+                180, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                180, yS + 170,
+                160, yS + 150
         );
         drawTool.drawText(35,y+20,text);
-        drawTool.drawRectangle(30,y,30,20);
+        drawTool.drawRectangle(30,y,50,30);
     }
 
     @Override
     public void update(double dt){
         if(up){
-            if(yS < sY - 1){
-                yS += 1000 * dt;
+            if(yS>Config.WINDOW_HEIGHT/2-140){
+                yS-=1000*dt;
+            }else{
+                yS=Config.WINDOW_HEIGHT/2-150;
             }
-            if(yS>Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
         }else{
-            if(yS < sY - 1){
-                yS += 1000 * dt;
+            if(yS<Config.WINDOW_HEIGHT+ 300){
+                yS+=1000*dt;
+            }else{
+                yS=Config.WINDOW_HEIGHT+ 300;
             }
-            if(yS<Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
         }
+        list.updateAllY(yS+50);
     }
 
     @Override
@@ -95,7 +94,11 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
 
     public void append(MenuUnderPoint m){
         list.append(m);
-        m.setY(yS);
+        m.setY(yS+50);
         viewController.draw(m,SceneConfig.MENU_SCENE);
+    }
+
+    public MenuUnderPoint getCurrent() {
+        return current;
     }
 }

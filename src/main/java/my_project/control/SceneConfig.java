@@ -9,12 +9,4 @@ public class SceneConfig {
      * Suppress default constructor
      */
     private SceneConfig() {}
-
-    public static void setScene(int index){
-
-    }
-
-    public static void setScene(String sceneName){
-
-    }
 }
