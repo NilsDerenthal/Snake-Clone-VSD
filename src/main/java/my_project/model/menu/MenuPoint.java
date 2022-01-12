@@ -72,12 +72,25 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
                 yS += 1000 * dt;
             }
             if(yS>Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
+            updateList();
         }else{
             if(yS < sY - 1){
                 yS += 1000 * dt;
             }
             if(yS<Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
+            updateList();
         }
+    }
+
+    private void updateList(){
+        MenuUnderPoint current=list.getCurrent();
+        list.toFirst();
+        while(list.getCurrent()!=null){
+            list.getCurrent().setY(yS+60);
+            list.next();
+        }
+        list.toFirst();
+        while(list.getCurrent()!=current) list.next();
     }
 
     @Override
