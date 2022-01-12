@@ -3,6 +3,8 @@ package my_project.model.item;
 import KAGO_framework.view.DrawTool;
 import my_project.model.game.Player;
 
+import java.awt.*;
+
 public class AddBodypart extends GameItem{
 
     public AddBodypart(double alphaChangeRate, Player player) {
@@ -13,6 +15,7 @@ public class AddBodypart extends GameItem{
 
     @Override
     public void draw(DrawTool drawTool) {
+        drawTool.setCurrentColor(Color.YELLOW);
         drawTool.drawFilledRectangle(x,y,width,height);
     }
 

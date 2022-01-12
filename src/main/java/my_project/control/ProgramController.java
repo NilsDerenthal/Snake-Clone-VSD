@@ -20,6 +20,7 @@ public class ProgramController {
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
+    private Menu menue;
 
     /**
      * Konstruktor
@@ -38,8 +39,7 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.showScene(SceneConfig.MENU_SCENE);
-
-        new Menu(viewController);
+        menue=new Menu(viewController);
         new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
 
@@ -55,6 +55,10 @@ public class ProgramController {
             case KeyEvent.VK_D -> player.movePlayer(-40, 0);
             case KeyEvent.VK_F -> player.addBodyPart();
             case KeyEvent.VK_G -> player.deleteBodyPart();
+        }
+        switch(key){
+            case KeyEvent.VK_W -> menue.previous();
+            case KeyEvent.VK_S -> menue.next();
         }
     }
 

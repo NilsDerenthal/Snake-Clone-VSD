@@ -41,7 +41,7 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
      */
 
     public void append(T t){
-        if(!list.isEmpty()) {
+        if(!list.isEmpty()&&t!=null) {
             list.append(t);
             t.setX(getPrevious(t).getX() + xAbstand);
             t.setY(getPrevious(t).getY() + yAbstand);
@@ -176,7 +176,7 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
 
     public T getPrevious(T t){
         list.toFirst();
-        if(list.getContent().equals(t)) {
+        if(!list.getContent().equals(t)) {
             int i=0;
             while(list.getContent().equals(t)) {
                 list.next();

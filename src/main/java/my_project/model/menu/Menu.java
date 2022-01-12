@@ -19,12 +19,16 @@ public class Menu extends GraphicalObject {
         viewController.draw(this, SceneConfig.MENU_SCENE);
         leftList = new VisualList<>(0, 50, 20, 40);
         creatMenue();
+        leftList.toFirst();
     }
 
     public void creatMenue(){
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList));
+        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"a"));
         leftList.toFirst();
         leftList.getCurrent().append(new MenuUnderPoint(0,(Config.WINDOW_WIDTH-130)/2+130,30,100,()->{},Color.GREEN,"beginnen"));
+        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"b"));
+        leftList.next();
+        leftList.getCurrent().append(new MenuUnderPoint(0,(Config.WINDOW_WIDTH-130)/2+130,30,100,()->{},Color.GRAY,"text"));
     }
 
     @Override
@@ -55,5 +59,22 @@ public class Menu extends GraphicalObject {
                 100, 30,
                 80, 10
         );
+    }
+
+    public void next(){
+        if(leftList.getCurrent()!=null) {
+            leftList.getCurrent().changeUp(false);
+            leftList.next();
+            if(leftList.getCurrent()==null){
+                leftList.previous();
+            }
+            if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
+        }
+    }
+
+    public void previous(){
+        if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(false);
+        leftList.previous();
+        if (leftList.getCurrent() != null) leftList.getCurrent().changeUp(true);
     }
 }
