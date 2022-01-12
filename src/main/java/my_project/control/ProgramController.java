@@ -102,7 +102,7 @@ public class ProgramController {
     }
 
     public void doPlayerAction(int key){
-        if(!player.isStunned()) {
+        if( ((Stun)gameItems[2]).StunCounter() ) {
 
             int effectiveKey = key;
             if (player.isInvertedControls()) {
