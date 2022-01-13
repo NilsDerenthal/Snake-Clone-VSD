@@ -11,20 +11,29 @@ public class PointQueue extends Entity {
 
     private class Point extends Entity implements VisualQueue.Animatable{
 
-        public Point() {
+        private String typ;
+
+        public Point(String typ) {
             super(Integer.MAX_VALUE);
 
-            width = height = 20;
+            this.typ = typ;
+            width = 20;
+            height = 20;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
-
+            switch (typ) {
+                case "typ 1" -> drawTool.setCurrentColor(Color.cyan);
+                case "typ 2" -> drawTool.setCurrentColor(Color.magenta);
+                case "typ 3" -> drawTool.setCurrentColor(Color.pink);
+                default -> drawTool.setCurrentColor(Color.black);
+            }
+            drawTool.drawFilledRectangle(x, y, width, height);
         }
 
-        @Override
-        public void fadeOut(boolean fadeOut) {
-
+        public String getTyp() {
+            return typ;
         }
 
         @Override
@@ -51,37 +60,60 @@ public class PointQueue extends Entity {
         public boolean isArrived() {
             return true;
         }
+
+        @Override
+        public void fadeOut(boolean fadeOut) {
+
+        }
+
+        @Override
+        public void fadeIn() {
+            super.fadeIn();
+        }
     }
 
-    private String typ;
     private VisualQueue<Point> pointQueue;
+    private int pointQueueLength;
 
-    public PointQueue(ViewController viewController, String typ) {
+    public PointQueue(ViewController viewController, int startX, int startY) {
         super(Integer.MAX_VALUE);
+        pointQueue = new VisualQueue<>(viewController, startX,startY,"up");
+        Point base = new Point("base");
+        pointQueue.enqueue(base);
 
-        pointQueue = new VisualQueue<>(viewController, 1000,900,"up");
-        this.typ = typ;
-        radius = 20;
+        pointQueueLength = 0;
     }
 
 
     @Override
     public void draw(DrawTool drawTool) {
-        if(typ.equals("typ 1")){
-            drawTool.setCurrentColor(Color.MAGENTA);
-        }else if(typ.equals("typ 2")){
-            drawTool.setCurrentColor(Color.PINK);
-        }else{
-            drawTool.setCurrentColor(Color.CYAN);
-        }
-        drawTool.drawFilledCircle(x,y,radius);
+
     }
 
-    public String getTyp() {
-        return typ;
+
+    public String frontType(){
+        return pointQueue.getFront().getTyp();
     }
 
     public void spawnRandomPoint(){
-        int r = (int) (Math.random()*12);
+
+        int r = (int) (Math.random()*3)+1;
+        switch (r){
+            case 1 -> {
+                Point point = new Point("typ 1");
+                pointQueue.enqueue(point);
+                pointQueueLength++;
+            }
+            case 2 -> {
+                Point point = new Point("typ 2");
+                pointQueue.enqueue(point);
+                pointQueueLength++;
+            }
+            case  3 -> {
+                Point point = new Point("typ 3");
+                pointQueue.enqueue(point);
+                pointQueueLength++;
+            }
+        }
     }
 }

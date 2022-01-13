@@ -26,6 +26,7 @@ public class ProgramController {
     private Player player;
     private Menu menue;
     private GameField gameField;
+    private PointQueue pointQueue;
     private final GameItem[] gameItems;
     private final int[][] itemPosition;
     private int playerPosX;
@@ -56,6 +57,8 @@ public class ProgramController {
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
+        pointQueue = new PointQueue(viewController,1000, 900);
+        pointQueue.spawnRandomPoint();
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         gameItems[0] = new AddBodypartItem(player, Color.BLUE);
@@ -130,7 +133,7 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_G -> spawnRandomItem();
+                case KeyEvent.VK_G -> pointQueue.spawnRandomPoint();
             }
         }
 

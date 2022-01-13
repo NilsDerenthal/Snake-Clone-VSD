@@ -17,7 +17,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
      * fadeIn() wird beim enqueue() ausgeführt.
      * fadeOut() wird beim dequeue() true weitergegeben.
      * Außerdem sollten eure Objekte mit den parametern x,y,width,height und radius welche sie von der
-     * Klasse GraphicalObject erben arbeiten. Andernfalls wirds hier und da problematisch.
+     * Klasse GraphicalObject erben arbeiten.
      */
     public interface Animatable {
 
@@ -41,15 +41,9 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
 
     private Queue<T> queue;
     private final ViewController viewController;
-
     private double posX;
     private double posY;
-
     private final String direction;
-
-    /**
-     * Parameter unter dem Kommentar noch unwichtig
-     */
     private double frontX, frontY;
     private boolean movable;
     private boolean allowed;
@@ -90,7 +84,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
      * um den Radius oder die höhe/breite eures Objektes verschoben, damit das nächste
      * Objekt seine neue Position richtig verteilt bekommt.
      * Bei movable: Es kann nur ein neues Objekt hinzugefügt werden, nachdem es sich min. 1 mal nach
-     * dem hinzufügen eines Objektes vergehen, damit man ein neues Objekt hinzufügen kann.
+     * dem hinzufügen eines Objektes bewegen, damit man ein neues Objekt hinzufügen kann.
      */
     public void enqueue(T content){
         if(content != null & allowed) {
