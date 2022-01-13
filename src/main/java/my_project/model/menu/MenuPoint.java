@@ -29,7 +29,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         this.text=text;
         viewController.draw(this);
 
-        list = new VisualList<>(140, 0, 160, y + 30);
+        list = new VisualList<>(140, 0, 170, y + 30);
     }
 
     @Override
@@ -41,25 +41,25 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         drawTool.setCurrentColor(Color.GRAY);
         // not better-looking, but easier to read
         drawTool.drawFilledPolygon(
-                130, yS+20,
-                150, yS,
+                140, yS+20,
+                160, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                160, yS + 170,
+                140, yS + 150
         );
         drawTool.setCurrentColor(Color.BLACK);
         drawTool.drawPolygon(
-                130, yS+20,
-                150, yS,
+                140, yS+20,
+                160, yS,
                 Config.WINDOW_WIDTH - 45, yS,
                 Config.WINDOW_WIDTH - 25, yS + 20,
                 Config.WINDOW_WIDTH - 25, yS + 150,
                 Config.WINDOW_WIDTH - 45, yS + 170,
-                150, yS + 170,
-                130, yS + 150
+                160, yS + 170,
+                140, yS + 150
         );
         drawTool.drawText(35,y+20,text);
         drawTool.drawRectangle(30,y,30,20);

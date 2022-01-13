@@ -49,7 +49,6 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     }
 
     public void clickOn(){
-        System.out.println("click on: "+text);
         command.execute();
     }
 }
