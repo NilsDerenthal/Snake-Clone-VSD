@@ -69,10 +69,11 @@ public class Menu extends GraphicalObject {
 
     public void next(){
         if(leftList.getCurrent()!=null) {
+            MenuPoint current= leftList.getCurrent();
             leftList.getCurrent().changeUp(false);
             leftList.next();
-            if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
-            if(leftList.getCurrent()==null) leftList.previous();
+            if(leftList.getCurrent()==null) leftList.currentTo(current);
+            leftList.getCurrent().changeUp(true);
         }
     }
 
@@ -87,7 +88,9 @@ public class Menu extends GraphicalObject {
     }
 
     public void right(){
-        if(leftList.getCurrent()!=null) leftList.getCurrent().getList().next();
+        MenuUnderPoint current= leftList.getCurrent().getList().getCurrent();
+        if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().next();
+        if(leftList.getCurrent().getList().getCurrent()==null) leftList.getCurrent().getList().currentTo(current);
     }
 
     public void clickOn(){
