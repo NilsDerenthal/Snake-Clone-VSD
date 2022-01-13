@@ -3,7 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
-import my_project.model.game.Player;
+import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.InputManager;
@@ -11,7 +11,6 @@ import my_project.view.InputManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -58,9 +57,7 @@ public class ProgramController {
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
         player.addBodyPart();
-
         playerPosY = playerPosX = 4;
-
         gameItems[0] = new AddBodypartItem(player, Color.BLUE);
         gameItems[1] = new DeleteBodypartItem(player, Color.RED);
         gameItems[2] = new Stun(player, Color.BLACK);

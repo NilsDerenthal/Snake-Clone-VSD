@@ -85,7 +85,7 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean stunned, shielded, invertedControls;
+    private boolean shielded, invertedControls;
     private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){

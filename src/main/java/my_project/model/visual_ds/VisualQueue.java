@@ -59,7 +59,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
     /**
      * Dem Konstruktor können posX und posY weitergegeben werden.
      * Diese sind die Position eures ersten Objektes.
-     * Dem String direction könnt iht nur "up" oder "right" weitergeben.
+     * Dem String direction könnt ihr nur "up" oder "right" weitergeben.
      * bei "up" werden neue Objekte oben und bei "right" rechts ran gepackt.
      * Dann gibts noch das special "movable". Da lieber keine Animationen nutzen, könnte zu fehlern führen.
      * Da wird die queue zu einer art "Schlange".
@@ -142,7 +142,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
                 }
             }
 
-            viewController.draw(content, SceneConfig.GAME_SCENE);
+            viewController.draw(content, SceneConfig.MENU_SCENE);
             content.fadeIn();
             allowed = false;
         }
