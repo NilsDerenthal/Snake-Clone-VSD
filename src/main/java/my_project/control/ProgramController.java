@@ -133,7 +133,7 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_G -> pointQueue.spawnRandomPoint();
+                case KeyEvent.VK_G -> spawnRandomItem();
             }
         }
 
