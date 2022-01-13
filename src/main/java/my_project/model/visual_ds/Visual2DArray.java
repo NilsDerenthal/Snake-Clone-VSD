@@ -225,7 +225,7 @@ public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable>
         this(width, height, 0, 0, new VisualizationConfig());
     }
 
-    private boolean isLegal(int x, int y) {
+    public boolean isValidIndex(int x, int y) {
         return y >= 0 && x >= 0 &&
                 x < internalRepresentation.length && y < internalRepresentation[0].length;
     }
@@ -242,7 +242,7 @@ public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable>
      * @param y the y index for this object to be inserted at.
      */
     public void set(T value, int x, int y) {
-        if (isLegal(x, y)) {
+        if (isValidIndex(x, y)) {
             if (value != null) {
                 value.fadeIn();
             }
@@ -271,18 +271,14 @@ public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable>
      * @param y the y-pointer
      */
     public void setPointer(int x, int y) {
-        if (isLegal(x, y)) {
+        if (isValidIndex(x, y)) {
             xPointer = x;
             yPointer = y;
         }
     }
 
     public T get(int x, int y) {
-        try {
-            return this.internalRepresentation[x][y];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+        return this.internalRepresentation[x][y];
     }
 
     private void forEach(BiConsumer<Integer, Integer> action) {

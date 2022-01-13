@@ -84,9 +84,9 @@ public class ProgramController {
         if (size != 0) {
             int x = -1;
             int y = -1;
-            while (gameField.get(x, y) != null) {
-                x = rand.nextInt(9);
-                y = rand.nextInt(9);
+            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+                x = rand.nextInt(10);
+                y = rand.nextInt(10);
             }
 
             int i = rand.nextInt(size);
