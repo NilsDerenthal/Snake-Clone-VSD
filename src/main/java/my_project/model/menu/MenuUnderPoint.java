@@ -2,6 +2,7 @@ package my_project.model.menu;
 
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.control.ProgramController;
 import my_project.model.visual_ds.VisualList;
 
 import java.awt.*;
@@ -16,14 +17,16 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     private final Color color;
     private final String text;
     private final Command command;
+    private final ProgramController p;
 
-    public MenuUnderPoint(double heigth, double widht, Command command, Color color,String text,VisualList<MenuUnderPoint> list){
+    public MenuUnderPoint(double heigth, double widht, Command command, Color color, String text, VisualList<MenuUnderPoint> list, ProgramController p){
         this.command = command;
         this.color=color;
         this.text=text;
         this.height=heigth;
         this.width=widht;
         this.list=list;
+        this.p=p;
     }
 
     public void draw(DrawTool drawTool){
@@ -49,7 +52,6 @@ public class MenuUnderPoint extends GraphicalObject implements VisualList.Animab
     }
 
     public void clickOn(){
-        System.out.println("click on: "+text);
         command.execute();
     }
 }

@@ -4,6 +4,7 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.Config;
+import my_project.control.ProgramController;
 import my_project.control.SceneConfig;
 import my_project.model.visual_ds.VisualList;
 
@@ -13,9 +14,11 @@ public class Menu extends GraphicalObject {
 
     private final VisualList<MenuPoint> leftList;
     private final ViewController viewController;
+    private final ProgramController p;
 
-    public Menu(ViewController viewController){
+    public Menu(ViewController viewController, ProgramController p){
         this.viewController=viewController;
+        this.p=p;
         viewController.draw(this, SceneConfig.MENU_SCENE);
         leftList = new VisualList<>(0, 50, 20, 40);
         creatMenue();
@@ -24,14 +27,13 @@ public class Menu extends GraphicalObject {
     public void creatMenue(){
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,"Spiel beenden",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30, 100, () -> viewController.showScene(SceneConfig.GAME_SCENE),Color.GREEN,"beginnen",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList(),p));
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,"",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,"",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"",leftList.getCurrent().getList()));
-
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);

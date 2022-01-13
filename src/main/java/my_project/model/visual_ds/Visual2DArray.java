@@ -18,6 +18,8 @@ import java.util.function.ToDoubleFunction;
 
 public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable> extends GraphicalObject implements Interactable {
 
+
+
     /**
      * Configuration for the visualization
      */

@@ -3,7 +3,7 @@ package my_project.control;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
-import my_project.model.game.Player;
+import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.InputManager;
@@ -11,7 +11,6 @@ import my_project.view.InputManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -27,6 +26,7 @@ public class ProgramController {
     private Player player;
     private Menu menue;
     private GameField gameField;
+    private PointQueue pointQueue;
     private final GameItem[] gameItems;
     private final int[][] itemPosition;
     private int playerPosX;
@@ -53,14 +53,14 @@ public class ProgramController {
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController);
+        menue = new Menu(viewController,this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
+        pointQueue = new PointQueue(viewController,1000, 900);
+        pointQueue.spawnRandomPoint();
         player.addBodyPart();
-
         playerPosY = playerPosX = 4;
-
         gameItems[0] = new AddBodypartItem(player, Color.BLUE);
         gameItems[1] = new DeleteBodypartItem(player, Color.RED);
         gameItems[2] = new Stun(player, Color.BLACK);
@@ -173,4 +173,6 @@ public class ProgramController {
     public void updateProgram(double dt){
 
     }
+
+    public Player getPlayer(){ return player; }
 }
