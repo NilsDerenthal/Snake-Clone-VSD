@@ -136,7 +136,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
                 }
             }
 
-            viewController.draw(content, SceneConfig.MENU_SCENE);
+            viewController.draw(content, SceneConfig.GAME_SCENE);
             content.fadeIn();
             allowed = false;
         }

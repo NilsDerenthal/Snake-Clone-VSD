@@ -50,6 +50,7 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        viewController.createScene();
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
@@ -136,12 +137,6 @@ public class ProgramController {
                 case KeyEvent.VK_G -> spawnRandomItem();
             }
         }
-
-        // menü
-        switch(key){
-            case KeyEvent.VK_1 -> menue.previous();
-            case KeyEvent.VK_2 -> menue.next();
-        }
         switch(key){
             case KeyEvent.VK_W -> menue.previous();
             case KeyEvent.VK_S -> menue.next();
@@ -175,4 +170,6 @@ public class ProgramController {
     }
 
     public Player getPlayer(){ return player; }
+
+    public ViewController getViewController(){ return viewController; }
 }

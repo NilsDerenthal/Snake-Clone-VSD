@@ -27,7 +27,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         this.inList = inList;
         this.viewController=viewController;
         this.text=text;
-        viewController.draw(this);
+        viewController.draw(this,SceneConfig.MENU_SCENE);
 
         list = new VisualList<>(140, 0, 170, y + 30);
     }
