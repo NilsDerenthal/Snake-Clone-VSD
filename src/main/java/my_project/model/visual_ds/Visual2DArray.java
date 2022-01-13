@@ -277,6 +277,14 @@ public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable>
         }
     }
 
+    public T get(int x, int y) {
+        try {
+            return this.internalRepresentation[x][y];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
     private void forEach(BiConsumer<Integer, Integer> action) {
         for (int i = 0; i < internalRepresentation.length; i++) {
             for (int j = 0; j < internalRepresentation[i].length; j++) {

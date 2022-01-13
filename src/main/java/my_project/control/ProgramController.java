@@ -1,6 +1,7 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
 import my_project.model.game.Player;
 import my_project.model.item.*;
@@ -10,6 +11,7 @@ import my_project.view.InputManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -68,36 +70,30 @@ public class ProgramController {
 
     public void spawnRandomItem(){
         var rand = new Random();
-        int i = rand.nextInt(4);
-        int x = rand.nextInt(9);
-        int y = rand.nextInt(9);
 
-        int numberSpawned = 0;
-        boolean allowed = true;
+        int size = 0;
+        List<GameItem> availableItems = new List<>();
 
-        while(numberSpawned < 5){
-            if(!gameItems[i].isSpawned()){
-                gameItems[i].spawn();
-                for (int[] ints : itemPosition) {
-                    if (ints[0] == x && ints[1] == y) {
-                        allowed = false;
-                    }
-                }
-                if(allowed){
-                    gameField.set(gameItems[i], x, y);
-                    gameItems[i].setPosX(x);
-                    gameItems[i].setPosY(y);
-                    numberSpawned = 5;
-                }else{
-                    x = rand.nextInt(9);
-                    y = rand.nextInt(9);
-                    numberSpawned = 0;
-                }
+        for(var item : gameItems) {
+            if (!item.isSpawned()) {
+                availableItems.append(item);
+                size++;
             }
-            if(++i >= 5) {
-                i = 0;
+        }
+
+        if (size != 0) {
+            int x = -1;
+            int y = -1;
+            while (gameField.get(x, y) != null) {
+                x = rand.nextInt(9);
+                y = rand.nextInt(9);
             }
-            numberSpawned++;
+
+            int i = rand.nextInt(size);
+            gameItems[i].spawn();
+            gameField.set(gameItems[i], x, y);
+            gameItems[i].setPosX(x);
+            gameItems[i].setPosY(y);
         }
     }
 
