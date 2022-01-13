@@ -36,7 +36,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
     public void draw(DrawTool drawTool) {
         if(inList.getCurrent()==this){
             drawTool.setCurrentColor(Color.YELLOW);
-            drawTool.drawFilledRectangle(30,y,30,20);
+            drawTool.drawFilledRectangle(30,y,60,20);
         }
         drawTool.setCurrentColor(Color.GRAY);
         // not better-looking, but easier to read
@@ -62,7 +62,7 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
                 140, yS + 150
         );
         drawTool.drawText(35,y+20,text);
-        drawTool.drawRectangle(30,y,30,20);
+        drawTool.drawRectangle(30,y,60,20);
     }
 
     @Override
