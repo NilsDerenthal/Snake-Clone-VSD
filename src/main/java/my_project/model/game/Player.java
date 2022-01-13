@@ -162,4 +162,8 @@ public class Player extends Entity {
         return length > 1;
     }
 
+    public void setColor(Color newColor){
+
+    }
+
 }

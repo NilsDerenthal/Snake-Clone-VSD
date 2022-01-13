@@ -16,7 +16,7 @@ public class GameField extends Visual2DArray<Entity> {
                         null, Color.BLACK, Color.WHITE
                 )
         );
-        vc.draw(this, SceneConfig.MENU_SCENE);
+        vc.draw(this, SceneConfig.GAME_SCENE);
     }
 
 

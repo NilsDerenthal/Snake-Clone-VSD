@@ -52,7 +52,7 @@ public class ProgramController {
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController);
+        menue = new Menu(viewController,this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
@@ -170,4 +170,6 @@ public class ProgramController {
     public void updateProgram(double dt){
 
     }
+
+    public Player getPlayer(){ return player; }
 }
