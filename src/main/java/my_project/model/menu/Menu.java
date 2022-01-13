@@ -24,39 +24,13 @@ public class Menu extends GraphicalObject {
     public void creatMenue(){
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(30, 100, new MenuUnderPoint.Command() {
-            @Override
-            public void execute() {
-                viewController.showScene(SceneConfig.GAME_SCENE);
-            }
-        },Color.GREEN,"beginnen",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,new MenuUnderPoint.Command() {
-            @Override
-            public void execute() {
-                System.exit(0);
-            }
-        },Color.RED,"Spiel beenden",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30, 100, () -> viewController.showScene(SceneConfig.GAME_SCENE),Color.GREEN,"beginnen",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList()));
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,new MenuUnderPoint.Command() {
-            @Override
-            public void execute() {
-
-            }
-        },Color.BLUE,"Blau",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,new MenuUnderPoint.Command() {
-            @Override
-            public void execute() {
-
-            }
-        },Color.RED,"Rot",leftList.getCurrent().getList()));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,new MenuUnderPoint.Command() {
-            @Override
-            public void execute() {
-
-            }
-        },Color.GREEN,"Gruen",leftList.getCurrent().getList()));
-
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> { },Color.BLUE,"Blau",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> { },Color.RED,"Rot",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> { },Color.GREEN,"Gruen",leftList.getCurrent().getList()));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);
