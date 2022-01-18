@@ -6,12 +6,9 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.GameInputManager;
-import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -26,12 +23,12 @@ public class ProgramController {
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
-    private Menu menue;
+    private Menu menu;
     private GameField gameField;
     private PointQueue pointQueue;
 
 
-    private List<GameItem> spawnable;
+    private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
     private int playerPosY;
@@ -56,7 +53,7 @@ public class ProgramController {
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController, this);
+        menu = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController, 600, 600);
@@ -65,7 +62,9 @@ public class ProgramController {
         playerPosY = playerPosX = 4;
 
         spawnable = new List<>();
+        spawned = new List<>();
 
+        // add items to list
         for (var item : new GameItem[]{
                 new Shield(player, Color.BLUE),
                 new InvertControlsItem(player, Color.BLACK),
@@ -78,8 +77,8 @@ public class ProgramController {
     }
 
     public void spawnRandomItem(){
-        Random r = new Random();
-        int index = r.nextInt(5);
+        Random rand = new Random();
+        int index = rand.nextInt(5);
 
         spawnable.toFirst();
         for (int i = 0; i < index; i++) {
@@ -90,15 +89,25 @@ public class ProgramController {
 
         GameItem toSpawn = spawnable.getContent();
         spawnable.remove();
+        spawned.append(toSpawn);
 
         if (toSpawn != null) {
-            // spawn `toSpawn`
+            int x = -1, y = -1;
+            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+                x = rand.nextInt(10);
+                y = rand.nextInt(10);
+            }
+
+            gameField.set(toSpawn, x, y);
+            toSpawn.setPosX(x);
+            toSpawn.setPosY(y);
+            spawned.append(toSpawn);
+            spawnable.remove();
         }
     }
 
     public void doPlayerAction(int key){
-        /*if( ((Stun)gameItems[2]).StunCounter() ) {
-
+        if(!player.isStunned()) {
             int effectiveKey = key;
             if (player.isInvertedControls()) {
                 effectiveKey = switch (key) {
@@ -136,16 +145,19 @@ public class ProgramController {
                 case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
-        switch(key){
-            case KeyEvent.VK_W -> menue.previous();
-            case KeyEvent.VK_S -> menue.next();
-            case KeyEvent.VK_A -> menue.left();
-            case KeyEvent.VK_D -> menue.right();
-            case KeyEvent.VK_SPACE -> menue.clickOn();
-        }
 
-        //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
-        for (GameItem gameItem : gameItems) {
+        // check items
+        spawned.toFirst();
+        while (spawned.hasAccess()) {
+            var item = spawned.getContent();
+            if (item.getPosX() == player.getX() && item.getPosY() == player.getY()) {
+                item.effect();
+                gameField.set(null, item.getPosX(), item.getPosY());
+                spawned.remove();
+                spawnable.append(item);
+            }
+        }
+        /*for (GameItem gameItem : gameItems) {
             if (gameItem.isSpawned() && gameItem.getPosX() == playerPosX && gameItem.getPosY() == playerPosY) {
                 gameItem.effect();
                 if (!gameItem.isSpawned()) {
@@ -155,7 +167,16 @@ public class ProgramController {
         }
 
          */
+    }
 
+    public void doMenuAction(int key){
+        switch(key){
+            case KeyEvent.VK_W -> menu.previous();
+            case KeyEvent.VK_S -> menu.next();
+            case KeyEvent.VK_A -> menu.left();
+            case KeyEvent.VK_D -> menu.right();
+            case KeyEvent.VK_SPACE -> menu.clickOn();
+        }
     }
 
     public void showScene(int scene) {

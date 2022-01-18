@@ -6,7 +6,7 @@ import my_project.model.game.Player;
 
 import java.awt.*;
 
-public class GameItem extends Entity {
+public abstract class GameItem extends Entity {
 
     protected boolean active, spawned;
     protected Player player;
@@ -23,9 +23,7 @@ public class GameItem extends Entity {
         this.height = 20;
     }
 
-    public void effect(){
-
-    }
+    public abstract void effect();
 
     public void spawn(){
         spawned = true;

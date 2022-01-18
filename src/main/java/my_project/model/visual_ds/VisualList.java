@@ -12,7 +12,7 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
         boolean tryToDelete();
     }
 
-    private final List<T> list=new List();
+    private final List<T> list = new List<>();
     private final double xAbstand;
     private final double yAbstand;
     private final double x;
