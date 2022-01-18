@@ -6,6 +6,7 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
+import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
 import java.awt.*;
@@ -55,7 +56,7 @@ public class ProgramController {
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
-
+        new GameInputManager(this, viewController);
         menu = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         player = new Player(viewController, 200, 200);
