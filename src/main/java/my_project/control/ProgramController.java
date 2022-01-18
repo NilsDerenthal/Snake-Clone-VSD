@@ -2,7 +2,6 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
-import my_project.Config;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
@@ -56,9 +55,9 @@ public class ProgramController {
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         menue = new Menu(viewController,this);
-        gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
+        gameField = new GameField(viewController, 10, 10, 10, 10);
         new InputManager(this, viewController);
-        player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
+        player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController,1000, 900);
         pointQueue.spawnRandomPoint();
         player.addBodyPart();

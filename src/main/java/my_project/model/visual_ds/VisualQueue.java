@@ -138,7 +138,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
 
             viewController.draw(content, SceneConfig.GAME_SCENE);
             content.fadeIn();
-            allowed = false;
+            if(movable) allowed = false;
         }
     }
 

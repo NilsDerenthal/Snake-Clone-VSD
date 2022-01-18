@@ -14,8 +14,10 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
 
     private Stack<T> stack;
     private ViewController viewController;
+    private int counter;
 
     public VisualStack(ViewController viewController){
+        counter = 1;
         stack = new Stack<>();
         this.viewController = viewController;
     }
@@ -24,20 +26,20 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
      * Die Methode pushInVisual() ist ziemlich ähnlich zu der Methode push() von der Datenstruktur Stack.
      * Es wird geprüft, ob das Objekt, welches hinzugefügt werden soll (@param contentType) null ist, wenn nicht, dann wird es:
      * in den Stack getan,
-     * Methode comeIn() aufgerufen, die optional was machen kann,
+     * comeIn() aufgerufen,
      * x-Koordinate in abhängigkeit von counter gesetzt
-     * gezeichnet + der counter um 1 erhöht
+     * gezeichnet + der counter um 1 erhöht,
+     * Methode comeIn() aufgerufen, die optional was machen kann
      */
     public void pushInVisual(T contentType) {
         if (contentType != null) {
             stack.push(contentType);
             contentType.comeIn();
+            contentType.setX(counter * contentType.getWidth());
             viewController.draw(contentType);
+            counter++;
         }
     }
-
-
-
 
     /**
      * Die Methode popVisual ist ähnlich zu pop() in Stack.
@@ -52,7 +54,16 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
             stack.top().goOut();
             viewController.removeDrawable(stack.top());
             stack.pop();
+            counter--;
         }
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 }
 
