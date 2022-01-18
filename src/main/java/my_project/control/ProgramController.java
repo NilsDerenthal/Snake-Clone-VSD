@@ -1,14 +1,17 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
-import my_project.model.game.Player;
+import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.InputManager;
+import my_project.view.GameInputManager;
+import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -25,8 +28,11 @@ public class ProgramController {
     private Player player;
     private Menu menue;
     private GameField gameField;
-    private final GameItem[] gameItems;
-    private final int[][] itemPosition;
+    private PointQueue pointQueue;
+
+
+    private List<GameItem> spawnable;
+
     private int playerPosX;
     private int playerPosY;
 
@@ -39,8 +45,6 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        gameItems = new GameItem[5];
-        itemPosition = new int[5][2];
     }
 
     /**
@@ -48,61 +52,52 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        viewController.createScene();
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController);
+        menue = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
-        new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
+        pointQueue = new PointQueue(viewController, 600, 600);
+        pointQueue.spawnRandomPoint();
         player.addBodyPart();
-
         playerPosY = playerPosX = 4;
 
-        gameItems[0] = new AddBodypartItem(player, Color.BLUE);
-        gameItems[1] = new DeleteBodypartItem(player, Color.RED);
-        gameItems[2] = new Stun(player, Color.BLACK);
-        gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
-        gameItems[4] = new Shield(player, Color.GREEN);
+        spawnable = new List<>();
+
+        for (var item : new GameItem[]{
+                new Shield(player, Color.BLUE),
+                new InvertControlsItem(player, Color.BLACK),
+                new Stun(player, Color.WHITE),
+                new AddBodypartItem(player, Color.CYAN),
+                new DeleteBodypartItem(player, Color.RED)
+        }) {
+            spawnable.append(item);
+        }
     }
 
     public void spawnRandomItem(){
-        var rand = new Random();
-        int i = rand.nextInt(4);
-        int x = rand.nextInt(9);
-        int y = rand.nextInt(9);
+        Random r = new Random();
+        int index = r.nextInt(5);
 
-        int numberSpawned = 0;
-        boolean allowed = true;
+        spawnable.toFirst();
+        for (int i = 0; i < index; i++) {
+            spawnable.next();
+            if (!spawnable.hasAccess())
+                spawnable.toFirst();
+        }
 
-        while(numberSpawned < 5){
-            if(!gameItems[i].isSpawned()){
-                gameItems[i].spawn();
-                for (int[] ints : itemPosition) {
-                    if (ints[0] == x && ints[1] == y) {
-                        allowed = false;
-                    }
-                }
-                if(allowed){
-                    gameField.set(gameItems[i], x, y);
-                    gameItems[i].setPosX(x);
-                    gameItems[i].setPosY(y);
-                    numberSpawned = 5;
-                }else{
-                    x = rand.nextInt(9);
-                    y = rand.nextInt(9);
-                    numberSpawned = 0;
-                }
-            }
-            if(++i >= 5) {
-                i = 0;
-            }
-            numberSpawned++;
+        GameItem toSpawn = spawnable.getContent();
+        spawnable.remove();
+
+        if (toSpawn != null) {
+            // spawn `toSpawn`
         }
     }
 
     public void doPlayerAction(int key){
-        if(!player.isStunned()) {
+        /*if( ((Stun)gameItems[2]).StunCounter() ) {
 
             int effectiveKey = key;
             if (player.isInvertedControls()) {
@@ -138,14 +133,15 @@ public class ProgramController {
                     }
                 }
                 case KeyEvent.VK_G -> spawnRandomItem();
+                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
-
-        // menü
         switch(key){
-            case KeyEvent.VK_1 -> menue.previous();
-            case KeyEvent.VK_2 -> menue.next();
-            case KeyEvent.VK_F -> player.setStunned(false);
+            case KeyEvent.VK_W -> menue.previous();
+            case KeyEvent.VK_S -> menue.next();
+            case KeyEvent.VK_A -> menue.left();
+            case KeyEvent.VK_D -> menue.right();
+            case KeyEvent.VK_SPACE -> menue.clickOn();
         }
 
         //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
@@ -157,6 +153,8 @@ public class ProgramController {
                 }
             }
         }
+
+         */
 
     }
 
@@ -171,4 +169,8 @@ public class ProgramController {
     public void updateProgram(double dt){
 
     }
+
+    public Player getPlayer(){ return player; }
+
+    public ViewController getViewController(){ return viewController; }
 }

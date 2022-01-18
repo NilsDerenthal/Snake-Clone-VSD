@@ -3,7 +3,6 @@ package my_project.model.visual_ds;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 
-
 public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
 
     public interface AnimableList {
@@ -208,5 +207,26 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
             list.next();
         }
     }
+
+    /**
+     * setzt alle x Werte der Objekte in der List auf @param newY
+     */
+
+    public void updateAllX(double newX){
+        list.toFirst();
+        while(list.getContent()!=null){
+            list.getContent().setX(newX);
+            list.next();
+        }
+    }
+
+    public void currentTo(T t){
+        list.toFirst();
+        while(list.getContent()!=t&&list.getContent()!=null){
+            list.next();
+            current= list.getContent();
+        }
+    }
+
 }
 

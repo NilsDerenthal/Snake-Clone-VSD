@@ -80,7 +80,7 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean stunned, shielded, invertedControls;
+    private boolean shielded, invertedControls;
     private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
@@ -136,14 +136,6 @@ public class Player extends Entity {
         return invertedControls;
     }
 
-    public boolean isStunned() {
-        return stunned;
-    }
-
-    public void setStunned(boolean stunned) {
-        if(!shielded)
-            this.stunned = stunned;
-    }
 
     public void setShielded(boolean shielded) {
         this.shielded = shielded;
@@ -160,6 +152,10 @@ public class Player extends Entity {
 
     public boolean deletable(){
         return length > 1;
+    }
+
+    public void setColor(Color newColor){
+
     }
 
 }
