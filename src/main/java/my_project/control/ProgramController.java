@@ -6,7 +6,7 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.InputManager;
+import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -56,7 +56,7 @@ public class ProgramController {
 
         menue = new Menu(viewController,this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
-        new InputManager(this, viewController);
+        new MenuInputManager(this, viewController);
         player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController,600, 600);
         pointQueue.spawnRandomPoint();
