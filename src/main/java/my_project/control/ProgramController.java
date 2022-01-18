@@ -6,6 +6,7 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
+import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
 import java.awt.*;
@@ -53,10 +54,10 @@ public class ProgramController {
         viewController.createScene();
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
-
         menue = new Menu(viewController,this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         new MenuInputManager(this, viewController);
+        new GameInputManager(this, viewController);
         player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController,600, 600);
         pointQueue.spawnRandomPoint();
@@ -138,13 +139,6 @@ public class ProgramController {
                 case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
-        switch(key){
-            case KeyEvent.VK_W -> menue.previous();
-            case KeyEvent.VK_S -> menue.next();
-            case KeyEvent.VK_A -> menue.left();
-            case KeyEvent.VK_D -> menue.right();
-            case KeyEvent.VK_SPACE -> menue.clickOn();
-        }
 
         //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
         for (GameItem gameItem : gameItems) {
@@ -156,6 +150,16 @@ public class ProgramController {
             }
         }
 
+    }
+
+    public void doMenuAction(int key){
+        switch(key){
+            case KeyEvent.VK_W -> menue.previous();
+            case KeyEvent.VK_S -> menue.next();
+            case KeyEvent.VK_A -> menue.left();
+            case KeyEvent.VK_D -> menue.right();
+            case KeyEvent.VK_SPACE -> menue.clickOn();
+        }
     }
 
     public void showScene(int scene) {

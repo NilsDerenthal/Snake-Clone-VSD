@@ -37,6 +37,6 @@ public class MenuInputManager extends InteractableAdapter {
 
     @Override
     public void keyReleased(int key) {
-        programController.doPlayerAction(key);
+        programController.doMenuAction(key);
     }
 }
