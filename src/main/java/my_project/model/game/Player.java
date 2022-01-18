@@ -11,27 +11,43 @@ public class Player extends Entity {
     private static class BodyPart extends Entity implements VisualQueue.Animatable {
 
         private boolean head;
+        private boolean shieldActive;
 
         public BodyPart(double radius){
             super(Integer.MAX_VALUE);
 
             this.radius = radius;
             this.head = false;
+            shieldActive = false;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
             drawTool.setCurrentColor(Color.BLACK);
             drawTool.drawFilledCircle(x, y, radius);
-
             if(head) {
-                drawTool.setCurrentColor(Color.RED);
+                if(shieldActive){
+                    drawTool.setCurrentColor(Color.GREEN);
+                }else {
+                    drawTool.setCurrentColor(Color.RED);
+                }
                 drawTool.drawCircle(x, y, radius);
             }
+
+
+
         }
 
         public void setHead(boolean head) {
             this.head = head;
+        }
+
+        public void setShield(boolean shield) {
+            this.shieldActive = shield;
+        }
+
+        public boolean isShieldActive() {
+            return shieldActive;
         }
 
         @Override
@@ -69,9 +85,8 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean stunned;
-    private boolean shieldet;
-    private boolean switchControll;
+    private boolean stunned, shielded, invertedControls;
+    private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
         // infinitely fast fading -> no fading
@@ -84,25 +99,35 @@ public class Player extends Entity {
         body.getFront().setHead(true);
     }
 
-    public void movePlayer(double moveX, double moveY) {
-        if (moveX != 0 || moveY != 0 && !stunned) {
-            if(switchControll){
-                moveX *= -1;
-                moveY *= -1;
+    public boolean movePlayer(double moveX, double moveY) {
+            if (moveX != 0 || moveY != 0) {
+                if (body.isPlaceFree(moveX, moveY)) {
+                    body.moveQueue(moveX, moveY);
+                    return true;
+                }
             }
-            if(body.isPlaceFree(moveX, moveY)) body.moveQueue(moveX, moveY);
-        }
+
+        return false;
     }
 
     public void addBodyPart(){
         BodyPart body = new BodyPart(20);
         this.body.enqueue(body);
         this.body.getFront().setHead(true);
+        length++;
     }
 
     public void deleteBodyPart(){
+        boolean shielded = false;
+        if(body.getFront().isShieldActive()){
+            shielded = true;
+        }
         body.dequeue();
         body.getFront().setHead(true);
+        if(shielded){
+            body.getFront().setShield(true);
+        }
+        length--;
     }
 
     @Override
@@ -114,24 +139,35 @@ public class Player extends Entity {
         return body.getFront() != null;
     }
 
-    public double getPosX(){
-        return body.getFront().getX();
+
+    public boolean isInvertedControls() {
+        return invertedControls;
     }
 
-    public double getPosY(){
-        return body.getFront().getY();
+    public boolean isStunned() {
+        return stunned;
     }
 
     public void setStunned(boolean stunned) {
-
-        if(!shieldet) this.stunned = stunned;
+        if(!shielded)
+            this.stunned = stunned;
     }
 
-    public void setShieldet(boolean shieldet) {
-        this.shieldet = shieldet;
+    public void setShielded(boolean shielded) {
+        this.shielded = shielded;
+        body.getFront().setShield(shielded);
     }
 
-    public void setSwitchControll(boolean switchControll) {
-        this.switchControll = switchControll;
+    public void setInvertedControls(boolean invertedControls) {
+        this.invertedControls = invertedControls;
     }
+
+    public boolean isShielded() {
+        return shielded;
+    }
+
+    public boolean deletable(){
+        return length > 1;
+    }
+
 }

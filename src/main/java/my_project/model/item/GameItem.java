@@ -4,24 +4,23 @@ import KAGO_framework.view.DrawTool;
 import my_project.model.game.Entity;
 import my_project.model.game.Player;
 
+import java.awt.*;
+
 public class GameItem extends Entity {
 
-    protected boolean active;
+    protected boolean active, spawned;
     protected Player player;
-    protected int duration;
-    protected int timer;
+    protected int timer, posX, posY, duration;
 
-    public GameItem(double alphaChangeRate, Player player) {
-        super(alphaChangeRate);
+    private final Color color;
+
+    public GameItem(Player player, Color color) {
+        super(255);
+
         this.player = player;
-    }
-
-    public boolean itemPicked(){
-        if(player.getPosX() == getX() & player.getPosY() == getY()){
-            active = true;
-            return true;
-        }
-        return false;
+        this.color = color;
+        this.width = 30;
+        this.height = 20;
     }
 
     public void effect(){
@@ -30,10 +29,32 @@ public class GameItem extends Entity {
 
     public void spawn(){
         timer = 0;
+        spawned = true;
     }
 
     @Override
     public void draw(DrawTool drawTool) {
+        drawTool.setCurrentColor(color);
+        drawTool.drawFilledRectangle(x, y, width, height);
+    }
 
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public boolean isSpawned() {
+        return spawned;
     }
 }
