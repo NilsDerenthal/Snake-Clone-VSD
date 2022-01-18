@@ -6,11 +6,11 @@ import my_project.model.game.Player;
 
 import java.awt.*;
 
-public class GameItem extends Entity {
+public abstract class GameItem extends Entity {
 
     protected boolean active, spawned;
     protected Player player;
-    protected int timer, posX, posY, duration;
+    protected int posX, posY;
 
     private final Color color;
 
@@ -23,12 +23,9 @@ public class GameItem extends Entity {
         this.height = 20;
     }
 
-    public void effect(){
-
-    }
+    public abstract void effect();
 
     public void spawn(){
-        timer = 0;
         spawned = true;
     }
 

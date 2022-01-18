@@ -4,6 +4,7 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.Config;
+import my_project.control.ProgramController;
 import my_project.control.SceneConfig;
 import my_project.model.visual_ds.VisualList;
 
@@ -13,31 +14,28 @@ public class Menu extends GraphicalObject {
 
     private final VisualList<MenuPoint> leftList;
     private final ViewController viewController;
+    private final ProgramController p;
 
-    public Menu(ViewController viewController){
+    public Menu(ViewController viewController, ProgramController p){
         this.viewController=viewController;
+        this.p=p;
         viewController.draw(this, SceneConfig.MENU_SCENE);
         leftList = new VisualList<>(0, 50, 20, 40);
         creatMenue();
     }
 
     public void creatMenue(){
-        leftList.append(new MenuPoint(30,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
+        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,"beginnen"));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{
-            System.exit(0);
-        },Color.RED,"Spiel beenden"));
-        leftList.append(new MenuPoint(800,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"farben"));
+        leftList.getCurrent().append(new MenuUnderPoint(30, 100, () -> p.showScene(1),Color.GREEN,"beginnen",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList(),p));
+        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.BLUE,""));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.RED,""));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100,()->{},Color.GREEN,""));
-
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
 
         leftList.toFirst();
-        leftList.getCurrent().toFirst();
         leftList.getCurrent().changeUp(true);
     }
 
@@ -73,10 +71,11 @@ public class Menu extends GraphicalObject {
 
     public void next(){
         if(leftList.getCurrent()!=null) {
+            MenuPoint current= leftList.getCurrent();
             leftList.getCurrent().changeUp(false);
             leftList.next();
-            if(leftList.getCurrent()==null) leftList.previous();
-            if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(true);
+            if(leftList.getCurrent()==null) leftList.currentTo(current);
+            leftList.getCurrent().changeUp(true);
         }
     }
 
@@ -87,12 +86,16 @@ public class Menu extends GraphicalObject {
     }
 
     public void left(){
-        if(leftList.getCurrent()!=null) {
-            leftList.getCurrent().previous();
-        }
+        if(leftList.getCurrent()!=null)leftList.getCurrent().getList().previous();
     }
 
     public void right(){
-        if(leftList.getCurrent()!=null) leftList.getCurrent().next();
+        MenuUnderPoint current= leftList.getCurrent().getList().getCurrent();
+        if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().next();
+        if(leftList.getCurrent().getList().getCurrent()==null) leftList.getCurrent().getList().currentTo(current);
+    }
+
+    public void clickOn(){
+        if(leftList.getCurrent()!=null) leftList.getCurrent().getList().getCurrent().clickOn();
     }
 }

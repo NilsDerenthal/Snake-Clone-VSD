@@ -1,11 +1,11 @@
 package my_project.control;
 
 import KAGO_framework.control.ViewController;
+import KAGO_framework.model.abitur.datenstrukturen.List;
 import my_project.model.game.GameField;
-import my_project.model.game.Player;
+import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.InputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -23,10 +23,13 @@ public class ProgramController {
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
-    private Menu menue;
+    private Menu menu;
     private GameField gameField;
-    private final GameItem[] gameItems;
-    private final int[][] itemPosition;
+    private PointQueue pointQueue;
+
+
+    private List<GameItem> spawnable, spawned;
+
     private int playerPosX;
     private int playerPosY;
 
@@ -39,8 +42,6 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        gameItems = new GameItem[5];
-        itemPosition = new int[5][2];
     }
 
     /**
@@ -48,62 +49,65 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        viewController.createScene();
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController);
+        menu = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
-        new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
+        pointQueue = new PointQueue(viewController, 600, 600);
+        pointQueue.spawnRandomPoint();
         player.addBodyPart();
-
         playerPosY = playerPosX = 4;
 
-        gameItems[0] = new AddBodypartItem(player, Color.BLUE);
-        gameItems[1] = new DeleteBodypartItem(player, Color.RED);
-        gameItems[2] = new Stun(player, Color.BLACK);
-        gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
-        gameItems[4] = new Shield(player, Color.GREEN);
+        spawnable = new List<>();
+        spawned = new List<>();
+
+        // add items to list
+        for (var item : new GameItem[]{
+                new Shield(player, Color.BLUE),
+                new InvertControlsItem(player, Color.BLACK),
+                new Stun(player, Color.WHITE),
+                new AddBodypartItem(player, Color.CYAN),
+                new DeleteBodypartItem(player, Color.RED)
+        }) {
+            spawnable.append(item);
+        }
     }
 
     public void spawnRandomItem(){
-        var rand = new Random();
-        int i = rand.nextInt(4);
-        int x = rand.nextInt(9);
-        int y = rand.nextInt(9);
+        Random rand = new Random();
+        int index = rand.nextInt(5);
 
-        int numberSpawned = 0;
-        boolean allowed = true;
+        spawnable.toFirst();
+        for (int i = 0; i < index; i++) {
+            spawnable.next();
+            if (!spawnable.hasAccess())
+                spawnable.toFirst();
+        }
 
-        while(numberSpawned < 5){
-            if(!gameItems[i].isSpawned()){
-                gameItems[i].spawn();
-                for (int[] ints : itemPosition) {
-                    if (ints[0] == x && ints[1] == y) {
-                        allowed = false;
-                    }
-                }
-                if(allowed){
-                    gameField.set(gameItems[i], x, y);
-                    gameItems[i].setPosX(x);
-                    gameItems[i].setPosY(y);
-                    numberSpawned = 5;
-                }else{
-                    x = rand.nextInt(9);
-                    y = rand.nextInt(9);
-                    numberSpawned = 0;
-                }
+        GameItem toSpawn = spawnable.getContent();
+        spawnable.remove();
+        spawned.append(toSpawn);
+
+        if (toSpawn != null) {
+            int x = -1, y = -1;
+            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+                x = rand.nextInt(10);
+                y = rand.nextInt(10);
             }
-            if(++i >= 5) {
-                i = 0;
-            }
-            numberSpawned++;
+
+            gameField.set(toSpawn, x, y);
+            toSpawn.setPosX(x);
+            toSpawn.setPosY(y);
+            spawned.append(toSpawn);
+            spawnable.remove();
         }
     }
 
     public void doPlayerAction(int key){
         if(!player.isStunned()) {
-
             int effectiveKey = key;
             if (player.isInvertedControls()) {
                 effectiveKey = switch (key) {
@@ -138,18 +142,22 @@ public class ProgramController {
                     }
                 }
                 case KeyEvent.VK_G -> spawnRandomItem();
+                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
 
-        // menü
-        switch(key){
-            case KeyEvent.VK_1 -> menue.previous();
-            case KeyEvent.VK_2 -> menue.next();
-            case KeyEvent.VK_F -> player.setStunned(false);
+        // check items
+        spawned.toFirst();
+        while (spawned.hasAccess()) {
+            var item = spawned.getContent();
+            if (item.getPosX() == player.getX() && item.getPosY() == player.getY()) {
+                item.effect();
+                gameField.set(null, item.getPosX(), item.getPosY());
+                spawned.remove();
+                spawnable.append(item);
+            }
         }
-
-        //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
-        for (GameItem gameItem : gameItems) {
+        /*for (GameItem gameItem : gameItems) {
             if (gameItem.isSpawned() && gameItem.getPosX() == playerPosX && gameItem.getPosY() == playerPosY) {
                 gameItem.effect();
                 if (!gameItem.isSpawned()) {
@@ -158,6 +166,17 @@ public class ProgramController {
             }
         }
 
+         */
+    }
+
+    public void doMenuAction(int key){
+        switch(key){
+            case KeyEvent.VK_W -> menu.previous();
+            case KeyEvent.VK_S -> menu.next();
+            case KeyEvent.VK_A -> menu.left();
+            case KeyEvent.VK_D -> menu.right();
+            case KeyEvent.VK_SPACE -> menu.clickOn();
+        }
     }
 
     public void showScene(int scene) {
@@ -171,4 +190,8 @@ public class ProgramController {
     public void updateProgram(double dt){
 
     }
+
+    public Player getPlayer(){ return player; }
+
+    public ViewController getViewController(){ return viewController; }
 }
