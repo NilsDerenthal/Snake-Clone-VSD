@@ -11,6 +11,7 @@ import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -28,8 +29,10 @@ public class ProgramController {
     private Menu menue;
     private GameField gameField;
     private PointQueue pointQueue;
-    private final GameItem[] gameItems;
-    private final int[][] itemPosition;
+
+
+    private List<GameItem> spawnable;
+
     private int playerPosX;
     private int playerPosY;
 
@@ -42,8 +45,6 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        gameItems = new GameItem[5];
-        itemPosition = new int[5][2];
     }
 
     /**
@@ -55,51 +56,48 @@ public class ProgramController {
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController,this);
+        menue = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
         player = new Player(viewController, 200, 200);
-        pointQueue = new PointQueue(viewController,600, 600);
+        pointQueue = new PointQueue(viewController, 600, 600);
         pointQueue.spawnRandomPoint();
         player.addBodyPart();
         playerPosY = playerPosX = 4;
-        gameItems[0] = new AddBodypartItem(player, Color.BLUE);
-        gameItems[1] = new DeleteBodypartItem(player, Color.RED);
-        gameItems[2] = new Stun(player, Color.BLACK);
-        gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
-        gameItems[4] = new Shield(player, Color.GREEN);
+
+        spawnable = new List<>();
+
+        for (var item : new GameItem[]{
+                new Shield(player, Color.BLUE),
+                new InvertControlsItem(player, Color.BLACK),
+                new Stun(player, Color.WHITE),
+                new AddBodypartItem(player, Color.CYAN),
+                new DeleteBodypartItem(player, Color.RED)
+        }) {
+            spawnable.append(item);
+        }
     }
 
     public void spawnRandomItem(){
-        var rand = new Random();
+        Random r = new Random();
+        int index = r.nextInt(5);
 
-        int size = 0;
-        List<GameItem> availableItems = new List<>();
-
-        for(var item : gameItems) {
-            if (!item.isSpawned()) {
-                availableItems.append(item);
-                size++;
-            }
+        spawnable.toFirst();
+        for (int i = 0; i < index; i++) {
+            spawnable.next();
+            if (!spawnable.hasAccess())
+                spawnable.toFirst();
         }
 
-        if (size != 0) {
-            int x = -1;
-            int y = -1;
-            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
-                x = rand.nextInt(10);
-                y = rand.nextInt(10);
-            }
+        GameItem toSpawn = spawnable.getContent();
+        spawnable.remove();
 
-            int i = rand.nextInt(size);
-            gameItems[i].spawn();
-            gameField.set(gameItems[i], x, y);
-            gameItems[i].setPosX(x);
-            gameItems[i].setPosY(y);
+        if (toSpawn != null) {
+            // spawn `toSpawn`
         }
     }
 
     public void doPlayerAction(int key){
-        if( ((Stun)gameItems[2]).StunCounter() ) {
+        /*if( ((Stun)gameItems[2]).StunCounter() ) {
 
             int effectiveKey = key;
             if (player.isInvertedControls()) {
@@ -155,6 +153,8 @@ public class ProgramController {
                 }
             }
         }
+
+         */
 
     }
 
