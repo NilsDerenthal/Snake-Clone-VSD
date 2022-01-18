@@ -6,6 +6,7 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
+import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -52,6 +53,8 @@ public class ProgramController {
         viewController.createScene();
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
+
+        new MenuInputManager(this,viewController);
 
         menu = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);

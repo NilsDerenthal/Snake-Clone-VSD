@@ -229,4 +229,3 @@ public class VisualList<T extends GraphicalObject & VisualList.AnimableList> {
     }
 
 }
-
