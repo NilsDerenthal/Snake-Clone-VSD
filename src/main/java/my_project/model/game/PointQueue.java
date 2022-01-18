@@ -17,8 +17,7 @@ public class PointQueue extends Entity {
             super(Integer.MAX_VALUE);
 
             this.typ = typ;
-            width = 20;
-            height = 20;
+            radius = 20;
         }
 
         @Override
@@ -27,9 +26,10 @@ public class PointQueue extends Entity {
                 case "typ 1" -> drawTool.setCurrentColor(Color.cyan);
                 case "typ 2" -> drawTool.setCurrentColor(Color.magenta);
                 case "typ 3" -> drawTool.setCurrentColor(Color.pink);
+                case "typ 4" -> drawTool.setCurrentColor(Color.yellow);
                 default -> drawTool.setCurrentColor(Color.black);
             }
-            drawTool.drawFilledRectangle(x, y, width, height);
+            drawTool.drawFilledCircle(x, y, radius);
         }
 
         public String getTyp() {
@@ -78,8 +78,6 @@ public class PointQueue extends Entity {
     public PointQueue(ViewController viewController, int startX, int startY) {
         super(Integer.MAX_VALUE);
         pointQueue = new VisualQueue<>(viewController, startX,startY,"up");
-        Point base = new Point("base");
-        pointQueue.enqueue(base);
 
         pointQueueLength = 0;
     }
@@ -97,7 +95,7 @@ public class PointQueue extends Entity {
 
     public void spawnRandomPoint(){
 
-        int r = (int) (Math.random()*3)+1;
+        int r = (int) (Math.random()*4)+1;
         switch (r){
             case 1 -> {
                 Point point = new Point("typ 1");
@@ -114,6 +112,19 @@ public class PointQueue extends Entity {
                 pointQueue.enqueue(point);
                 pointQueueLength++;
             }
+            case 4 -> {
+                Point point = new Point("typ 4");
+                pointQueue.enqueue(point);
+                pointQueueLength++;
+            }
         }
+    }
+
+    public void removeFront(){
+        pointQueue.dequeue();
+    }
+
+    public int getPointQueueLength() {
+        return pointQueueLength;
     }
 }
