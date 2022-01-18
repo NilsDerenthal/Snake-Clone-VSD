@@ -2,9 +2,6 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
-import my_project.model.game.PointBar;
-import my_project.model.game.BarField;
-import my_project.model.visual_ds.VisualStack;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
@@ -34,9 +31,6 @@ public class ProgramController {
     private final int[][] itemPosition;
     private int playerPosX;
     private int playerPosY;
-    private VisualStack<PointBar> pointBarStack;
-    private BarField field;
-    private PointBar pointBarOrig;
 
     /**
      * Konstruktor
@@ -49,8 +43,6 @@ public class ProgramController {
         this.viewController = viewController;
         gameItems = new GameItem[5];
         itemPosition = new int[5][2];
-        pointBarStack = new VisualStack<>(viewController);
-        pointBarOrig = new PointBar(20,255,0,0);
     }
 
     /**
@@ -75,7 +67,6 @@ public class ProgramController {
         gameItems[2] = new Stun(player, Color.BLACK);
         gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
         gameItems[4] = new Shield(player, Color.GREEN);
-        BarField field = new BarField(viewController);
     }
 
     public void spawnRandomItem(){
@@ -165,26 +156,6 @@ public class ProgramController {
             }
         }
 
-    }
-
-    public void addPoints(){
-        if(pointBarStack.getCounter() == 11){
-            pointBarStack.setCounter(1);
-            pointBarOrig.setR((int) (Math.random()*255));
-            pointBarOrig.setG((int) (Math.random()*255));
-            pointBarOrig.setB((int) (Math.random()*255));
-            PointBar newRec = new PointBar(20,255,0,0);
-            newRec.setR(pointBarOrig.getR());
-            newRec.setG(pointBarOrig.getG());
-            newRec.setB(pointBarOrig.getB());
-            pointBarStack.pushInVisual(newRec);
-        }else{
-            PointBar newRec = new PointBar(20,255,0,0);
-            newRec.setR(pointBarOrig.getR());
-            newRec.setG(pointBarOrig.getG());
-            newRec.setB(pointBarOrig.getB());
-            pointBarStack.pushInVisual(newRec);
-        }
     }
 
     public void showScene(int scene) {

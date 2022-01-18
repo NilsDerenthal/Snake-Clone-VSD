@@ -1,17 +1,15 @@
 package my_project.view;
-
 import KAGO_framework.control.ViewController;
-import KAGO_framework.model.InteractiveGraphicalObject;
 import my_project.control.ProgramController;
-
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
+import static my_project.control.SceneConfig.GAME_SCENE;
 
 /**
  * Realisiert ein Objekt, dass alle Eingaben empfängt und dann danach passende Methoden
  * im ProgramController aufruft
  */
-public class InputManager extends InteractiveGraphicalObject {
+public class GameInputManager extends InteractableAdapter {
 
     private ProgramController programController;
     private ViewController viewController;
@@ -20,10 +18,10 @@ public class InputManager extends InteractiveGraphicalObject {
      * Objekterzeugung
      * @param programController Nötig als Objekt vom Controllerbereich, das informiert wird
      */
-    public InputManager(ProgramController programController, ViewController viewController){
+    public GameInputManager(ProgramController programController, ViewController viewController){
         this.programController = programController;
         this.viewController = viewController;
-        viewController.register(this);
+        viewController.register(this, GAME_SCENE);
     }
 
     @Override
