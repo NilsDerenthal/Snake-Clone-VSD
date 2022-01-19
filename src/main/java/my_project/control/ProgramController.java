@@ -105,8 +105,6 @@ public class ProgramController {
             gameField.set(toSpawn, x, y);
             toSpawn.setPosX(x);
             toSpawn.setPosY(y);
-            spawned.append(toSpawn);
-            spawnable.remove();
         }
     }
 
@@ -154,23 +152,15 @@ public class ProgramController {
         spawned.toFirst();
         while (spawned.hasAccess()) {
             var item = spawned.getContent();
-            if (item.getPosX() == player.getX() && item.getPosY() == player.getY()) {
+            if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
                 item.effect();
                 gameField.set(null, item.getPosX(), item.getPosY());
                 spawned.remove();
                 spawnable.append(item);
             }
-        }
-        /*for (GameItem gameItem : gameItems) {
-            if (gameItem.isSpawned() && gameItem.getPosX() == playerPosX && gameItem.getPosY() == playerPosY) {
-                gameItem.effect();
-                if (!gameItem.isSpawned()) {
-                    gameField.set(null, gameItem.getPosX(), gameItem.getPosY());
-                }
-            }
+            spawned.next();
         }
 
-         */
     }
 
     public void doMenuAction(int key){
