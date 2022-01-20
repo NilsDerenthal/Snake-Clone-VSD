@@ -133,9 +133,11 @@ public class PointQueue extends Entity {
     }
 
     public boolean pickPointUP(int x, int y){
-        if(front().getPosX() == x && front().getPosY() == y){
-            removeFront();
-            return true;
+        if(front() != null) {
+            if (front().getPosX() == x && front().getPosY() == y) {
+                removeFront();
+                return true;
+            }
         }
         return false;
     }

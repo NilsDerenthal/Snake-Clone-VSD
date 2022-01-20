@@ -32,6 +32,7 @@ public class ProgramController {
     private Menu menu;
     private GameField gameField;
     private PointQueue pointQueue;
+    private PointDummy pointDummy;
 
     private double timer;
     private boolean spawn;
@@ -76,6 +77,7 @@ public class ProgramController {
         gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
         player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
         pointQueue = new PointQueue(viewController, 600, 600);
+        pointDummy = new PointDummy();
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
@@ -134,7 +136,6 @@ public class ProgramController {
             y = rand.nextInt(10);
         }
         pointQueue.spawnRandomPoint(x,y);
-        PointDummy pointDummy = new PointDummy();
         gameField.set(pointDummy,x,y);
     }
 
@@ -197,6 +198,7 @@ public class ProgramController {
             //check point
             if(pointQueue.pickPointUP(playerPosX,playerPosY)){
                 gameField.set(null, playerPosX,playerPosY);
+                addPoints();
             }
         }
 
