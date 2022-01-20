@@ -6,7 +6,8 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.InputManager;
+import my_project.view.GameInputManager;
+import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -24,11 +25,13 @@ public class ProgramController {
     // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
-    private Menu menue;
+    private Menu menu;
     private GameField gameField;
     private PointQueue pointQueue;
-    private final GameItem[] gameItems;
-    private final int[][] itemPosition;
+
+
+    private List<GameItem> spawnable, spawned;
+
     private int playerPosX;
     private int playerPosY;
 
@@ -41,8 +44,6 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        gameItems = new GameItem[5];
-        itemPosition = new int[5][2];
     }
 
     /**
@@ -54,53 +55,61 @@ public class ProgramController {
         // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
-        menue = new Menu(viewController,this);
+        new MenuInputManager(this,viewController);
+        new GameInputManager(this, viewController);
+        menu = new Menu(viewController, this);
         gameField = new GameField(viewController, 10, 10, 10, 10);
-        new InputManager(this, viewController);
         player = new Player(viewController, 200, 200);
-        pointQueue = new PointQueue(viewController,1000, 900);
+        pointQueue = new PointQueue(viewController, 600, 600);
         pointQueue.spawnRandomPoint();
         player.addBodyPart();
         playerPosY = playerPosX = 4;
-        gameItems[0] = new AddBodypartItem(player, Color.BLUE);
-        gameItems[1] = new DeleteBodypartItem(player, Color.RED);
-        gameItems[2] = new Stun(player, Color.BLACK);
-        gameItems[3] = new InvertControlsItem(player, Color.ORANGE);
-        gameItems[4] = new Shield(player, Color.GREEN);
+
+        spawnable = new List<>();
+        spawned = new List<>();
+
+        // add items to list
+        for (var item : new GameItem[]{
+                new Shield(player, Color.BLUE),
+                new InvertControlsItem(player, Color.BLACK),
+                new Stun(player, Color.WHITE),
+                new AddBodypartItem(player, Color.CYAN),
+                new DeleteBodypartItem(player, Color.RED)
+        }) {
+            spawnable.append(item);
+        }
     }
 
     public void spawnRandomItem(){
-        var rand = new Random();
+        Random rand = new Random();
+        int index = rand.nextInt(5);
 
-        int size = 0;
-        List<GameItem> availableItems = new List<>();
-
-        for(var item : gameItems) {
-            if (!item.isSpawned()) {
-                availableItems.append(item);
-                size++;
-            }
+        spawnable.toFirst();
+        for (int i = 0; i < index; i++) {
+            spawnable.next();
+            if (!spawnable.hasAccess())
+                spawnable.toFirst();
         }
 
-        if (size != 0) {
-            int x = -1;
-            int y = -1;
+        GameItem toSpawn = spawnable.getContent();
+        spawnable.remove();
+        spawned.append(toSpawn);
+
+        if (toSpawn != null) {
+            int x = -1, y = -1;
             while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
                 x = rand.nextInt(10);
                 y = rand.nextInt(10);
             }
 
-            int i = rand.nextInt(size);
-            gameItems[i].spawn();
-            gameField.set(gameItems[i], x, y);
-            gameItems[i].setPosX(x);
-            gameItems[i].setPosY(y);
+            gameField.set(toSpawn, x, y);
+            toSpawn.setPosX(x);
+            toSpawn.setPosY(y);
         }
     }
 
     public void doPlayerAction(int key){
-        if( ((Stun)gameItems[2]).StunCounter() ) {
-
+        if(!player.isStunned()) {
             int effectiveKey = key;
             if (player.isInvertedControls()) {
                 effectiveKey = switch (key) {
@@ -135,26 +144,33 @@ public class ProgramController {
                     }
                 }
                 case KeyEvent.VK_G -> spawnRandomItem();
+                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
+
+        // check items
+        spawned.toFirst();
+        while (spawned.hasAccess()) {
+            var item = spawned.getContent();
+            if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
+                item.effect();
+                gameField.set(null, item.getPosX(), item.getPosY());
+                spawned.remove();
+                spawnable.append(item);
+            }
+            spawned.next();
+        }
+
+    }
+
+    public void doMenuAction(int key){
         switch(key){
-            case KeyEvent.VK_W -> menue.previous();
-            case KeyEvent.VK_S -> menue.next();
-            case KeyEvent.VK_A -> menue.left();
-            case KeyEvent.VK_D -> menue.right();
-            case KeyEvent.VK_SPACE -> menue.clickOn();
+            case KeyEvent.VK_W -> menu.previous();
+            case KeyEvent.VK_S -> menu.next();
+            case KeyEvent.VK_A -> menu.left();
+            case KeyEvent.VK_D -> menu.right();
+            case KeyEvent.VK_SPACE -> menu.clickOn();
         }
-
-        //überprüft, ob man ein item einsammelt und aktiviert es falls es der fall ist
-        for (GameItem gameItem : gameItems) {
-            if (gameItem.isSpawned() && gameItem.getPosX() == playerPosX && gameItem.getPosY() == playerPosY) {
-                gameItem.effect();
-                if (!gameItem.isSpawned()) {
-                    gameField.set(null, gameItem.getPosX(), gameItem.getPosY());
-                }
-            }
-        }
-
     }
 
     public void showScene(int scene) {

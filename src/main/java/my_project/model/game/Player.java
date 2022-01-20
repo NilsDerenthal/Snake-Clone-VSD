@@ -26,16 +26,11 @@ public class Player extends Entity {
             drawTool.setCurrentColor(Color.BLACK);
             drawTool.drawFilledCircle(x, y, radius);
             if(head) {
-                if(shieldActive){
-                    drawTool.setCurrentColor(Color.GREEN);
-                }else {
-                    drawTool.setCurrentColor(Color.RED);
-                }
+                drawTool.setCurrentColor(
+                        shieldActive ? Color.GREEN : Color.RED
+                );
                 drawTool.drawCircle(x, y, radius);
             }
-
-
-
         }
 
         public void setHead(boolean head) {
@@ -85,7 +80,7 @@ public class Player extends Entity {
 
 
     private final VisualQueue<BodyPart> body;
-    private boolean shielded, invertedControls;
+    private boolean shielded, invertedControls, stunned;
     private int length;
 
     public Player(ViewController viewcontroller, double startX, double startY){
@@ -118,10 +113,7 @@ public class Player extends Entity {
     }
 
     public void deleteBodyPart(){
-        boolean shielded = false;
-        if(body.getFront().isShieldActive()){
-            shielded = true;
-        }
+        boolean shielded = body.getFront().isShieldActive();
         body.dequeue();
         body.getFront().setHead(true);
         if(shielded){
@@ -132,6 +124,10 @@ public class Player extends Entity {
 
     @Override
     public void draw(DrawTool drawTool) {
+
+    }
+
+    public void setColor(Color color) {
 
     }
 
@@ -158,12 +154,15 @@ public class Player extends Entity {
         return shielded;
     }
 
+    public boolean isStunned() {
+        return stunned;
+    }
+
+    public void setStunned(boolean stunned) {
+        this.stunned = stunned;
+    }
+
     public boolean deletable(){
         return length > 1;
     }
-
-    public void setColor(Color newColor){
-
-    }
-
 }
