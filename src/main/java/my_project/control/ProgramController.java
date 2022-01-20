@@ -14,9 +14,7 @@ import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -35,7 +33,7 @@ public class ProgramController {
     private GameField gameField;
     private Queue<Point> pointQueue;
 
-    private double timer;
+    private double timer, gameTimer, pointsToSpawn, pointsSpawned;
     private boolean spawn;
     private List<GameItem> spawnable, spawned;
 
@@ -79,6 +77,7 @@ public class ProgramController {
         player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
+        pointsToSpawn = 3;
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
         BarField field = new BarField(viewController);
 
@@ -128,7 +127,7 @@ public class ProgramController {
         }
     }
 
-    public void spawnRandomPoint(){
+    public void spawnPoint(){
         int x = -1, y = -1;
         while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
             x = rand.nextInt(10);
@@ -173,7 +172,7 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_H -> spawnRandomPoint();
+                case KeyEvent.VK_H -> spawnPoint();
             }
         } else {
             if(((Stun) items[2]).increaseStunRemoval()) {
@@ -200,6 +199,7 @@ public class ProgramController {
                 if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
                     gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
                     pointQueue.dequeue();
+                    spawnPoint();
                 }
             }
         }
@@ -251,12 +251,17 @@ public class ProgramController {
     public void updateProgram(double dt){
         if (spawn) {
             timer += dt;
-
+            gameTimer += dt;
             // every 5 seconds
             if (timer > 5) {
                 timer = 0;
                 if (!spawnable.isEmpty())
                     spawnRandomItem();
+            }
+            if(gameTimer > 0.5 && pointsSpawned < pointsToSpawn){
+                spawnPoint();
+                pointsSpawned++;
+                gameTimer = 0;
             }
         }
     }
