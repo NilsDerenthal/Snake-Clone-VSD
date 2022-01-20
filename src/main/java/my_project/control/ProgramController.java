@@ -32,7 +32,6 @@ public class ProgramController {
     private GameField gameField;
     private PointQueue pointQueue;
 
-
     private double timer;
     private boolean spawn;
     private List<GameItem> spawnable, spawned;
@@ -80,6 +79,8 @@ public class ProgramController {
         pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
+
+        BarField field = new BarField(viewController);
 
         spawnable = new List<>();
         spawned = new List<>();

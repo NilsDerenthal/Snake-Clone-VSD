@@ -35,7 +35,8 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
         if (contentType != null) {
             stack.push(contentType);
             contentType.comeIn();
-            contentType.setX(counter * contentType.getWidth());
+            // 150 für die Koordinaten an denen es starten muss
+            contentType.setX(450+counter * contentType.getWidth());
             viewController.draw(contentType);
             counter++;
         }

@@ -26,7 +26,7 @@ public class PointBar extends GraphicalObject implements VisualStack.Animated{
     }
 
     public void comeIn(){
-        y = 100;
+        y = 600;
     }
 
     public void goOut(){
