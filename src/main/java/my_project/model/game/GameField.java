@@ -1,7 +1,6 @@
 package my_project.model.game;
 
 import KAGO_framework.control.ViewController;
-import KAGO_framework.view.DrawTool;
 import my_project.control.SceneConfig;
 import my_project.model.visual_ds.Visual2DArray;
 
