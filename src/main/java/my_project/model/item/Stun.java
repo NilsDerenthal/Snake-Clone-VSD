@@ -8,8 +8,8 @@ public class Stun extends GameItem {
 
     public int counter;
 
-    public Stun(Player player, Color color) {
-        super(player, color);
+    public Stun(Player player, String imgPath) {
+        super(player, imgPath);
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class InvertControlsItem extends GameItem{
 
-    public InvertControlsItem(Player player, Color color) {
-        super(player, color);
+    public InvertControlsItem(Player player, String imgPath) {
+        super(player, imgPath);
     }
 
     @Override

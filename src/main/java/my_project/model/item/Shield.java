@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class Shield extends GameItem {
 
-    public Shield(Player player, Color color) {
-        super(player, color);
+    public Shield(Player player, String imgPath) {
+        super(player, imgPath);
     }
 
     @Override

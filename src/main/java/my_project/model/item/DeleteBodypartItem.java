@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class DeleteBodypartItem extends GameItem {
 
-    public DeleteBodypartItem(Player player, Color color) {
-        super(player, color);
+    public DeleteBodypartItem(Player player, String imgPath) {
+        super(player, imgPath);
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class AddBodypartItem extends GameItem {
 
-    public AddBodypartItem(Player player, Color color) {
-        super(player, color);
+    public AddBodypartItem(Player player, String imgPath) {
+        super(player, imgPath);
     }
 
     @Override

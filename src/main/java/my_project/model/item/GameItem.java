@@ -5,6 +5,7 @@ import my_project.model.game.Entity;
 import my_project.model.game.Player;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class GameItem extends Entity {
 
@@ -12,13 +13,13 @@ public abstract class GameItem extends Entity {
     protected Player player;
     protected int posX, posY;
 
-    private final Color color;
+    private final BufferedImage img;
 
-    public GameItem(Player player, Color color) {
+    public GameItem(Player player, String imgPath) {
         super(255);
 
         this.player = player;
-        this.color = color;
+        this.img = createImage("src/main/resources/graphic/" + imgPath);
         this.width = 30;
         this.height = 20;
     }
@@ -28,8 +29,7 @@ public abstract class GameItem extends Entity {
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.setCurrentColor(color);
-        drawTool.drawFilledRectangle(x, y, width, height);
+        drawTool.drawTransformedImage(img, x, y, 0, 0.2);
     }
 
     public int getPosX() {

@@ -87,11 +87,11 @@ public class ProgramController {
         // add items to list
 
         items = new GameItem[]{
-                new Shield(player, Color.BLUE),
-                new InvertControlsItem(player, Color.BLACK),
-                new Stun(player, Color.PINK),
-                new AddBodypartItem(player, Color.CYAN),
-                new DeleteBodypartItem(player, Color.RED)
+                new Shield(player, "shield.png"),
+                new InvertControlsItem(player, "invert.png"),
+                new Stun(player, "chain.png"),
+                new AddBodypartItem(player, "plus.png"),
+                new DeleteBodypartItem(player, "minus.png")
         };
 
         for (var item : items) {
