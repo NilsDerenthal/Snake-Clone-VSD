@@ -66,4 +66,3 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
         this.counter = counter;
     }
 }
-

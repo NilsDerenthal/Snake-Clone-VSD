@@ -2,6 +2,8 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
+import my_project.model.game.PointBar;
+import my_project.model.visual_ds.*;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
@@ -29,11 +31,14 @@ public class ProgramController {
     private GameField gameField;
     private PointQueue pointQueue;
 
-
     private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
     private int playerPosY;
+
+    private VisualStack<PointBar> pointBarStack;
+    private BarField field;
+    private PointBar pointBarOrig;
 
     /**
      * Konstruktor
@@ -44,6 +49,8 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
+        pointBarStack = new VisualStack<>(viewController);
+        pointBarOrig = new PointBar(20,255,0,0);
     }
 
     /**
@@ -169,6 +176,26 @@ public class ProgramController {
             case KeyEvent.VK_A -> menu.left();
             case KeyEvent.VK_D -> menu.right();
             case KeyEvent.VK_SPACE -> menu.clickOn();
+        }
+    }
+
+    public void addPoints(){
+        if(pointBarStack.getCounter() == 11){
+            pointBarStack.setCounter(1);
+            pointBarOrig.setR((int) (Math.random()*255));
+            pointBarOrig.setG((int) (Math.random()*255));
+            pointBarOrig.setB((int) (Math.random()*255));
+            PointBar newRec = new PointBar(20,255,0,0);
+            newRec.setR(pointBarOrig.getR());
+            newRec.setG(pointBarOrig.getG());
+            newRec.setB(pointBarOrig.getB());
+            pointBarStack.pushInVisual(newRec);
+        }else{
+            PointBar newRec = new PointBar(20,255,0,0);
+            newRec.setR(pointBarOrig.getR());
+            newRec.setG(pointBarOrig.getG());
+            newRec.setB(pointBarOrig.getB());
+            pointBarStack.pushInVisual(newRec);
         }
     }
 
