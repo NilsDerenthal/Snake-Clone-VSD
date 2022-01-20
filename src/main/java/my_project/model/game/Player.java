@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class Player extends Entity {
 
+    private int points;
+
     private static class BodyPart extends Entity implements VisualQueue.Animatable {
 
         private boolean head;
@@ -92,6 +94,8 @@ public class Player extends Entity {
 
         body.enqueue(firstPart);
         body.getFront().setHead(true);
+
+        this.points = points;
     }
 
     public boolean movePlayer(double moveX, double moveY) {
@@ -143,6 +147,14 @@ public class Player extends Entity {
     public void setShielded(boolean shielded) {
         this.shielded = shielded;
         body.getFront().setShield(shielded);
+    }
+
+    public int getPoints(){
+        return points;
+    }
+
+    public void setPoints(int points){
+        this.points = points;
     }
 
     public void setInvertedControls(boolean invertedControls) {

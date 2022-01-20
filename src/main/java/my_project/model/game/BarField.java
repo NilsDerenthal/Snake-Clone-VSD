@@ -9,12 +9,12 @@ public class BarField extends GraphicalObject {
     private ViewController viewController;
 
     public BarField(ViewController viewController) {
-        this.x = 19;
-        this.y = 99;
+        this.x = 450;
+        this.y = 600;
         this.width = 201;
         this.height = 21;
         this.viewController = viewController;
-        viewController.draw(this);
+        viewController.draw(this,1);
     }
 
     public void draw(DrawTool drawTool){
