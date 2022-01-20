@@ -2,6 +2,7 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
+import my_project.Config;
 import my_project.model.game.PointBar;
 import my_project.model.visual_ds.*;
 import my_project.model.game.GameField;
@@ -70,8 +71,11 @@ public class ProgramController {
         new MenuInputManager(this,viewController);
         new GameInputManager(this, viewController);
         menu = new Menu(viewController, this);
-        gameField = new GameField(viewController, 10, 10, 10, 10);
-        player = new Player(viewController, 200, 200);
+    }
+
+    public void startNewGame(){
+        gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
+        player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
         pointQueue = new PointQueue(viewController, 600, 600);
         pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
@@ -93,6 +97,7 @@ public class ProgramController {
         for (var item : items) {
             spawnable.append(item);
         }
+        showScene(SceneConfig.GAME_SCENE);
     }
 
     public void spawnRandomItem(){
@@ -124,8 +129,8 @@ public class ProgramController {
     }
 
     public void doPlayerAction(int key){
-        if(!player.isStunned()) {
-            int effectiveKey = key;
+        int effectiveKey = key;
+        if(player!=null&&!player.isStunned()) {
             if (player.isInvertedControls()) {
                 effectiveKey = switch (key) {
                     case KeyEvent.VK_W -> KeyEvent.VK_S;
@@ -135,7 +140,6 @@ public class ProgramController {
                     default -> key;
                 };
             }
-
             // normal
             switch (effectiveKey) {
                 case KeyEvent.VK_W -> {
@@ -165,18 +169,21 @@ public class ProgramController {
                 player.setStunned(false);
             }
         }
+        if(effectiveKey==KeyEvent.VK_ESCAPE)viewController.showScene(SceneConfig.MENU_SCENE);
 
-        // check items
-        spawned.toFirst();
-        while (spawned.hasAccess()) {
-            var item = spawned.getContent();
-            if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
-                item.effect();
-                gameField.set(null, item.getPosX(), item.getPosY());
-                spawned.remove();
-                spawnable.append(item);
+        if(spawned!=null&&!spawned.isEmpty()) {
+            // check items
+            spawned.toFirst();
+            while (spawned.hasAccess()) {
+                var item = spawned.getContent();
+                if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
+                    item.effect();
+                    gameField.set(null, item.getPosX(), item.getPosY());
+                    spawned.remove();
+                    spawnable.append(item);
+                }
+                spawned.next();
             }
-            spawned.next();
         }
 
     }
