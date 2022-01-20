@@ -2,6 +2,8 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
+import my_project.model.game.PointBar;
+import my_project.model.visual_ds.*;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
@@ -10,7 +12,6 @@ import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
@@ -20,6 +21,10 @@ import java.util.Random;
  */
 public class ProgramController {
 
+    //Attribute
+
+
+    // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
     private Menu menu;
@@ -34,6 +39,10 @@ public class ProgramController {
     private int playerPosX;
     private int playerPosY;
 
+    private VisualStack<PointBar> pointBarStack;
+    private BarField field;
+    private PointBar pointBarOrig;
+
     private GameItem[] items;
 
     /**
@@ -45,6 +54,8 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
+        pointBarStack = new VisualStack<>(viewController);
+        pointBarOrig = new PointBar(20,255,0,0);
     }
 
     /**
@@ -62,7 +73,7 @@ public class ProgramController {
         gameField = new GameField(viewController, 10, 10, 10, 10);
         player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController, 600, 600);
-        pointQueue.spawnRandomPoint();
+        pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
 
@@ -147,7 +158,7 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
+                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint(100,100);
             }
         } else {
             if(((Stun) items[2]).increaseStunRemoval()) {
@@ -177,6 +188,26 @@ public class ProgramController {
             case KeyEvent.VK_A -> menu.left();
             case KeyEvent.VK_D -> menu.right();
             case KeyEvent.VK_SPACE -> menu.clickOn();
+        }
+    }
+
+    public void addPoints(){
+        if(pointBarStack.getCounter() == 11){
+            pointBarStack.setCounter(1);
+            pointBarOrig.setR((int) (Math.random()*255));
+            pointBarOrig.setG((int) (Math.random()*255));
+            pointBarOrig.setB((int) (Math.random()*255));
+            PointBar newRec = new PointBar(20,255,0,0);
+            newRec.setR(pointBarOrig.getR());
+            newRec.setG(pointBarOrig.getG());
+            newRec.setB(pointBarOrig.getB());
+            pointBarStack.pushInVisual(newRec);
+        }else{
+            PointBar newRec = new PointBar(20,255,0,0);
+            newRec.setR(pointBarOrig.getR());
+            newRec.setG(pointBarOrig.getG());
+            newRec.setB(pointBarOrig.getB());
+            pointBarStack.pushInVisual(newRec);
         }
     }
 
