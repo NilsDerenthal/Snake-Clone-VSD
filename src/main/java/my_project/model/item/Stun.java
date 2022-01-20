@@ -22,6 +22,7 @@ public class Stun extends GameItem {
         if(player.isShielded()){
             player.setShielded(false);
         }else{
+            player.setStunned(true);
             counter = 0;
             active = true;
         }
