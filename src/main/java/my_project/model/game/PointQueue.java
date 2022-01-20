@@ -47,7 +47,7 @@ public class PointQueue extends Entity {
             return posY;
         }
 
-        //VisualQueue Zeugs
+        //VisualQueue Zeugs.
 
         @Override
         public void setTx(double tx) {
