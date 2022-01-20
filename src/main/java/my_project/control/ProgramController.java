@@ -2,8 +2,10 @@ package my_project.control;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
+import KAGO_framework.model.abitur.datenstrukturen.Queue;
 import my_project.Config;
 import my_project.model.game.PointBar;
+import my_project.model.item.Point;
 import my_project.model.visual_ds.*;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
@@ -31,8 +33,7 @@ public class ProgramController {
     private Player player;
     private Menu menu;
     private GameField gameField;
-    private PointQueue pointQueue;
-    private PointDummy pointDummy;
+    private Queue<Point> pointQueue;
 
     private double timer;
     private boolean spawn;
@@ -76,8 +77,6 @@ public class ProgramController {
     public void startNewGame(){
         gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
         player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
-        pointQueue = new PointQueue(viewController, 600, 600);
-        pointDummy = new PointDummy();
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
@@ -85,7 +84,7 @@ public class ProgramController {
 
         spawnable = new List<>();
         spawned = new List<>();
-
+        pointQueue = new Queue<>();
         // add items to list
 
         items = new GameItem[]{
@@ -135,8 +134,9 @@ public class ProgramController {
             x = rand.nextInt(10);
             y = rand.nextInt(10);
         }
-        pointQueue.spawnRandomPoint(x,y);
-        gameField.set(pointDummy,x,y);
+        Point p = new Point(x,y);
+        pointQueue.enqueue(p);
+        gameField.set(p, x, y);
     }
 
     public void doPlayerAction(int key){
@@ -196,9 +196,11 @@ public class ProgramController {
                 spawned.next();
             }
             //check point
-            if(pointQueue.pickPointUP(playerPosX,playerPosY)){
-                gameField.set(null, playerPosX,playerPosY);
-                addPoints();
+            if(!pointQueue.isEmpty()) {
+                if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
+                    gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
+                    pointQueue.dequeue();
+                }
             }
         }
 
