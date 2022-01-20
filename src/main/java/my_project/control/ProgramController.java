@@ -19,10 +19,6 @@ import java.util.Random;
  */
 public class ProgramController {
 
-    //Attribute
-
-
-    // Referenzen
     private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
     private Player player;
     private Menu menu;
@@ -30,6 +26,8 @@ public class ProgramController {
     private PointQueue pointQueue;
 
 
+    private double timer;
+    private boolean spawn;
     private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
@@ -143,7 +141,6 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_G -> spawnRandomItem();
                 case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
             }
         }
@@ -175,6 +172,10 @@ public class ProgramController {
 
     public void showScene(int scene) {
         viewController.showScene(scene);
+
+        if (scene == SceneConfig.GAME_SCENE) {
+            spawn = true;
+        }
     }
 
     /**
@@ -182,10 +183,21 @@ public class ProgramController {
      * @param dt Zeit seit letzter Frame
      */
     public void updateProgram(double dt){
+        if (spawn) {
+            timer += dt;
 
+            // every 5 seconds
+            if (timer > 5) {
+                timer = 0;
+                if (!spawnable.isEmpty())
+                    spawnRandomItem();
+            }
+        }
     }
 
-    public Player getPlayer(){ return player; }
+    public Player getPlayer(){
+        return player;
+    }
 
     public ViewController getViewController(){ return viewController; }
 }
