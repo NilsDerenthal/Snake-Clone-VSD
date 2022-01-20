@@ -12,10 +12,13 @@ public class PointQueue extends Entity {
     private class Point extends Entity implements VisualQueue.Animatable{
 
         private String typ;
+        private int posX, posY;
 
-        public Point(String typ) {
+        public Point(String typ, int posX, int posY) {
             super(Integer.MAX_VALUE);
 
+            this.posX = posX;
+            this.posY = posY;
             this.typ = typ;
             radius = 20;
         }
@@ -35,6 +38,16 @@ public class PointQueue extends Entity {
         public String getTyp() {
             return typ;
         }
+
+        public int getPosX() {
+            return posX;
+        }
+
+        public int getPosY() {
+            return posY;
+        }
+
+        //VisualQueue Zeugs
 
         @Override
         public void setTx(double tx) {
@@ -93,31 +106,43 @@ public class PointQueue extends Entity {
         return pointQueue.getFront().getTyp();
     }
 
-    public void spawnRandomPoint(){
+    public void spawnRandomPoint(int x,int y){
 
         int r = (int) (Math.random()*4)+1;
         switch (r){
             case 1 -> {
-                Point point = new Point("typ 1");
+                Point point = new Point("typ 1", x, y);
                 pointQueue.enqueue(point);
                 pointQueueLength++;
             }
             case 2 -> {
-                Point point = new Point("typ 2");
+                Point point = new Point("typ 2", x, y);
                 pointQueue.enqueue(point);
                 pointQueueLength++;
             }
             case  3 -> {
-                Point point = new Point("typ 3");
+                Point point = new Point("typ 3", x, y);
                 pointQueue.enqueue(point);
                 pointQueueLength++;
             }
             case 4 -> {
-                Point point = new Point("typ 4");
+                Point point = new Point("typ 4", x, y);
                 pointQueue.enqueue(point);
                 pointQueueLength++;
             }
         }
+    }
+
+    public boolean pickPointUP(int x, int y){
+        if(front().getPosX() == x && front().getPosY() == y){
+            removeFront();
+            return true;
+        }
+        return false;
+    }
+
+    public Point front(){
+        return  pointQueue.getFront();
     }
 
     public void removeFront(){
