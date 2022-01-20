@@ -5,7 +5,7 @@ import KAGO_framework.model.abitur.datenstrukturen.List;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
 import my_project.Config;
 import my_project.model.game.PointBar;
-import my_project.model.item.Point;
+import my_project.model.game.Point;
 import my_project.model.visual_ds.*;
 import my_project.model.game.GameField;
 import my_project.model.game.*;
@@ -78,6 +78,9 @@ public class ProgramController {
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         pointsToSpawn = 3;
+        field = new BarField(viewController);
+        pointBarStack = new VisualStack<>(viewController);
+        pointBarOrig = new PointBar(20,255,0,0);
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
         BarField field = new BarField(viewController);
 
@@ -200,6 +203,7 @@ public class ProgramController {
                     gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
                     pointQueue.dequeue();
                     spawnPoint();
+                    addPoints();
                 }
             }
         }

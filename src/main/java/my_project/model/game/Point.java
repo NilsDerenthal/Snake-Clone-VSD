@@ -1,4 +1,4 @@
-package my_project.model.item;
+package my_project.model.game;
 
 import KAGO_framework.view.DrawTool;
 import my_project.model.game.Entity;
