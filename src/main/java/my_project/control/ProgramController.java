@@ -52,7 +52,6 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.createScene();
-        // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
