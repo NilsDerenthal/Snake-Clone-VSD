@@ -79,7 +79,7 @@ public class ProgramController {
         pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
-
+        new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
         BarField field = new BarField(viewController);
 
         spawnable = new List<>();
