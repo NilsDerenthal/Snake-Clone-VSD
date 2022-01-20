@@ -20,7 +20,6 @@ public class PointQueue extends Entity {
             this.posX = posX;
             this.posY = posY;
             this.typ = typ;
-            radius = 20;
         }
 
         @Override
@@ -32,7 +31,7 @@ public class PointQueue extends Entity {
                 case "typ 4" -> drawTool.setCurrentColor(Color.yellow);
                 default -> drawTool.setCurrentColor(Color.black);
             }
-            drawTool.drawFilledCircle(x, y, radius);
+            drawTool.drawFilledRectangle(x, y, width,height);
         }
 
         public String getTyp() {

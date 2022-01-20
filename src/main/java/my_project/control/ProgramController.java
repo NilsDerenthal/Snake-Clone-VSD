@@ -14,6 +14,7 @@ import my_project.view.MenuInputManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -39,6 +40,7 @@ public class ProgramController {
     private int playerPosX;
     private int playerPosY;
 
+    private Random rand;
     private VisualStack<PointBar> pointBarStack;
     private BarField field;
     private PointBar pointBarOrig;
@@ -54,8 +56,7 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        pointBarStack = new VisualStack<>(viewController);
-        pointBarOrig = new PointBar(20,255,0,0);
+        rand = new Random();
     }
 
     /**
@@ -64,7 +65,6 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.createScene();
-        // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
@@ -76,7 +76,6 @@ public class ProgramController {
         gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
         player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
         pointQueue = new PointQueue(viewController, 600, 600);
-        pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,40);
@@ -102,7 +101,6 @@ public class ProgramController {
     }
 
     public void spawnRandomItem(){
-        Random rand = new Random();
         int index = rand.nextInt(5);
 
         spawnable.toFirst();
@@ -119,14 +117,25 @@ public class ProgramController {
         if (toSpawn != null) {
             int x = -1, y = -1;
             while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
-                x = rand.nextInt(10);
-                y = rand.nextInt(10);
+                    x = rand.nextInt(10);
+                    y = rand.nextInt(10);
             }
 
             gameField.set(toSpawn, x, y);
             toSpawn.setPosX(x);
             toSpawn.setPosY(y);
         }
+    }
+
+    public void spawnRandomPoint(){
+        int x = -1, y = -1;
+        while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+            x = rand.nextInt(10);
+            y = rand.nextInt(10);
+        }
+        pointQueue.spawnRandomPoint(x,y);
+        PointDummy pointDummy = new PointDummy();
+        gameField.set(pointDummy,x,y);
     }
 
     public void doPlayerAction(int key){
@@ -163,7 +172,7 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint(100,100);
+                case KeyEvent.VK_H -> spawnRandomPoint();
             }
         } else {
             if(((Stun) items[2]).increaseStunRemoval()) {
@@ -184,6 +193,10 @@ public class ProgramController {
                     spawnable.append(item);
                 }
                 spawned.next();
+            }
+            //check point
+            if(pointQueue.pickPointUP(playerPosX,playerPosY)){
+                gameField.set(null, playerPosX,playerPosY);
             }
         }
 
