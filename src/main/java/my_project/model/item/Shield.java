@@ -14,7 +14,6 @@ public class Shield extends GameItem {
     public void effect() {
         if(!player.isShielded()) {
             player.setShielded(true);
-            spawned = false;
         }
     }
 }

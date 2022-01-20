@@ -10,6 +10,7 @@ import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
@@ -32,6 +33,8 @@ public class ProgramController {
 
     private int playerPosX;
     private int playerPosY;
+
+    private GameItem[] items;
 
     /**
      * Konstruktor
@@ -67,13 +70,16 @@ public class ProgramController {
         spawned = new List<>();
 
         // add items to list
-        for (var item : new GameItem[]{
+
+        items = new GameItem[]{
                 new Shield(player, Color.BLUE),
                 new InvertControlsItem(player, Color.BLACK),
-                new Stun(player, Color.WHITE),
+                new Stun(player, Color.PINK),
                 new AddBodypartItem(player, Color.CYAN),
                 new DeleteBodypartItem(player, Color.RED)
-        }) {
+        };
+
+        for (var item : items) {
             spawnable.append(item);
         }
     }
@@ -142,6 +148,10 @@ public class ProgramController {
                     }
                 }
                 case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
+            }
+        } else {
+            if(((Stun) items[2]).increaseStunRemoval()) {
+                player.setStunned(false);
             }
         }
 
