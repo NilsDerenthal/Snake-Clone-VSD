@@ -95,13 +95,12 @@ public class Player extends Entity {
     }
 
     public boolean movePlayer(double moveX, double moveY) {
-            if (moveX != 0 || moveY != 0) {
-                if (body.isPlaceFree(moveX, moveY)) {
-                    body.moveQueue(moveX, moveY);
-                    return true;
-                }
+        if (moveX != 0 || moveY != 0) {
+            if (body.isPlaceFree(moveX, moveY)) {
+                body.moveQueue(moveX, moveY);
+                return true;
             }
-
+        }
         return false;
     }
 

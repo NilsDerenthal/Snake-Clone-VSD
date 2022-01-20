@@ -15,7 +15,6 @@ public class DeleteBodypartItem extends GameItem {
     public void effect() {
         if (player.deletable()) {
             player.deleteBodyPart();
-            spawned = false;
         }
     }
 }

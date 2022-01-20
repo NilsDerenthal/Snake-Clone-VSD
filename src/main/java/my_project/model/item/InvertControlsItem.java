@@ -17,6 +17,5 @@ public class InvertControlsItem extends GameItem{
         } else {
             player.setInvertedControls(!player.isInvertedControls());
         }
-        spawned = false;
     }
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 
 public abstract class GameItem extends Entity {
 
-    protected boolean active, spawned;
+    protected boolean active;
     protected Player player;
     protected int posX, posY;
 
@@ -25,9 +25,6 @@ public abstract class GameItem extends Entity {
 
     public abstract void effect();
 
-    public void spawn(){
-        spawned = true;
-    }
 
     @Override
     public void draw(DrawTool drawTool) {
@@ -49,9 +46,5 @@ public abstract class GameItem extends Entity {
 
     public void setPosY(int posY) {
         this.posY = posY;
-    }
-
-    public boolean isSpawned() {
-        return spawned;
     }
 }

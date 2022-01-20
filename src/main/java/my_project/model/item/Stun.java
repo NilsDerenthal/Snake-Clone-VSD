@@ -4,7 +4,7 @@ import my_project.model.game.Player;
 
 import java.awt.*;
 
-public class Stun extends GameItem{
+public class Stun extends GameItem {
 
     public int counter;
 
@@ -25,10 +25,9 @@ public class Stun extends GameItem{
             counter = 0;
             active = true;
         }
-        spawned = false;
     }
 
-    public boolean StunCounter(){
+    public boolean increaseStunRemoval(){
         if(active){
             if(counter < 5){
                 counter++;

@@ -13,6 +13,5 @@ public class AddBodypartItem extends GameItem {
     @Override
     public void effect() {
         player.addBodyPart();
-        spawned = false;
     }
 }

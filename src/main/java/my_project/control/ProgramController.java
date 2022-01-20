@@ -31,6 +31,9 @@ public class ProgramController {
     private GameField gameField;
     private PointQueue pointQueue;
 
+
+    private double timer;
+    private boolean spawn;
     private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
@@ -39,6 +42,8 @@ public class ProgramController {
     private VisualStack<PointBar> pointBarStack;
     private BarField field;
     private PointBar pointBarOrig;
+
+    private GameItem[] items;
 
     /**
      * Konstruktor
@@ -59,6 +64,7 @@ public class ProgramController {
      */
     public void startProgram() {
         viewController.createScene();
+        // start scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
@@ -75,13 +81,16 @@ public class ProgramController {
         spawned = new List<>();
 
         // add items to list
-        for (var item : new GameItem[]{
+
+        items = new GameItem[]{
                 new Shield(player, Color.BLUE),
                 new InvertControlsItem(player, Color.BLACK),
-                new Stun(player, Color.WHITE),
+                new Stun(player, Color.PINK),
                 new AddBodypartItem(player, Color.CYAN),
                 new DeleteBodypartItem(player, Color.RED)
-        }) {
+        };
+
+        for (var item : items) {
             spawnable.append(item);
         }
     }
@@ -149,8 +158,11 @@ public class ProgramController {
                         playerPosX--;
                     }
                 }
-                case KeyEvent.VK_G -> spawnRandomItem();
                 case KeyEvent.VK_H -> pointQueue.spawnRandomPoint(100,100);
+            }
+        } else {
+            if(((Stun) items[2]).increaseStunRemoval()) {
+                player.setStunned(false);
             }
         }
 
@@ -201,6 +213,10 @@ public class ProgramController {
 
     public void showScene(int scene) {
         viewController.showScene(scene);
+
+        if (scene == SceneConfig.GAME_SCENE) {
+            spawn = true;
+        }
     }
 
     /**
@@ -208,10 +224,21 @@ public class ProgramController {
      * @param dt Zeit seit letzter Frame
      */
     public void updateProgram(double dt){
+        if (spawn) {
+            timer += dt;
 
+            // every 5 seconds
+            if (timer > 5) {
+                timer = 0;
+                if (!spawnable.isEmpty())
+                    spawnRandomItem();
+            }
+        }
     }
 
-    public Player getPlayer(){ return player; }
+    public Player getPlayer(){
+        return player;
+    }
 
     public ViewController getViewController(){ return viewController; }
 }
