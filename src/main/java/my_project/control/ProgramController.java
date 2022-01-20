@@ -67,7 +67,7 @@ public class ProgramController {
         gameField = new GameField(viewController, 10, 10, 10, 10);
         player = new Player(viewController, 200, 200);
         pointQueue = new PointQueue(viewController, 600, 600);
-        pointQueue.spawnRandomPoint();
+        pointQueue.spawnRandomPoint(100,100);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
 
@@ -150,7 +150,7 @@ public class ProgramController {
                     }
                 }
                 case KeyEvent.VK_G -> spawnRandomItem();
-                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint();
+                case KeyEvent.VK_H -> pointQueue.spawnRandomPoint(100,100);
             }
         }
 
