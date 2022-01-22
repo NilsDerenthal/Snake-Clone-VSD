@@ -78,35 +78,53 @@ public class Enemy extends Entity {
     public void update(double dt) {
         t-=dt;
         if(t<=0){
-            if(Math.random()<0.5) {
-                if (up) {
-                    yPosInGameField += 1;
-                } else {
-                    yPosInGameField -= 1;
-                }
-                if (yPosInGameField > gameFieldHeight) {
-                    yPosInGameField = gameFieldHeight;
-                } else if (yPosInGameField < 0) {
-                    yPosInGameField = 1;
-                }
-            }else {
-                if (left) {
-                    xPosIngameField += 1;
-                } else {
-                    xPosIngameField -= 1;
-                }
-                if (xPosIngameField > gameFieldHeight) {
-                    xPosIngameField = gameFieldHeight;
-                } else if (xPosIngameField < 0) {
-                    xPosIngameField = 1;
-                }
-            }
-            if(Math.random()>0.5){
-                xPosToX();
-            }else{
-                yPosToY();
-            }
+            double d=Math.random()*2-0.5;
+            while(!move(d)) d=Math.random()*2-0.5;
             t=1;
         }
+    }
+
+    private boolean move(double d){
+        boolean moved=false;
+        if(d<0){
+            if(d<-0.25){
+                changeUp();
+            }else{
+                changeLeft();
+            }
+        }
+        if(d<0.5){
+            if(up){
+                if(yPosInGameField<gameFieldHeight){
+                    yPosInGameField+=1;
+                    yPosToY();
+                    moved=true;
+                }
+            }else{
+                if(yPosInGameField>1){
+                    yPosInGameField-=1;
+                    yPosToY();
+                    moved=true;
+                }
+            }
+        }else{
+            if(left){
+                if(xPosIngameField>1){
+                    xPosIngameField-=1;
+                    xPosToX();
+                    moved=true;
+                }
+            }else{
+                if(xPosIngameField<gameFieldHeight){
+                    xPosIngameField+=1;
+                    xPosToX();
+                    moved=true;
+                }
+            }
+        }
+        if(moved){
+            System.out.println(xPosIngameField+" : "+yPosInGameField);
+        }
+        return moved;
     }
 }
