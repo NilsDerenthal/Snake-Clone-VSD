@@ -13,6 +13,7 @@ import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
+import my_project.view.ViewWindow;
 
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -57,6 +58,7 @@ public class ProgramController {
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
         rand = new Random();
+        new ViewWindow(this);
     }
 
     /**

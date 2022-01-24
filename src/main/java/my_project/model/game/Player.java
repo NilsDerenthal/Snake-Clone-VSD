@@ -8,8 +8,6 @@ import java.awt.*;
 
 public class Player extends Entity {
 
-    private int points;
-
     private static class BodyPart extends Entity implements VisualQueue.Animatable {
 
         private boolean head;
@@ -80,7 +78,8 @@ public class Player extends Entity {
         public void fadeOut(boolean fadeOut) {}
     }
 
-
+    private String name;
+    private int points;
     private final VisualQueue<BodyPart> body;
     private boolean shielded, invertedControls, stunned;
     private int length;
@@ -132,6 +131,14 @@ public class Player extends Entity {
 
     public void setColor(Color color) {
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isAlive(){
