@@ -35,9 +35,9 @@ public class Menu extends GraphicalObject {
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList(),p));
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.getPlayer().setColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);

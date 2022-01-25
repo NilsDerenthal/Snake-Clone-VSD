@@ -14,6 +14,7 @@ import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
@@ -49,6 +50,7 @@ public class ProgramController {
     private GameItem[] items;
 
     private boolean isRunning=false;
+    private Color playerColor=Color.BLACK;
 
     /**
      * Konstruktor
@@ -78,7 +80,7 @@ public class ProgramController {
 
     public void startNewGame(){
         gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
-        player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60);
+        player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,playerColor);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         pointsToSpawn = 3;
@@ -303,4 +305,6 @@ public class ProgramController {
     public void setIsRunning(boolean to){ isRunning = to; }
 
     public boolean getIsRunning(){ return isRunning; }
+
+    public void setPlayerColor(Color newColor){ playerColor=newColor; }
 }

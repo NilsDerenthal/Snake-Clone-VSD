@@ -90,7 +90,7 @@ public class Enemy extends Entity {
                 double d = Math.random() * 2 - 0.5;
                 while (!move(d)) d = Math.random() * 2 - 0.5;
                 timesMoved++;
-                if (timesMoved % 10 == 0) {
+                if (timesMoved % 5 == 0) {
                     moveToPlayer();
                 }
                 t = 1;
@@ -146,8 +146,6 @@ public class Enemy extends Entity {
         }else{
             left=false;
         }
-        move(1);
-        move(1);
         move(1);
         if(player.getY()<y){
             up=true;

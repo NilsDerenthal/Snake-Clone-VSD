@@ -12,18 +12,20 @@ public class Player extends Entity {
 
         private boolean head;
         private boolean shieldActive;
+        private Color color;
 
-        public BodyPart(double radius){
+        public BodyPart(double radius,Color color){
             super(Integer.MAX_VALUE);
 
             this.radius = radius;
             this.head = false;
             shieldActive = false;
+            this.color=color;
         }
 
         @Override
         public void draw(DrawTool drawTool) {
-            drawTool.setCurrentColor(Color.BLACK);
+            drawTool.setCurrentColor(color);
             drawTool.drawFilledCircle(x, y, radius);
             if(head) {
                 drawTool.setCurrentColor(
@@ -83,18 +85,21 @@ public class Player extends Entity {
     private final VisualQueue<BodyPart> body;
     private boolean shielded, invertedControls, stunned;
     private int length;
+    private Color color;
 
-    public Player(ViewController viewcontroller, double startX, double startY){
+    public Player(ViewController viewcontroller, double startX, double startY, Color color){
         // infinitely fast fading -> no fading
         super(Integer.MAX_VALUE);
 
         body = new VisualQueue<>(viewcontroller, startX, startY, "movable");
-        BodyPart firstPart = new BodyPart(20);
+        BodyPart firstPart = new BodyPart(20,Color.BLACK);
 
         body.enqueue(firstPart);
         body.getFront().setHead(true);
 
         this.points = points;
+        this.color=color;
+        System.out.println(color);
     }
 
     public boolean movePlayer(double moveX, double moveY) {
@@ -108,7 +113,7 @@ public class Player extends Entity {
     }
 
     public void addBodyPart(){
-        BodyPart body = new BodyPart(20);
+        BodyPart body = new BodyPart(20,color);
         this.body.enqueue(body);
         this.body.getFront().setHead(true);
         length++;
@@ -130,7 +135,7 @@ public class Player extends Entity {
     }
 
     public void setColor(Color color) {
-
+        this.color=color;
     }
 
     public String getName() {
