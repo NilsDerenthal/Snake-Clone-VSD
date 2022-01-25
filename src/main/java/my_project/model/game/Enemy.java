@@ -122,9 +122,6 @@ public class Enemy extends Entity {
                 }
             }
         }
-        if(moved){
-            System.out.println(xPosIngameField+" : "+yPosInGameField);
-        }
         return moved;
     }
 }

@@ -180,7 +180,7 @@ public class ProgramController {
                 case KeyEvent.VK_H -> spawnPoint();
             }
         } else {
-            if(((Stun) items[2]).increaseStunRemoval()) {
+            if(items!=null&&((Stun) items[2]).increaseStunRemoval()) {
                 player.setStunned(false);
             }
         }
@@ -261,7 +261,7 @@ public class ProgramController {
             // every 5 seconds
             if (timer > 5) {
                 timer = 0;
-                if (!spawnable.isEmpty())
+                if (spawnable!=null&&!spawnable.isEmpty())
                     spawnRandomItem();
             }
             if(gameTimer > 0.5 && pointsSpawned < pointsToSpawn){
