@@ -296,9 +296,9 @@ public class ProgramController {
             if(gameTimer > 3){
                 gameStart = true;
             }
-            if(player.gotHit(enemy.getX(),enemy.getY())){
+           /* if(player.gotHit(enemy.getX(),enemy.getY())){
                 doPlayerAction(KeyEvent.VK_ESCAPE);
-            }
+            } */
         }
     }
 
