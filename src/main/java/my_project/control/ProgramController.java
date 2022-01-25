@@ -35,7 +35,7 @@ public class ProgramController {
     private Queue<Point> pointQueue;
 
     private double timer, gameTimer, pointsToSpawn, pointsSpawned;
-    private boolean spawn;
+    private boolean spawn, gameStart;
     private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
@@ -80,12 +80,13 @@ public class ProgramController {
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         pointsToSpawn = 3;
+        gameTimer = pointsSpawned = 0;
         field = new BarField(viewController);
         pointBarStack = new VisualStack<>(viewController);
         pointBarOrig = new PointBar(20,255,0,0);
         new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40);
         BarField field = new BarField(viewController);
-
+        gameStart = false;
         spawnable = new List<>();
         spawned = new List<>();
         pointQueue = new Queue<>();
@@ -144,68 +145,72 @@ public class ProgramController {
     }
 
     public void doPlayerAction(int key){
-        int effectiveKey = key;
-        if(player!=null&&!player.isStunned()) {
-            if (player.isInvertedControls()) {
-                effectiveKey = switch (key) {
-                    case KeyEvent.VK_W -> KeyEvent.VK_S;
-                    case KeyEvent.VK_S -> KeyEvent.VK_W;
-                    case KeyEvent.VK_D -> KeyEvent.VK_A;
-                    case KeyEvent.VK_A -> KeyEvent.VK_D;
-                    default -> key;
-                };
+        if(gameStart) {
+            int effectiveKey = key;
+            if (player != null && !player.isStunned()) {
+                if (player.isInvertedControls()) {
+                    effectiveKey = switch (key) {
+                        case KeyEvent.VK_W -> KeyEvent.VK_S;
+                        case KeyEvent.VK_S -> KeyEvent.VK_W;
+                        case KeyEvent.VK_D -> KeyEvent.VK_A;
+                        case KeyEvent.VK_A -> KeyEvent.VK_D;
+                        default -> key;
+                    };
+                }
+                // normal
+                switch (effectiveKey) {
+                    case KeyEvent.VK_W -> {
+                        if (playerPosY > 0 && player.movePlayer(0, -40)) {
+                            playerPosY--;
+                        }
+                    }
+                    case KeyEvent.VK_S -> {
+                        if (playerPosY < 9 && player.movePlayer(0, 40)) {
+                            playerPosY++;
+                        }
+                    }
+                    case KeyEvent.VK_D -> {
+                        if (playerPosX < 9 && player.movePlayer(40, 0)) {
+                            playerPosX++;
+                        }
+                    }
+                    case KeyEvent.VK_A -> {
+                        if (playerPosX > 0 && player.movePlayer(-40, 0)) {
+                            playerPosX--;
+                        }
+                    }
+                    case KeyEvent.VK_H -> spawnPoint();
+                }
+            } else {
+                if (((Stun) items[2]).increaseStunRemoval()) {
+                    player.setStunned(false);
+                }
             }
-            // normal
-            switch (effectiveKey) {
-                case KeyEvent.VK_W -> {
-                    if (playerPosY > 0 && player.movePlayer(0, -40)) {
-                        playerPosY--;
-                    }
-                }
-                case KeyEvent.VK_S -> {
-                    if (playerPosY < 9 && player.movePlayer(0, 40)) {
-                        playerPosY++;
-                    }
-                }
-                case KeyEvent.VK_D -> {
-                    if (playerPosX < 9 && player.movePlayer(40, 0)) {
-                        playerPosX++;
-                    }
-                }
-                case KeyEvent.VK_A -> {
-                    if (playerPosX > 0 && player.movePlayer(-40, 0)) {
-                        playerPosX--;
-                    }
-                }
-                case KeyEvent.VK_H -> spawnPoint();
-            }
-        } else {
-            if(items!=null&&((Stun) items[2]).increaseStunRemoval()) {
-                player.setStunned(false);
-            }
-        }
-        if(effectiveKey==KeyEvent.VK_ESCAPE)viewController.showScene(SceneConfig.MENU_SCENE);
+            if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(SceneConfig.MENU_SCENE);
 
-        if(spawned!=null&&!spawned.isEmpty()) {
-            // check items
-            spawned.toFirst();
-            while (spawned.hasAccess()) {
-                var item = spawned.getContent();
-                if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
-                    item.effect();
-                    gameField.set(null, item.getPosX(), item.getPosY());
-                    spawned.remove();
-                    spawnable.append(item);
+            if (spawned != null && !spawned.isEmpty()) {
+                // check items
+                spawned.toFirst();
+                while (spawned.hasAccess()) {
+                    var item = spawned.getContent();
+                    if (item.getPosX() == playerPosX && item.getPosY() == playerPosY) {
+                        item.effect();
+                        gameField.set(null, item.getPosX(), item.getPosY());
+                        spawned.remove();
+                        spawnable.append(item);
+                    }
+                    spawned.next();
                 }
-                spawned.next();
-            }
-            //check point
-            if(!pointQueue.isEmpty()) {
-                if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
-                    gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
-                    pointQueue.dequeue();
-                    spawnPoint();
-                    addPoints();
+                //check point
+                if (!pointQueue.isEmpty()) {
+                    if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
+                        gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
+                        pointQueue.dequeue();
+                        spawnPoint();
+                        for (int i = 0; i < player.getLength(); i++) {
+                            addPoints();
+                        }
+                    }
                 }
             }
         }
@@ -268,6 +273,9 @@ public class ProgramController {
                 spawnPoint();
                 pointsSpawned++;
                 gameTimer = 0;
+            }
+            if(gameTimer > 3){
+                gameStart = true;
             }
         }
     }

@@ -156,6 +156,10 @@ public class Player extends Entity {
         body.getFront().setShield(shielded);
     }
 
+    public int getLength() {
+        return length;
+    }
+
     public int getPoints(){
         return points;
     }
