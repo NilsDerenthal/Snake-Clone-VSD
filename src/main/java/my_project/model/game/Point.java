@@ -4,12 +4,14 @@ import KAGO_framework.view.DrawTool;
 import my_project.model.game.Entity;
 import my_project.model.game.Player;
 
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 
 
 public class Point extends Entity {
 
     private int posX, posY;
+
         public Point(int posX, int posY) {
             super(Integer.MAX_VALUE);
             this.posX = posX;

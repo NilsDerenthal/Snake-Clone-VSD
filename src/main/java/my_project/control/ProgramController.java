@@ -14,6 +14,7 @@ import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
+import my_project.view.ViewWindow;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -49,6 +50,8 @@ public class ProgramController {
     private Enemy enemy;
 
     private GameItem[] items;
+
+    private ViewWindow viewWindow;
 
     private boolean isRunning=false;
     private Color playerColor=Color.BLACK;
@@ -258,12 +261,14 @@ public class ProgramController {
                 newRec.setG(pointBarOrig.getG());
                 newRec.setB(pointBarOrig.getB());
                 pointBarStack.pushInVisual(newRec);
+                field.increasePoints();
             } else {
                 PointBar newRec = new PointBar(20, 255, 0, 0);
                 newRec.setR(pointBarOrig.getR());
                 newRec.setG(pointBarOrig.getG());
                 newRec.setB(pointBarOrig.getB());
                 pointBarStack.pushInVisual(newRec);
+                field.increasePoints();
             }
         }
     }

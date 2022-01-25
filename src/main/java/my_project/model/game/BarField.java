@@ -24,14 +24,10 @@ public class BarField extends GraphicalObject {
         drawTool.setCurrentColor(0,0,0,255);
         drawTool.drawRectangle(x,y,width,height);
         drawTool.setCurrentColor(ColorUIResource.BLACK);
-        drawTool.drawText(700,610,"Points: "+ getPoints());
+        drawTool.drawText(750,610,"Points: "+ points);
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
+    public void increasePoints() {
+        points++;
     }
 }
