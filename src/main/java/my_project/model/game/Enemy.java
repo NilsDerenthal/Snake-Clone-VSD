@@ -2,6 +2,7 @@ package my_project.model.game;
 
 import KAGO_framework.control.ViewController;
 import KAGO_framework.view.DrawTool;
+import my_project.control.ProgramController;
 import my_project.control.SceneConfig;
 
 import java.awt.*;
@@ -17,8 +18,11 @@ public class Enemy extends Entity {
     private int gameFieldYPos;
     private int cellHeight;
     private double t=1;
+    private int timesMoved=0;
+    private final Player player;
+    private final ProgramController programController;
 
-    public Enemy(ViewController viewController,int xPosInGameField,int yPosInGameField,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight) {
+    public Enemy(ViewController viewController,int xPosInGameField,int yPosInGameField,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
         this.cellHeight=cellHeight;
         this.gameFieldHeight=gameFieldHeight;
@@ -26,13 +30,15 @@ public class Enemy extends Entity {
         this.gameFieldYPos=gameFieldYPos;
         this.xPosIngameField=xPosInGameField;
         this.yPosInGameField=yPosInGameField;
+        this.programController=programController;
+        this.player= programController.getPlayer();
         changeUpLeft();
         viewController.draw(this, SceneConfig.GAME_SCENE);
         xPosToX();
         yPosToY();
     }
 
-    public Enemy(ViewController viewController,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight) {
+    public Enemy(ViewController viewController,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
         xPosIngameField=1;
         yPosInGameField=1;
@@ -40,6 +46,8 @@ public class Enemy extends Entity {
         this.gameFieldHeight=gameFieldHeight;
         this.gameFieldXPos=gameFieldXPos;
         this.gameFieldYPos=gameFieldYPos;
+        this.programController=programController;
+        this.player= programController.getPlayer();
         changeUpLeft();
         viewController.draw(this, SceneConfig.GAME_SCENE);
         xPosToX();
@@ -76,11 +84,17 @@ public class Enemy extends Entity {
 
     @Override
     public void update(double dt) {
-        t-=dt;
-        if(t<=0){
-            double d=Math.random()*2-0.5;
-            while(!move(d)) d=Math.random()*2-0.5;
-            t=1;
+        if(programController.getIsRunning()) {
+            t -= dt;
+            if (t <= 0) {
+                double d = Math.random() * 2 - 0.5;
+                while (!move(d)) d = Math.random() * 2 - 0.5;
+                timesMoved++;
+                if (timesMoved % 10 == 0) {
+                    moveToPlayer();
+                }
+                t = 1;
+            }
         }
     }
 
@@ -123,5 +137,22 @@ public class Enemy extends Entity {
             }
         }
         return moved;
+    }
+
+    private void moveToPlayer(){
+        if(player.getX()<x){
+            left=true;
+            move(1);
+        }else{
+            left=false;
+        }
+        move(1);
+        move(1);
+        move(1);
+        if(player.getY()<y){
+            up=true;
+        }else{
+            up=false;
+        }
     }
 }

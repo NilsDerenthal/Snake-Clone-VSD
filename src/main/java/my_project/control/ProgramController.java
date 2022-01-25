@@ -13,7 +13,6 @@ import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
-import my_project.view.ViewWindow;
 
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -45,8 +44,11 @@ public class ProgramController {
     private VisualStack<PointBar> pointBarStack;
     private BarField field;
     private PointBar pointBarOrig;
+    private Enemy enemy;
 
     private GameItem[] items;
+
+    private boolean isRunning=false;
 
     /**
      * Konstruktor
@@ -84,7 +86,7 @@ public class ProgramController {
         field = new BarField(viewController);
         pointBarStack = new VisualStack<>(viewController);
         pointBarOrig = new PointBar(20,255,0,0);
-        new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40);
+        enemy = new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40,this);
         BarField field = new BarField(viewController);
         gameStart = false;
         spawnable = new List<>();
@@ -103,49 +105,55 @@ public class ProgramController {
         for (var item : items) {
             spawnable.append(item);
         }
+
+        isRunning=true;
         showScene(SceneConfig.GAME_SCENE);
     }
 
     public void spawnRandomItem(){
-        int index = rand.nextInt(5);
+        if(isRunning) {
+            int index = rand.nextInt(5);
 
-        spawnable.toFirst();
-        for (int i = 0; i < index; i++) {
-            spawnable.next();
-            if (!spawnable.hasAccess())
-                spawnable.toFirst();
-        }
-
-        GameItem toSpawn = spawnable.getContent();
-        spawnable.remove();
-        spawned.append(toSpawn);
-
-        if (toSpawn != null) {
-            int x = -1, y = -1;
-            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
-                    x = rand.nextInt(10);
-                    y = rand.nextInt(10);
+            spawnable.toFirst();
+            for (int i = 0; i < index; i++) {
+                spawnable.next();
+                if (!spawnable.hasAccess())
+                    spawnable.toFirst();
             }
 
-            gameField.set(toSpawn, x, y);
-            toSpawn.setPosX(x);
-            toSpawn.setPosY(y);
+            GameItem toSpawn = spawnable.getContent();
+            spawnable.remove();
+            spawned.append(toSpawn);
+
+            if (toSpawn != null) {
+                int x = -1, y = -1;
+                while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+                    x = rand.nextInt(10);
+                    y = rand.nextInt(10);
+                }
+
+                gameField.set(toSpawn, x, y);
+                toSpawn.setPosX(x);
+                toSpawn.setPosY(y);
+            }
         }
     }
 
     public void spawnPoint(){
-        int x = -1, y = -1;
-        while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
-            x = rand.nextInt(10);
-            y = rand.nextInt(10);
+        if(isRunning) {
+            int x = -1, y = -1;
+            while (!gameField.isValidIndex(x, y) || gameField.get(x, y) != null) {
+                x = rand.nextInt(10);
+                y = rand.nextInt(10);
+            }
+            Point p = new Point(x, y);
+            pointQueue.enqueue(p);
+            gameField.set(p, x, y);
         }
-        Point p = new Point(x,y);
-        pointQueue.enqueue(p);
-        gameField.set(p, x, y);
     }
 
     public void doPlayerAction(int key){
-        if(gameStart) {
+        if(gameStart&&isRunning) {
             int effectiveKey = key;
             if (player != null && !player.isStunned()) {
                 if (player.isInvertedControls()) {
@@ -182,7 +190,7 @@ public class ProgramController {
                     case KeyEvent.VK_H -> spawnPoint();
                 }
             } else {
-                if (((Stun) items[2]).increaseStunRemoval()) {
+                if (items!=null&&((Stun) items[2]).increaseStunRemoval()) {
                     player.setStunned(false);
                 }
             }
@@ -224,26 +232,32 @@ public class ProgramController {
             case KeyEvent.VK_A -> menu.left();
             case KeyEvent.VK_D -> menu.right();
             case KeyEvent.VK_SPACE -> menu.clickOn();
+            case KeyEvent.VK_ESCAPE -> {
+                viewController.showScene(SceneConfig.MENU_SCENE);
+                isRunning=false;
+            }
         }
     }
 
     public void addPoints(){
-        if(pointBarStack.getCounter() == 11){
-            pointBarStack.setCounter(1);
-            pointBarOrig.setR((int) (Math.random()*255));
-            pointBarOrig.setG((int) (Math.random()*255));
-            pointBarOrig.setB((int) (Math.random()*255));
-            PointBar newRec = new PointBar(20,255,0,0);
-            newRec.setR(pointBarOrig.getR());
-            newRec.setG(pointBarOrig.getG());
-            newRec.setB(pointBarOrig.getB());
-            pointBarStack.pushInVisual(newRec);
-        }else{
-            PointBar newRec = new PointBar(20,255,0,0);
-            newRec.setR(pointBarOrig.getR());
-            newRec.setG(pointBarOrig.getG());
-            newRec.setB(pointBarOrig.getB());
-            pointBarStack.pushInVisual(newRec);
+        if(isRunning) {
+            if (pointBarStack.getCounter() == 11) {
+                pointBarStack.setCounter(1);
+                pointBarOrig.setR((int) (Math.random() * 255));
+                pointBarOrig.setG((int) (Math.random() * 255));
+                pointBarOrig.setB((int) (Math.random() * 255));
+                PointBar newRec = new PointBar(20, 255, 0, 0);
+                newRec.setR(pointBarOrig.getR());
+                newRec.setG(pointBarOrig.getG());
+                newRec.setB(pointBarOrig.getB());
+                pointBarStack.pushInVisual(newRec);
+            } else {
+                PointBar newRec = new PointBar(20, 255, 0, 0);
+                newRec.setR(pointBarOrig.getR());
+                newRec.setG(pointBarOrig.getG());
+                newRec.setB(pointBarOrig.getB());
+                pointBarStack.pushInVisual(newRec);
+            }
         }
     }
 
@@ -285,4 +299,8 @@ public class ProgramController {
     }
 
     public ViewController getViewController(){ return viewController; }
+
+    public void setIsRunning(boolean to){ isRunning = to; }
+
+    public boolean getIsRunning(){ return isRunning; }
 }

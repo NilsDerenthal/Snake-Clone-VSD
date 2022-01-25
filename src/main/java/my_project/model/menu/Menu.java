@@ -28,7 +28,10 @@ public class Menu extends GraphicalObject {
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
         leftList.getCurrent().append(new MenuUnderPoint(30, 100, p::startNewGame,Color.GREEN,"beginnen",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.showScene(SceneConfig.GAME_SCENE),Color.YELLOW,"Spiel fortsetzen",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> {
+            p.showScene(SceneConfig.GAME_SCENE);
+            p.setIsRunning(true);
+        },Color.YELLOW,"Spiel fortsetzen",leftList.getCurrent().getList(),p));
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList(),p));
         leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
