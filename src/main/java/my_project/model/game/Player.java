@@ -25,13 +25,16 @@ public class Player extends Entity {
 
         @Override
         public void draw(DrawTool drawTool) {
-            drawTool.setCurrentColor(color);
-            drawTool.drawFilledCircle(x, y, radius);
             if(head) {
+                drawTool.setCurrentColor(Color.BLACK);
+                drawTool.drawFilledCircle(x, y, radius);
                 drawTool.setCurrentColor(
                         shieldActive ? Color.GREEN : Color.RED
                 );
                 drawTool.drawCircle(x, y, radius);
+            }else{
+                drawTool.setCurrentColor(color);
+                drawTool.drawFilledCircle(x, y, radius);
             }
         }
 
@@ -92,7 +95,7 @@ public class Player extends Entity {
         super(Integer.MAX_VALUE);
 
         body = new VisualQueue<>(viewcontroller, startX, startY, "movable");
-        BodyPart firstPart = new BodyPart(20,Color.BLACK);
+        BodyPart firstPart = new BodyPart(20,color);
 
         body.enqueue(firstPart);
         body.getFront().setHead(true);
