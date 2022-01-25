@@ -38,6 +38,11 @@ public class Menu extends GraphicalObject {
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.CYAN),Color.CYAN,"Cyan",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.YELLOW),Color.YELLOW,"Yellow",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GRAY),Color.GRAY,"Gray",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.DARK_GRAY),Color.DARK_GRAY,"Dark Gray",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLACK),Color.DARK_GRAY,"Black",leftList.getCurrent().getList(),p));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);
