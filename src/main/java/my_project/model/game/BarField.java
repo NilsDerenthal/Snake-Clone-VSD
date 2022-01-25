@@ -4,9 +4,12 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 
+import javax.swing.plaf.ColorUIResource;
+
 public class BarField extends GraphicalObject {
 
     private ViewController viewController;
+    private int points;
 
     public BarField(ViewController viewController) {
         this.x = 450;
@@ -20,5 +23,15 @@ public class BarField extends GraphicalObject {
     public void draw(DrawTool drawTool){
         drawTool.setCurrentColor(0,0,0,255);
         drawTool.drawRectangle(x,y,width,height);
+        drawTool.setCurrentColor(ColorUIResource.BLACK);
+        drawTool.drawText(700,610,"Points: "+ getPoints());
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

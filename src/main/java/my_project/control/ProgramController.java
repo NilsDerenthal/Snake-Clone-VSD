@@ -1,5 +1,6 @@
 package my_project.control;
 
+import KAGO_framework.control.SoundController;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
@@ -61,8 +62,6 @@ public class ProgramController {
      */
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
-        rand = new Random();
-        // new ViewWindow(this);
     }
 
     /**
@@ -70,12 +69,16 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        rand = new Random();
         viewController.createScene();
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
         new GameInputManager(this, viewController);
         menu = new Menu(viewController, this);
+
+        viewController.getSoundController().loadSound("src/main/resources/sound/game_song.mp3","gameSound",  true);
+        viewController.getSoundController().loadSound("src/main/resources/sound/menu_song.mp3", "menuSound", true);
     }
 
     public void startNewGame(){
@@ -95,6 +98,8 @@ public class ProgramController {
         spawned = new List<>();
         pointQueue = new Queue<>();
         // add items to list
+
+        SoundController.playSound("game_sound");
 
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
@@ -293,6 +298,9 @@ public class ProgramController {
             if(gameTimer > 3){
                 gameStart = true;
             }
+           /* if(player.gotHit(enemy.getX(),enemy.getY())){
+                doPlayerAction(KeyEvent.VK_ESCAPE);
+            } */
         }
     }
 
