@@ -1,6 +1,7 @@
 package my_project.model.item;
 
 import KAGO_framework.view.DrawTool;
+import com.sun.tools.javac.Main;
 import my_project.model.game.Entity;
 import my_project.model.game.Player;
 
@@ -29,7 +30,9 @@ public abstract class GameItem extends Entity {
 
     @Override
     public void draw(DrawTool drawTool) {
-        drawTool.drawTransformedImage(img, x, y, 0, 0.2);
+        double max = Math.min(img.getHeight(), img.getWidth());
+
+        drawTool.drawTransformedImage(img, x - 30, y - 30, 0, 30 / max);
     }
 
     public int getPosX() {

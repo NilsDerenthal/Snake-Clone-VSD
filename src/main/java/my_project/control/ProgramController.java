@@ -58,7 +58,7 @@ public class ProgramController {
     public ProgramController(ViewController viewController){
         this.viewController = viewController;
         rand = new Random();
-        new ViewWindow(this);
+        // new ViewWindow(this);
     }
 
     /**
