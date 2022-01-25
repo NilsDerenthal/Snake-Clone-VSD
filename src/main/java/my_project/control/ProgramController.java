@@ -286,7 +286,7 @@ public class ProgramController {
      * @param dt Zeit seit letzter Frame
      */
     public void updateProgram(double dt){
-        if (spawn) {
+        if (isRunning) {
             timer += dt;
             gameTimer += dt;
             // every 5 seconds
@@ -303,9 +303,9 @@ public class ProgramController {
             if(gameTimer > 3){
                 gameStart = true;
             }
-           /* if(player.gotHit(enemy.getX(),enemy.getY())){
-                doPlayerAction(KeyEvent.VK_ESCAPE);
-            } */
+           if(player.gotHit(enemy.getX(),enemy.getY())){
+                startNewGame();
+            }
         }
     }
 

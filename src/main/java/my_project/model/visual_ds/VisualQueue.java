@@ -273,6 +273,8 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
     }
 
     public boolean collidesWithSnake(double x, double y){
+        helpX.toFirst();
+        helpY.toFirst();
         while(helpX.hasAccess()){
             if(x == helpX.getContent() && y == helpY.getContent()){
                 return true;

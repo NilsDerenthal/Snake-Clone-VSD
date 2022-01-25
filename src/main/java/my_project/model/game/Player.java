@@ -132,6 +132,10 @@ public class Player extends Entity {
         length--;
     }
 
+    public boolean gotHit(double x, double y){
+        return body.collidesWithSnake(x,y);
+    }
+
     @Override
     public void draw(DrawTool drawTool) {
 
