@@ -94,7 +94,7 @@ public class Player extends Entity {
         body.enqueue(firstPart);
         body.getFront().setHead(true);
 
-        this.points = 0;
+        this.points = points;
     }
 
     public boolean movePlayer(double moveX, double moveY) {
@@ -124,6 +124,7 @@ public class Player extends Entity {
         length--;
     }
 
+    @Override
     public void draw(DrawTool drawTool) {
 
     }
