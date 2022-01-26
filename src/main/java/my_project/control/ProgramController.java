@@ -14,7 +14,6 @@ import my_project.model.item.*;
 import my_project.model.menu.Menu;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
-import my_project.view.ViewWindow;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -50,8 +49,6 @@ public class ProgramController {
     private Enemy enemy;
 
     private GameItem[] items;
-
-    private ViewWindow viewWindow;
 
     private boolean isRunning=false;
     private boolean dificultHard=false;
