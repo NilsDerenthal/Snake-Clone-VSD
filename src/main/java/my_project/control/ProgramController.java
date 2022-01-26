@@ -84,6 +84,7 @@ public class ProgramController {
         viewController.getSoundController().loadSound("src/main/resources/sound/game_song.mp3","game_sound",  true);
         viewController.getSoundController().loadSound("src/main/resources/sound/menu_song.mp3", "menu_sound", true);
         viewController.getSoundController().loadSound("src/main/resources/sound/game_song_alt.mp3", "game_sound_alt", true);
+        viewController.getSoundController().loadSound("src/main/resources/sound/plop.mp3","pointSpawned_sound", false);
 
         SoundController.playSound("menu_sound");
     }
@@ -168,6 +169,7 @@ public class ProgramController {
             Point p = new Point(x, y);
             pointQueue.enqueue(p);
             gameField.set(p, x, y);
+            SoundController.playSound("pointSpawned_sound");
         }
     }
 
@@ -308,15 +310,13 @@ public class ProgramController {
                 pointsSpawned++;
                 gameTimer = 0;
             }
-            if(gameTimer > 3){
+            if(gameTimer > 2){
                 gameStart = true;
             }
-
            if(player.gotHit(enemy.getX(),enemy.getY())){
                showScene(SceneConfig.DEFEAT_SCENE);
                dead = true;
            }
-
         }
     }
 
