@@ -100,13 +100,6 @@ public class Enemy extends Entity {
 
     private boolean move(double d){
         boolean moved=false;
-        if(d<0){
-            if(d<-0.25){
-                changeUp();
-            }else{
-                changeLeft();
-            }
-        }
         if(d<0.5){
             if(up){
                 if(yPosInGameField<gameFieldHeight){
@@ -136,6 +129,13 @@ public class Enemy extends Entity {
                 }
             }
         }
+        if(d%0.5==0){
+            if(d<-0.25){
+                changeUp();
+            }else{
+                changeLeft();
+            }
+        }
         return moved;
     }
 
@@ -149,19 +149,15 @@ public class Enemy extends Entity {
         if(dx>=dy){
             if(playerX>x){
                 if(xPosIngameField<gameFieldHeight) xPosIngameField+=1;
-                System.out.println("rechts");
             }else{
                 if(xPosIngameField>0) xPosIngameField-=1;
-                System.out.println("links");
             }
             xPosToX();
         }else {
             if (playerY<y) {
                 if(yPosInGameField>0) yPosInGameField-=1;
-                System.out.println("oben");
             } else {
                 if(yPosInGameField<gameFieldHeight) yPosInGameField+=1;
-                System.out.println("unten");
             }
             yPosToY();
         }

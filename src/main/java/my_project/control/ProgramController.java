@@ -124,7 +124,6 @@ public class ProgramController {
             spawnable.append(item);
         }
 
-        setDifficult(true);
         isRunning=true;
         showScene(SceneConfig.GAME_SCENE);
     }
