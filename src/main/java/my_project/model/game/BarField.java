@@ -30,4 +30,8 @@ public class BarField extends GraphicalObject {
     public void increasePoints() {
         points++;
     }
+
+    public int getPoints() {
+        return points;
+    }
 }

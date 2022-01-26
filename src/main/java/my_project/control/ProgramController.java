@@ -36,7 +36,7 @@ public class ProgramController {
     private GameField gameField;
     private Queue<Point> pointQueue;
 
-    private double timer, gameTimer, pointsToSpawn, pointsSpawned;
+    private double timer, gameTimer, deathTimer, pointsToSpawn, pointsSpawned;
     private boolean spawn, gameStart, dead;
     private List<GameItem> spawnable, spawned;
 
@@ -95,7 +95,7 @@ public class ProgramController {
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         pointsToSpawn = 3;
-        gameTimer = pointsSpawned = 0;
+        gameTimer = pointsSpawned = deathTimer = 0;
         field = new BarField(viewController);
         pointBarStack = new VisualStack<>(viewController);
         pointBarOrig = new PointBar(20,255,0,0);
@@ -311,10 +311,12 @@ public class ProgramController {
             if(gameTimer > 3){
                 gameStart = true;
             }
+
            if(player.gotHit(enemy.getX(),enemy.getY())){
-                showScene(SceneConfig.DEFEAT_SCENE);
-                dead = true;
-            }
+               showScene(SceneConfig.DEFEAT_SCENE);
+               dead = true;
+           }
+
         }
     }
 
@@ -325,6 +327,10 @@ public class ProgramController {
     public ViewController getViewController(){ return viewController; }
 
     public void setIsRunning(boolean to){ isRunning = to; }
+
+    public int getPoint(){
+        return field.getPoints();
+    }
 
     public boolean getIsRunning(){ return isRunning; }
 

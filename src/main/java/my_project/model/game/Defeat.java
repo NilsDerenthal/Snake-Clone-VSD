@@ -13,6 +13,7 @@ public class Defeat extends GraphicalObject {
 
     private ViewController viewController;
     private ProgramController programController;
+
     public Defeat(ViewController viewController, ProgramController programController){
         this.viewController = viewController;
         this.programController = programController;
@@ -23,6 +24,6 @@ public class Defeat extends GraphicalObject {
     public void draw(DrawTool drawTool) {
         drawTool.formatText("", 3, 40);
         drawTool.drawText(250,200,"YOU BE DED!");
-        drawTool.drawText(260,260,"Score: ");
+        drawTool.drawText(260,260,"Score: " + programController.getPoint());
     }
 }
