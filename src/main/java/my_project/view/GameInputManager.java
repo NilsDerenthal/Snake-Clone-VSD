@@ -3,7 +3,7 @@ import KAGO_framework.control.ViewController;
 import my_project.control.ProgramController;
 import java.awt.event.MouseEvent;
 
-import static my_project.control.SceneConfig.GAME_SCENE;
+import static my_project.control.SceneConfig.*;
 
 /**
  * Realisiert ein Objekt, dass alle Eingaben empfängt und dann danach passende Methoden
@@ -22,6 +22,7 @@ public class GameInputManager extends InteractableAdapter {
         this.programController = programController;
         this.viewController = viewController;
         viewController.register(this, GAME_SCENE);
+        viewController.register(this, DEFEAT_SCENE);
     }
 
     @Override

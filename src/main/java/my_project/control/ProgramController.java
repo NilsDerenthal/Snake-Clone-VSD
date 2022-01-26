@@ -37,7 +37,7 @@ public class ProgramController {
     private Queue<Point> pointQueue;
 
     private double timer, gameTimer, pointsToSpawn, pointsSpawned;
-    private boolean spawn, gameStart;
+    private boolean spawn, gameStart, dead;
     private List<GameItem> spawnable, spawned;
 
     private int playerPosX;
@@ -74,6 +74,7 @@ public class ProgramController {
     public void startProgram() {
         rand = new Random();
         viewController.createScene();
+        viewController.createScene();
         viewController.showScene(SceneConfig.MENU_SCENE);
 
         new MenuInputManager(this,viewController);
@@ -87,6 +88,7 @@ public class ProgramController {
     public void startNewGame(){
         gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
         player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,playerColor);
+        Defeat defeat = new Defeat(viewController,this);
         player.addBodyPart();
         playerPosY = playerPosX = 4;
         pointsToSpawn = 3;
@@ -96,7 +98,7 @@ public class ProgramController {
         pointBarOrig = new PointBar(20,255,0,0);
         enemy = new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40,this);
         BarField field = new BarField(viewController);
-        gameStart = false;
+        gameStart = dead = false;
         spawnable = new List<>();
         spawned = new List<>();
         pointQueue = new Queue<>();
@@ -163,8 +165,9 @@ public class ProgramController {
     }
 
     public void doPlayerAction(int key){
+        int effectiveKey = key;
+        if(dead) viewController.showScene(SceneConfig.MENU_SCENE); dead = false;
         if(gameStart&&isRunning) {
-            int effectiveKey = key;
             if (player != null && !player.isStunned()) {
                 if (player.isInvertedControls()) {
                     effectiveKey = switch (key) {
@@ -205,7 +208,6 @@ public class ProgramController {
                 }
             }
             if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(SceneConfig.MENU_SCENE);
-
             if (spawned != null && !spawned.isEmpty()) {
                 // check items
                 spawned.toFirst();
@@ -232,7 +234,6 @@ public class ProgramController {
                 }
             }
         }
-
     }
 
     public void doMenuAction(int key){
@@ -304,7 +305,8 @@ public class ProgramController {
                 gameStart = true;
             }
            if(player.gotHit(enemy.getX(),enemy.getY())){
-                startNewGame();
+                showScene(SceneConfig.DEFEAT_SCENE);
+                dead = true;
             }
         }
     }
