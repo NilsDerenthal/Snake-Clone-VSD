@@ -12,7 +12,7 @@ public class ViewWindow {
     public ViewWindow(ProgramController control){
         this.control = control;
         jFrame = new JFrame();
-        jFrame.setContentPane(new nameFieldGUI(control).getMainPanel());
+        jFrame.setContentPane(new NameFieldGUI(control).getMainPanel());
         jFrame.setVisible(true);
         jFrame.setSize(200,200);
     }
