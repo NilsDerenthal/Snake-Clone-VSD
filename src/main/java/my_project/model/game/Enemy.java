@@ -146,7 +146,7 @@ public class Enemy extends Entity {
         double dy=playerY-y;
         if(dx<0) dx=-dx;
         if(dy<0) dy=-dy;
-        if(dx<=dy){
+        if(dx>=dy){
             if(playerX>x){
                 if(xPosIngameField<gameFieldHeight) xPosIngameField+=1;
             }else{
