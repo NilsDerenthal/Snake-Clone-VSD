@@ -81,8 +81,11 @@ public class ProgramController {
         new GameInputManager(this, viewController);
         menu = new Menu(viewController, this);
 
-        viewController.getSoundController().loadSound("src/main/resources/sound/game_song.mp3","gameSound",  true);
-        viewController.getSoundController().loadSound("src/main/resources/sound/menu_song.mp3", "menuSound", true);
+        viewController.getSoundController().loadSound("src/main/resources/sound/game_song.mp3","game_sound",  true);
+        viewController.getSoundController().loadSound("src/main/resources/sound/menu_song.mp3", "menu_sound", true);
+        viewController.getSoundController().loadSound("src/main/resources/sound/game_song_alt.mp3", "game_sound_alt", true);
+
+        SoundController.playSound("menu_sound");
     }
 
     public void startNewGame(){
@@ -104,7 +107,10 @@ public class ProgramController {
         pointQueue = new Queue<>();
         // add items to list
 
-        SoundController.playSound("game_sound");
+        SoundController.stopSound("menu_sound");
+
+        SoundController.setVolume("game_sound_alt", 100);
+        SoundController.playSound("game_sound_alt");
 
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
