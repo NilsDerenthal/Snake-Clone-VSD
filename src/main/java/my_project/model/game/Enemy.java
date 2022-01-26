@@ -140,24 +140,28 @@ public class Enemy extends Entity {
     }
 
     private void moveToPlayer(){
-        double playerX=player.getX();
-        double playerY=player.getY();
+        double playerX=player.getHeadX();
+        double playerY=player.getHeadY();
         double dx=playerX-x;
         double dy=playerY-y;
         if(dx<0) dx=-dx;
         if(dy<0) dy=-dy;
-        if(dx>dy){
+        if(dx>=dy){
             if(playerX>x){
                 if(xPosIngameField<gameFieldHeight) xPosIngameField+=1;
+                System.out.println("rechts");
             }else{
                 if(xPosIngameField>0) xPosIngameField-=1;
+                System.out.println("links");
             }
             xPosToX();
         }else {
-            if (playerY > y) {
+            if (playerY<y) {
                 if(yPosInGameField>0) yPosInGameField-=1;
+                System.out.println("oben");
             } else {
                 if(yPosInGameField<gameFieldHeight) yPosInGameField+=1;
+                System.out.println("unten");
             }
             yPosToY();
         }

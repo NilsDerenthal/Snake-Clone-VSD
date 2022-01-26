@@ -199,4 +199,7 @@ public class Player extends Entity {
     public boolean deletable(){
         return length > 1;
     }
+
+    public double getHeadX(){ return body.getFront().getTx(); }
+    public double getHeadY(){ return body.getFront().getTy(); }
 }
