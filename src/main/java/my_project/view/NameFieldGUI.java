@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NameFieldGUI {
+public class nameFieldGUI {
 
     private JTextField textField1;
     private JButton confirmButton;
     private Player player;
     private JPanel mainPanel;
 
-    public NameFieldGUI(ProgramController controller) {
+    public nameFieldGUI(ProgramController controller) {
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
