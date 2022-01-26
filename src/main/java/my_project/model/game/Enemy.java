@@ -18,9 +18,9 @@ public class Enemy extends Entity {
     private int gameFieldYPos;
     private int cellHeight;
     private double t=1;
-    private int timesMoved=0;
     private final Player player;
     private final ProgramController programController;
+    private boolean hardDifficuld=false;
 
     public Enemy(ViewController viewController,int xPosInGameField,int yPosInGameField,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
@@ -87,11 +87,11 @@ public class Enemy extends Entity {
         if(programController.getIsRunning()) {
             t -= dt;
             if (t <= 0) {
-                double d = Math.random() * 2 - 0.5;
-                while (!move(d)) d = Math.random() * 2 - 0.5;
-                timesMoved++;
-                if (timesMoved % 5 == 0) {
+                if(hardDifficuld){
                     moveToPlayer();
+                }else {
+                    double d = Math.random() * 2 - 0.5;
+                    while (!move(d)) d = Math.random() * 2 - 0.5;
                 }
                 t = 1;
             }
@@ -140,17 +140,28 @@ public class Enemy extends Entity {
     }
 
     private void moveToPlayer(){
-        if(player.getX()<x){
-            left=true;
-            move(1);
-        }else{
-            left=false;
-        }
-        move(1);
-        if(player.getY()<y){
-            up=true;
-        }else{
-            up=false;
+        double playerX=player.getX();
+        double playerY=player.getY();
+        double dx=playerX-x;
+        double dy=playerY-y;
+        if(dx<0) dx=-dx;
+        if(dy<0) dy=-dy;
+        if(dx>dy){
+            if(playerX>x){
+                if(xPosIngameField<gameFieldHeight) xPosIngameField+=1;
+            }else{
+                if(xPosIngameField>0) xPosIngameField-=1;
+            }
+            xPosToX();
+        }else {
+            if (playerY > y) {
+                if(yPosInGameField>0) yPosInGameField-=1;
+            } else {
+                if(yPosInGameField<gameFieldHeight) yPosInGameField+=1;
+            }
+            yPosToY();
         }
     }
+
+    public void setDifficult(boolean hard){ hardDifficuld=hard; }
 }

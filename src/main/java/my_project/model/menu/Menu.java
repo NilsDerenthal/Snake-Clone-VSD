@@ -43,6 +43,10 @@ public class Menu extends GraphicalObject {
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GRAY),Color.GRAY,"Gray",leftList.getCurrent().getList(),p));
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.DARK_GRAY),Color.DARK_GRAY,"Dark Gray",leftList.getCurrent().getList(),p));
         leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLACK),Color.DARK_GRAY,"Black",leftList.getCurrent().getList(),p));
+        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"schwierigkeit"));
+        leftList.next();
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setDifficult(false),Color.YELLOW,"leicht",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setDifficult(true),Color.RED,"schwer",leftList.getCurrent().getList(),p));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);

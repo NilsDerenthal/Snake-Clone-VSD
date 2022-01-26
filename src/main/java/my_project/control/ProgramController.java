@@ -54,7 +54,7 @@ public class ProgramController {
     private ViewWindow viewWindow;
 
     private boolean isRunning=false;
-    private Color playerColor=Color.BLACK;
+    private Color playerColor=Color.BLUE;
 
     /**
      * Konstruktor
@@ -320,4 +320,6 @@ public class ProgramController {
     public boolean getIsRunning(){ return isRunning; }
 
     public void setPlayerColor(Color newColor){ playerColor=newColor; }
+
+    public void setDifficult(boolean hard){ enemy.setDifficult(hard); }
 }
