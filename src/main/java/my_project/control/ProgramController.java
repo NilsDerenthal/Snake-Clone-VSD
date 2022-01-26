@@ -101,7 +101,6 @@ public class ProgramController {
         pointBarStack = new VisualStack<>(viewController);
         pointBarOrig = new PointBar(20,255,0,0);
         enemy = new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40,this);
-        BarField field = new BarField(viewController);
         gameStart = dead = false;
         spawnable = new List<>();
         spawned = new List<>();
@@ -176,7 +175,7 @@ public class ProgramController {
     public void doPlayerAction(int key){
         int effectiveKey = key;
         if(dead) viewController.showScene(SceneConfig.MENU_SCENE); dead = false;
-        if(gameStart&&isRunning) {
+        if(isRunning) {
             if (player != null && !player.isStunned()) {
                 if (player.isInvertedControls()) {
                     effectiveKey = switch (key) {
