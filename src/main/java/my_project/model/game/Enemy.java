@@ -13,10 +13,10 @@ public class Enemy extends Entity {
     private boolean left;
     private int xPosIngameField;
     private int yPosInGameField;
-    private int gameFieldHeight;
-    private int gameFieldXPos;
-    private int gameFieldYPos;
-    private int cellHeight;
+    private final int gameFieldHeight;
+    private final int gameFieldXPos;
+    private final int gameFieldYPos;
+    private final int cellHeight;
     private double t=1;
     private final Player player;
     private final ProgramController programController;
@@ -54,16 +54,25 @@ public class Enemy extends Entity {
         yPosToY();
     }
 
+    /**
+     * ändert left und up zufällig
+     */
     private void changeUpLeft(){
         changeLeft();
         changeUp();
     }
 
+    /**
+     * ändert up zufällig
+     */
     private void changeUp(){
         double random=Math.random()*10-5;
         left=random>0;
     }
 
+    /**
+     * ändert left zufällig
+     */
     private void changeLeft(){
         double random=Math.random()*10-5;
         up=random>0;
@@ -75,9 +84,16 @@ public class Enemy extends Entity {
         d.drawFilledCircle(x,y,cellHeight/2);
     }
 
+    /**
+     * setzt den X wert entsprechend der position im Gamefield
+     */
     private void xPosToX(){
         x=xPosIngameField*cellHeight+gameFieldXPos;
     }
+
+    /**
+     * setzt den Y wert entsprechend der position im Gamefield
+     */
     private void yPosToY(){
         y=yPosInGameField*cellHeight+gameFieldYPos;
     }
@@ -93,9 +109,8 @@ public class Enemy extends Entity {
                     boolean moved=false;
                     int timesTried=0;
                     while (!moved){
-                        double d=Math.random() * 2 - 0.5;
                         timesTried++;
-                        moved = move(d);
+                        moved = move();
                         if(timesTried>10) changeUpLeft();
                     }
                 }
@@ -104,7 +119,12 @@ public class Enemy extends Entity {
         }
     }
 
-    private boolean move(double d){
+    /**
+     * bewegt den Player in eine zufällige Richtung
+     * @return ob der enemy sich bewegt hat
+     */
+    private boolean move(){
+        double d = Math.random()*2-0.5;
         boolean moved=false;
         if(d<0.5){
             if(up){
@@ -142,10 +162,12 @@ public class Enemy extends Entity {
                 changeLeft();
             }
         }
-        System.out.println(moved);
         return moved;
     }
 
+    /**
+     * enemy bewegt sich ein Feld in richtung des Players
+     */
     private void moveToPlayer(){
         double playerX=player.getHeadX();
         double playerY=player.getHeadY();
@@ -170,5 +192,8 @@ public class Enemy extends Entity {
         }
     }
 
+    /**
+     * ändert die schwierigkeit
+     */
     public void setDifficulty (boolean hard){ hardDifficuld=hard; }
 }
