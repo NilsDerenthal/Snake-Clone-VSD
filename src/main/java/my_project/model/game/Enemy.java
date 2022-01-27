@@ -91,9 +91,13 @@ public class Enemy extends Entity {
                     moveToPlayer();
                 }else {
                     boolean moved=false;
-                    while (!moved) moved = move(Math.random() * 2 - 0.5);
-
-                    System.out.println(Math.random());
+                    int timesTried=0;
+                    while (!moved){
+                        double d=Math.random() * 2 - 0.5;
+                        timesTried++;
+                        moved = move(d);
+                        if(timesTried>10) changeUpLeft();
+                    }
                 }
                 t = 1;
             }
@@ -132,12 +136,13 @@ public class Enemy extends Entity {
             }
         }
         if(d%0.5==0){
-            if(d<-0.25){
+            if(d<0.5){
                 changeUp();
             }else{
                 changeLeft();
             }
         }
+        System.out.println(moved);
         return moved;
     }
 

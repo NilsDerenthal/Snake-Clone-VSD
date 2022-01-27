@@ -17,7 +17,7 @@ public class Defeat extends GraphicalObject {
     private String[] flame;
     private String[] normal;
     private String[] praise;
-    private String chosenOne;
+    private String chosenOne="pagh";
 
     public Defeat(ViewController viewController, ProgramController programController){
         this.viewController = viewController;
@@ -30,7 +30,7 @@ public class Defeat extends GraphicalObject {
         flame[0] = "Suicide?";
         flame[1] = "BRUH! ARE YOU REALLY THAT BAD?!?";
         flame[2] = "YOU ARE BAD";
-        flame[3] = "(╯°□°）╯︵ ┻━┻";
+        flame[3] = "error: unmapple character (0x81) for encoding windows-1252";
         normal[0] = "I mean like you tried...";
         normal[1] = "YOU BE DED!";
         normal[2] = "BEGONE!";
@@ -46,9 +46,9 @@ public class Defeat extends GraphicalObject {
     @Override
     public void draw(DrawTool drawTool) {
         drawTool.formatText("", 3, 40);
-        drawTool.drawText(250,200,"YOU BE DED!");
+        //drawTool.drawText(250,200,"YOU BE DED!");
         drawTool.drawText(250,200,chosenOne);
-        drawTool.drawText(260,260,"Score: " + programController.getPoint());
+        drawTool.drawText(250,260,"Score: " + programController.getPoint());
     }
 
     public void setFlame(){
