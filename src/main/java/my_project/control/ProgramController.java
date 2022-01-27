@@ -52,6 +52,7 @@ public class ProgramController {
     private GameField gameField;
     private BarField field;
     private PointBar pointBarOrig;
+    private DefeatScreen defeat;
 
     private Random rand;
 
@@ -120,8 +121,7 @@ public class ProgramController {
         pointBarStack = new VisualStack<>(viewController);
         pointBarOrig = new PointBar(20,255,0,0);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
-
-        new Defeat(viewController,this);
+        defeat = new DefeatScreen(viewController,this);
 
         player.addBodyPart();
 
@@ -309,43 +309,62 @@ public class ProgramController {
      * Aufruf mit jeder Frame
      * @param dt Zeit seit letzter Frame
      */
-    public void updateProgram(double dt){
+    public void updateProgram(double dt) {
         if (isRunning) {
             timer += dt;
             gameTimer += dt;
             // every 5 seconds
             if (timer > 5) {
                 timer = 0;
-                if (spawnable!=null&&!spawnable.isEmpty())
+                if (spawnable != null && !spawnable.isEmpty())
                     spawnRandomItem();
             }
-            if(gameTimer > 0.5 && pointsSpawned < pointsToSpawn){
+            if (gameTimer > 0.5 && pointsSpawned < pointsToSpawn) {
                 spawnPoint();
                 pointsSpawned++;
                 gameTimer = 0;
             }
-           if(player.gotHit(enemy.getX(),enemy.getY())){
-               showScene(SceneConfig.DEFEAT_SCENE);
-               dead = true;
-           }
+            if (player.gotHit(enemy.getX(), enemy.getY())) {
+                if (player.gotHit(enemy.getX(), enemy.getY()) && !dead) {
+                    if (getPoint() < 20) {
+                        defeat.setFlame();
+                    } else if (getPoint() < 100) {
+                        defeat.setNormal();
+                    } else {
+                        defeat.setPraise();
+                    }
+                    showScene(SceneConfig.DEFEAT_SCENE);
+                    dead = true;
+                }
+            }
         }
     }
 
-    public Player getPlayer(){
-        return player;
-    }
+        public Player getPlayer () {
+            return player;
+        }
 
-    public ViewController getViewController(){ return viewController; }
+        public ViewController getViewController () {
+            return viewController;
+        }
 
-    public void setIsRunning(boolean to){ isRunning = to; }
+        public void setIsRunning (boolean to){
+            isRunning = to;
+        }
 
-    public int getPoint(){
-        return field.getPoints();
-    }
+        public int getPoint () {
+            return field.getPoints();
+        }
 
-    public boolean getIsRunning(){ return isRunning; }
+        public boolean getIsRunning () {
+            return isRunning;
+        }
 
-    public void setPlayerColor(Color newColor){ playerColor=newColor; }
+        public void setPlayerColor (Color newColor){
+            playerColor = newColor;
+        }
 
-    public void setDifficult(boolean hard){ hardDifficulty =hard; }
+        public void setDifficult (boolean hard){
+            hardDifficulty = hard;
+        }
 }

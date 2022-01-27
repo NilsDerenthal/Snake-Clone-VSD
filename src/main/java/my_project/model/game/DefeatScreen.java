@@ -9,19 +9,18 @@ import javax.swing.text.View;
 
 import static my_project.control.SceneConfig.*;
 
-public class Defeat extends GraphicalObject {
+public class DefeatScreen extends GraphicalObject {
 
-    private ViewController viewController;
     private ProgramController programController;
 
     private String[] flame;
     private String[] normal;
     private String[] praise;
-    private String chosenOne="pagh";
+    private String chosenOne;
 
-    public Defeat(ViewController viewController, ProgramController programController){
-        this.viewController = viewController;
+    public DefeatScreen(ViewController viewController, ProgramController programController){
         this.programController = programController;
+        chosenOne = "";
 
         flame = new String[4];
         normal = new String[4];
@@ -29,8 +28,8 @@ public class Defeat extends GraphicalObject {
 
         flame[0] = "Suicide?";
         flame[1] = "BRUH! ARE YOU REALLY THAT BAD?!?";
-        flame[2] = "YOU ARE BAD";
-        flame[3] = "error: unmapple character (0x81) for encoding windows-1252";
+        flame[2] = "BAD!.BAD!.BAD!.BAD!.BAD!.BAD!.BAD!";
+        flame[3] = "This isn't even hard....";
         normal[0] = "I mean like you tried...";
         normal[1] = "YOU BE DED!";
         normal[2] = "BEGONE!";
@@ -46,20 +45,22 @@ public class Defeat extends GraphicalObject {
     @Override
     public void draw(DrawTool drawTool) {
         drawTool.formatText("", 3, 40);
-        //drawTool.drawText(250,200,"YOU BE DED!");
         drawTool.drawText(250,200,chosenOne);
-        drawTool.drawText(250,260,"Score: " + programController.getPoint());
+        drawTool.drawText(260,260,"Score: " + programController.getPoint());
     }
 
     public void setFlame(){
-        chosenOne = flame[ (int) Math.random() * 4];
+        chosenOne = "";
+        chosenOne = flame[ (int) (Math.random()*4) ];
     }
 
     public void setNormal(){
-        chosenOne = normal[ (int) Math.random() * 4];
+        chosenOne = "";
+        chosenOne = normal[ (int) (Math.random()*4) ];
     }
 
     public void setPraise(){
-        chosenOne = praise[ (int) Math.random() * 4];
+        chosenOne = "";
+        chosenOne = praise[ (int) (Math.random()*4) ];
     }
 }
