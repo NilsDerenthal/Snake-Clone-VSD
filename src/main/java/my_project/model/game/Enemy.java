@@ -90,8 +90,10 @@ public class Enemy extends Entity {
                 if(hardDifficuld){
                     moveToPlayer();
                 }else {
-                    double d = Math.random() * 2 - 0.5;
-                    while (!move(d)) d = Math.random() * 2 - 0.5;
+                    boolean moved=false;
+                    while (!moved) moved = move(Math.random() * 2 - 0.5);
+
+                    System.out.println(Math.random());
                 }
                 t = 1;
             }
