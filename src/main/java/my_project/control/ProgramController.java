@@ -25,34 +25,35 @@ import java.util.Random;
  */
 public class ProgramController {
 
-    //Attribute
+    private double timer,
+            gameTimer,
+            pointsToSpawn,
+            pointsSpawned;
+
+    private boolean dead,
+            isRunning,
+            hardDifficulty;
+
+    private int playerPosX,
+            playerPosY;
 
 
-    // Referenzen
-    private final ViewController viewController;  // diese Referenz soll auf ein Objekt der Klasse viewController zeigen. Über dieses Objekt wird das Fenster gesteuert.
-    private Player player;
-    private Menu menu;
-    private GameField gameField;
+    private final ViewController viewController;
+
     private Queue<Point> pointQueue;
-
-    private double timer, gameTimer, deathTimer, pointsToSpawn, pointsSpawned;
-    private boolean spawn, gameStart, dead;
+    private GameItem[] items;
     private List<GameItem> spawnable, spawned;
-
-    private int playerPosX;
-    private int playerPosY;
-
-    private Random rand;
     private VisualStack<PointBar> pointBarStack;
+
+    private Player player;
+    private Color playerColor;
+    private Menu menu;
+    private Enemy enemy;
+    private GameField gameField;
     private BarField field;
     private PointBar pointBarOrig;
-    private Enemy enemy;
 
-    private GameItem[] items;
-
-    private boolean isRunning=false;
-    private boolean dificultHard=false;
-    private Color playerColor=Color.BLUE;
+    private Random rand;
 
     /**
      * Konstruktor
@@ -70,46 +71,21 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
-        rand = new Random();
+        this.playerColor = Color.BLUE;
+        this.rand = new Random();
+
+        // prepare two scenes
         viewController.createScene();
         viewController.createScene();
+
+        // default starting scene
         viewController.showScene(SceneConfig.MENU_SCENE);
 
+        // input managers
         new MenuInputManager(this,viewController);
         new GameInputManager(this, viewController);
+
         menu = new Menu(viewController, this);
-
-        viewController.getSoundController().loadSound("src/main/resources/sound/game_song.mp3","game_sound",  true);
-        viewController.getSoundController().loadSound("src/main/resources/sound/menu_song.mp3", "menu_sound", true);
-        viewController.getSoundController().loadSound("src/main/resources/sound/game_song_alt.mp3", "game_sound_alt", true);
-        viewController.getSoundController().loadSound("src/main/resources/sound/plop.mp3","pointSpawned_sound", false);
-
-        SoundController.playSound("menu_sound");
-    }
-
-    public void startNewGame(){
-        gameField = new GameField(viewController, Config.WINDOW_WIDTH/2-225, Config.WINDOW_HEIGHT/2-250, 10, 10);
-        player = new Player(viewController, Config.WINDOW_WIDTH/2-35, Config.WINDOW_HEIGHT/2-60,playerColor);
-        Defeat defeat = new Defeat(viewController,this);
-        player.addBodyPart();
-        playerPosY = playerPosX = 4;
-        pointsToSpawn = 3;
-        gameTimer = pointsSpawned = deathTimer = 0;
-        field = new BarField(viewController);
-        pointBarStack = new VisualStack<>(viewController);
-        pointBarOrig = new PointBar(20,255,0,0);
-        enemy = new Enemy(viewController,10,Config.WINDOW_WIDTH/2-35-200, Config.WINDOW_HEIGHT/2-60-200,40,this);
-        enemy.setDifficult(dificultHard);
-        gameStart = dead = false;
-        spawnable = new List<>();
-        spawned = new List<>();
-        pointQueue = new Queue<>();
-        // add items to list
-
-        SoundController.stopSound("menu_sound");
-
-        SoundController.setVolume("game_sound_alt", 100);
-        SoundController.playSound("game_sound_alt");
 
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
@@ -118,6 +94,52 @@ public class ProgramController {
                 new AddBodypartItem(player, "plus.png"),
                 new DeleteBodypartItem(player, "minus.png")
         };
+
+        loadSounds();
+        SoundController.playSound("menu_sound");
+    }
+
+    private void loadSounds() {
+        var soundController = viewController.getSoundController();
+        String filePrefix = "src/main/resources/sound/";
+
+        soundController.loadSound(filePrefix + "game_song.mp3","game_sound",  true);
+        soundController.loadSound(filePrefix + "menu_song.mp3", "menu_sound", true);
+        soundController.loadSound(filePrefix + "game_song_alt.mp3", "game_sound_alt", true);
+
+        soundController.loadSound(filePrefix + "plop.mp3","pointSpawned_sound", false);
+    }
+
+    public void startNewGame(){
+        int halfWinWidth = Config.WINDOW_WIDTH / 2;
+        int halfWinHeight = Config.WINDOW_HEIGHT / 2;
+
+        gameField = new GameField(viewController, halfWinWidth - 225, halfWinHeight - 250, 10, 10);
+        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
+        field = new BarField(viewController);
+        pointBarStack = new VisualStack<>(viewController);
+        pointBarOrig = new PointBar(20,255,0,0);
+        enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
+
+        new Defeat(viewController,this);
+
+        player.addBodyPart();
+
+        playerPosY = 4;
+        playerPosX = 4;
+        pointsToSpawn = 3;
+        gameTimer = 0;
+        pointsSpawned = 0;
+        dead = false;
+
+        enemy.setDifficulty(hardDifficulty);
+
+        spawnable = new List<>();
+        spawned = new List<>();
+        pointQueue = new Queue<>();
+
+        SoundController.stopSound("menu_sound");
+        SoundController.playSound("game_sound_alt");
 
         for (var item : items) {
             spawnable.append(item);
@@ -268,24 +290,19 @@ public class ProgramController {
                 newRec.setG(pointBarOrig.getG());
                 newRec.setB(pointBarOrig.getB());
                 pointBarStack.pushInVisual(newRec);
-                field.increasePoints();
             } else {
                 PointBar newRec = new PointBar(20, 255, 0, 0);
                 newRec.setR(pointBarOrig.getR());
                 newRec.setG(pointBarOrig.getG());
                 newRec.setB(pointBarOrig.getB());
                 pointBarStack.pushInVisual(newRec);
-                field.increasePoints();
             }
+            field.increasePoints();
         }
     }
 
     public void showScene(int scene) {
         viewController.showScene(scene);
-
-        if (scene == SceneConfig.GAME_SCENE) {
-            spawn = true;
-        }
     }
 
     /**
@@ -306,9 +323,6 @@ public class ProgramController {
                 spawnPoint();
                 pointsSpawned++;
                 gameTimer = 0;
-            }
-            if(gameTimer > 2){
-                gameStart = true;
             }
            if(player.gotHit(enemy.getX(),enemy.getY())){
                showScene(SceneConfig.DEFEAT_SCENE);
@@ -333,5 +347,5 @@ public class ProgramController {
 
     public void setPlayerColor(Color newColor){ playerColor=newColor; }
 
-    public void setDifficult(boolean hard){ dificultHard=hard; }
+    public void setDifficult(boolean hard){ hardDifficulty =hard; }
 }

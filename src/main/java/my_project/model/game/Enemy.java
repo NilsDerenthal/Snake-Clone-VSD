@@ -165,5 +165,5 @@ public class Enemy extends Entity {
         }
     }
 
-    public void setDifficult(boolean hard){ hardDifficuld=hard; }
+    public void setDifficulty (boolean hard){ hardDifficuld=hard; }
 }
