@@ -20,7 +20,6 @@ public class DefeatScreen extends GraphicalObject {
 
     public DefeatScreen(ViewController viewController, ProgramController programController){
         this.programController = programController;
-        chosenOne = "";
 
         flame = new String[4];
         normal = new String[4];
@@ -36,7 +35,7 @@ public class DefeatScreen extends GraphicalObject {
         normal[3] = "You lost";
         praise[0] = "I will approve";
         praise[1] = "Actually...not bad";
-        praise[2] = "(☞ﾟヮﾟ)☞";
+        praise[2] = "Help, idk wht to say now...";
         praise[3] = "A nice score you got there!";
 
         viewController.draw(this, DEFEAT_SCENE);
@@ -50,17 +49,17 @@ public class DefeatScreen extends GraphicalObject {
     }
 
     public void setFlame(){
-        chosenOne = "";
+        chosenOne = null;
         chosenOne = flame[ (int) (Math.random()*4) ];
     }
 
     public void setNormal(){
-        chosenOne = "";
+        chosenOne = null;
         chosenOne = normal[ (int) (Math.random()*4) ];
     }
 
     public void setPraise(){
-        chosenOne = "";
+        chosenOne = null;
         chosenOne = praise[ (int) (Math.random()*4) ];
     }
 }

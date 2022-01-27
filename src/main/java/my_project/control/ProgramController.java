@@ -88,14 +88,6 @@ public class ProgramController {
 
         menu = new Menu(viewController, this);
 
-        items = new GameItem[]{
-                new Shield(player, "shield.png"),
-                new InvertControlsItem(player, "invert.png"),
-                new Stun(player, "chain.png"),
-                new AddBodypartItem(player, "plus.png"),
-                new DeleteBodypartItem(player, "minus.png")
-        };
-
         loadSounds();
         SoundController.playSound("menu_sound");
     }
@@ -122,6 +114,15 @@ public class ProgramController {
         pointBarOrig = new PointBar(20,255,0,0);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
         defeat = new DefeatScreen(viewController,this);
+
+        items = new GameItem[]{
+                new Shield(player, "shield.png"),
+                new InvertControlsItem(player, "invert.png"),
+                new Stun(player, "chain.png"),
+                new AddBodypartItem(player, "plus.png"),
+                new DeleteBodypartItem(player, "minus.png")
+        };
+
 
         player.addBodyPart();
 
