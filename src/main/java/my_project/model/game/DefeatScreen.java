@@ -27,7 +27,7 @@ public class DefeatScreen extends GraphicalObject {
 
         flame[0] = "Suicide?";
         flame[1] = "BRUH! ARE YOU REALLY THAT BAD?!?";
-        flame[2] = "BAD!.BAD!.BAD!.BAD!.BAD!.BAD!.BAD!";
+        flame[2] = "BAD!BAD!BAD!BAD!BAD!BAD!BAD!";
         flame[3] = "This isn't even hard....";
         normal[0] = "I mean like you tried...";
         normal[1] = "YOU BE DED!";
@@ -46,20 +46,19 @@ public class DefeatScreen extends GraphicalObject {
         drawTool.formatText("", 3, 40);
         drawTool.drawText(250,200,chosenOne);
         drawTool.drawText(260,260,"Score: " + programController.getPoint());
+        drawTool.formatText("", 1, 20);
+        drawTool.drawText(400,400,"(click any Button besides space, because i don't like space)");
     }
 
     public void setFlame(){
-        chosenOne = null;
         chosenOne = flame[ (int) (Math.random()*4) ];
     }
 
     public void setNormal(){
-        chosenOne = null;
         chosenOne = normal[ (int) (Math.random()*4) ];
     }
 
     public void setPraise(){
-        chosenOne = null;
         chosenOne = praise[ (int) (Math.random()*4) ];
     }
 }

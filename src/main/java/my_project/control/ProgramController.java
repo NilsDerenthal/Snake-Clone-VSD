@@ -12,6 +12,7 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
+import my_project.view.DefeatScreenInputManager;
 import my_project.view.GameInputManager;
 import my_project.view.MenuInputManager;
 
@@ -85,8 +86,11 @@ public class ProgramController {
         // input managers
         new MenuInputManager(this,viewController);
         new GameInputManager(this, viewController);
+        new DefeatScreenInputManager(this,viewController);
 
         menu = new Menu(viewController, this);
+        defeat = new DefeatScreen(viewController,this);
+        field = new BarField(viewController);
 
         loadSounds();
         SoundController.playSound("menu_sound");
@@ -109,11 +113,9 @@ public class ProgramController {
 
         gameField = new GameField(viewController, halfWinWidth - 225, halfWinHeight - 250, 10, 10);
         player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
-        field = new BarField(viewController);
-        pointBarStack = new VisualStack<>(viewController);
-        pointBarOrig = new PointBar(20,255,0,0);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
-        defeat = new DefeatScreen(viewController,this);
+        pointBarOrig = new PointBar(20,255,0,0);
+        pointBarStack = new VisualStack<>(viewController);
 
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
@@ -123,7 +125,7 @@ public class ProgramController {
                 new DeleteBodypartItem(player, "minus.png")
         };
 
-
+        field.resetPoints();
         player.addBodyPart();
 
         playerPosY = 4;
@@ -195,7 +197,6 @@ public class ProgramController {
 
     public void doPlayerAction(int key){
         int effectiveKey = key;
-        if(dead) viewController.showScene(SceneConfig.MENU_SCENE); dead = false;
         if(isRunning) {
             if (player != null && !player.isStunned()) {
                 if (player.isInvertedControls()) {
@@ -262,6 +263,10 @@ public class ProgramController {
                     }
                 }
             }
+            if(key == KeyEvent.VK_ESCAPE){
+                viewController.showScene(SceneConfig.MENU_SCENE);
+                isRunning=false;
+            }
         }
     }
 
@@ -272,11 +277,12 @@ public class ProgramController {
             case KeyEvent.VK_A -> menu.left();
             case KeyEvent.VK_D -> menu.right();
             case KeyEvent.VK_SPACE -> menu.clickOn();
-            case KeyEvent.VK_ESCAPE -> {
-                viewController.showScene(SceneConfig.MENU_SCENE);
-                isRunning=false;
-            }
         }
+    }
+
+    public void doDefeatScreenAction(){
+        viewController.showScene(SceneConfig.MENU_SCENE);
+        dead = false;
     }
 
     public void addPoints(){
@@ -325,7 +331,6 @@ public class ProgramController {
                 pointsSpawned++;
                 gameTimer = 0;
             }
-            if (player.gotHit(enemy.getX(), enemy.getY())) {
                 if (player.gotHit(enemy.getX(), enemy.getY()) && !dead) {
                     if (getPoint() < 20) {
                         defeat.setFlame();
@@ -336,8 +341,8 @@ public class ProgramController {
                     }
                     showScene(SceneConfig.DEFEAT_SCENE);
                     dead = true;
+                    isRunning = false;
                 }
-            }
         }
     }
 

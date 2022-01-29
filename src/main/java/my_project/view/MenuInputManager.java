@@ -26,7 +26,6 @@ public class MenuInputManager extends InteractableAdapter {
     public MenuInputManager(ProgramController programController, ViewController viewController){
         this.programController = programController;
         this.viewController = viewController;
-        viewController.register(this, GAME_SCENE);
         viewController.register(this, MENU_SCENE);
     }
 

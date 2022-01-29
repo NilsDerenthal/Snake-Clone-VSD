@@ -3,12 +3,12 @@ package my_project.model.game;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.control.SceneConfig;
 
 import javax.swing.plaf.ColorUIResource;
 
 public class BarField extends GraphicalObject {
 
-    private ViewController viewController;
     private int points;
 
     public BarField(ViewController viewController) {
@@ -16,8 +16,7 @@ public class BarField extends GraphicalObject {
         this.y = 600;
         this.width = 201;
         this.height = 21;
-        this.viewController = viewController;
-        viewController.draw(this,1);
+        viewController.draw(this, SceneConfig.GAME_SCENE);
     }
 
     public void draw(DrawTool drawTool){
@@ -29,6 +28,10 @@ public class BarField extends GraphicalObject {
 
     public void increasePoints() {
         points++;
+    }
+
+    public void resetPoints(){
+        points = 0;
     }
 
     public int getPoints() {

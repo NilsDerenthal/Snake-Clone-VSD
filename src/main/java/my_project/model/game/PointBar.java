@@ -9,7 +9,6 @@ import javax.swing.plaf.ColorUIResource;
 public class PointBar extends GraphicalObject implements VisualStack.Animated{
 
     private int r,g,b;
-    private int points;
 
     public PointBar(double width, int r, int g, int b) {
         this.width = width;
@@ -36,9 +35,6 @@ public class PointBar extends GraphicalObject implements VisualStack.Animated{
 
     }
 
-    public int getPoints(){
-        return points;
-    }
     public void setG(int g){
         this.g = g;
     }

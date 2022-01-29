@@ -1,27 +1,24 @@
 package my_project.view;
+
 import KAGO_framework.control.ViewController;
 import my_project.control.ProgramController;
+
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import static my_project.control.SceneConfig.*;
+import static my_project.control.SceneConfig.DEFEAT_SCENE;
 
-/**
- * Realisiert ein Objekt, dass alle Eingaben empfängt und dann danach passende Methoden
- * im ProgramController aufruft
- */
-public class GameInputManager extends InteractableAdapter {
+public class DefeatScreenInputManager extends InteractableAdapter{
 
     private ProgramController programController;
-    private ViewController viewController;
 
     /**
      * Objekterzeugung
      * @param programController Nötig als Objekt vom Controllerbereich, das informiert wird
      */
-    public GameInputManager(ProgramController programController, ViewController viewController){
+    public DefeatScreenInputManager(ProgramController programController, ViewController viewController){
         this.programController = programController;
-        this.viewController = viewController;
-        viewController.register(this, GAME_SCENE);
+        viewController.register(this, DEFEAT_SCENE);
     }
 
     @Override
@@ -31,6 +28,8 @@ public class GameInputManager extends InteractableAdapter {
 
     @Override
     public void keyReleased(int key) {
-        programController.doPlayerAction(key);
+        if(key != KeyEvent.VK_SPACE) {
+            programController.doDefeatScreenAction();
+        }
     }
 }
