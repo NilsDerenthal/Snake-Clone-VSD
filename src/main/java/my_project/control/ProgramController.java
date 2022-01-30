@@ -96,6 +96,9 @@ public class ProgramController {
         SoundController.playSound("menu_sound");
     }
 
+    /**
+     * Loads all sounds into memory
+     */
     private void loadSounds() {
         var soundController = viewController.getSoundController();
         String filePrefix = "src/main/resources/sound/";
@@ -107,6 +110,9 @@ public class ProgramController {
         soundController.loadSound(filePrefix + "plop.mp3","pointSpawned_sound", false);
     }
 
+    /**
+     * Starts a new game by resetting all game-state variables
+     */
     public void startNewGame(){
         int halfWinWidth = Config.WINDOW_WIDTH / 2;
         int halfWinHeight = Config.WINDOW_HEIGHT / 2;
@@ -152,6 +158,9 @@ public class ProgramController {
         showScene(SceneConfig.GAME_SCENE);
     }
 
+    /**
+     * Spawns a random item if possible
+     */
     public void spawnRandomItem(){
         if(isRunning) {
             int index = rand.nextInt(5);
@@ -181,6 +190,9 @@ public class ProgramController {
         }
     }
 
+    /**
+     * Spawns a random point
+     */
     public void spawnPoint(){
         if(isRunning) {
             int x = -1, y = -1;
@@ -195,6 +207,10 @@ public class ProgramController {
         }
     }
 
+    /**
+     * Executes a player action
+     * @param key the keycode
+     */
     public void doPlayerAction(int key){
         int effectiveKey = key;
         if(isRunning) {
@@ -332,9 +348,9 @@ public class ProgramController {
                 gameTimer = 0;
             }
                 if (player.gotHit(enemy.getX(), enemy.getY()) && !dead) {
-                    if (getPoint() < 20) {
+                    if (getPoints() < 20) {
                         defeat.setFlame();
-                    } else if (getPoint() < 100) {
+                    } else if (getPoints() < 100) {
                         defeat.setNormal();
                     } else {
                         defeat.setPraise();
@@ -346,31 +362,31 @@ public class ProgramController {
         }
     }
 
-        public Player getPlayer () {
-            return player;
-        }
+    public Player getPlayer () {
+        return player;
+    }
 
-        public ViewController getViewController () {
-            return viewController;
-        }
+    public ViewController getViewController () {
+        return viewController;
+    }
 
-        public void setIsRunning (boolean to){
-            isRunning = to;
-        }
+    public void setIsRunning (boolean isRunning){
+        this.isRunning = isRunning;
+    }
 
-        public int getPoint () {
-            return field.getPoints();
-        }
+    public int getPoints () {
+        return field.getPoints();
+    }
 
-        public boolean getIsRunning () {
-            return isRunning;
-        }
+    public boolean getIsRunning () {
+        return isRunning;
+    }
 
-        public void setPlayerColor (Color newColor){
-            playerColor = newColor;
-        }
+    public void setPlayerColor (Color newColor){
+        playerColor = newColor;
+    }
 
-        public void setDifficult (boolean hard){
-            hardDifficulty = hard;
-        }
+    public void setDifficult (boolean hard){
+        hardDifficulty = hard;
+    }
 }

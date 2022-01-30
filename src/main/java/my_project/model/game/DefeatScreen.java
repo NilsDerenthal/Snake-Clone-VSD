@@ -5,8 +5,6 @@ import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.control.ProgramController;
 
-import javax.swing.text.View;
-
 import static my_project.control.SceneConfig.*;
 
 public class DefeatScreen extends GraphicalObject {
@@ -45,7 +43,7 @@ public class DefeatScreen extends GraphicalObject {
     public void draw(DrawTool drawTool) {
         drawTool.formatText("", 3, 40);
         drawTool.drawText(250,200,chosenOne);
-        drawTool.drawText(260,260,"Score: " + programController.getPoint());
+        drawTool.drawText(260,260,"Score: " + programController.getPoints());
         drawTool.formatText("", 1, 20);
         drawTool.drawText(400,400,"(click any Button besides space, because i don't like space)");
     }
