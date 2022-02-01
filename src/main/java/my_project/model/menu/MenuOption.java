@@ -111,5 +111,7 @@ public class MenuOption extends GraphicalObject implements VisualList.AnimableLi
         viewController.draw(m,SceneConfig.MENU_SCENE);
     }
 
-    public VisualList<MenuSubOption> getList(){ return list; }
+    public VisualList<MenuSubOption> getList(){
+        return list;
+    }
 }

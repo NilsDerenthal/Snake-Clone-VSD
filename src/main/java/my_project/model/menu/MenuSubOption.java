@@ -12,22 +12,22 @@ public class MenuSubOption extends GraphicalObject implements VisualList.Animabl
         void execute();
     }
 
-    private final VisualList<MenuSubOption> list;
     private final Color color;
     private final String text;
     private final OnClickExecutor onClickExecutor;
 
-    public MenuSubOption (double height, double width, OnClickExecutor onClickExecutor, Color color, String text, VisualList<MenuSubOption> list){
+    public boolean isSelected;
+
+    public MenuSubOption (double height, double width, OnClickExecutor onClickExecutor, Color color, String text){
         this.onClickExecutor = onClickExecutor;
         this.color = color;
         this.text = text;
         this.height = height;
         this.width = width;
-        this.list = list;
     }
 
     public void draw(DrawTool drawTool){
-        if (list.getCurrent() == this){
+        if (isSelected){
             drawTool.setCurrentColor(Color.YELLOW);
             drawTool.drawFilledRectangle(x - 10,y - 10,width + 20,height + 20);
         }
@@ -52,5 +52,9 @@ public class MenuSubOption extends GraphicalObject implements VisualList.Animabl
 
     public void clickOn(){
         onClickExecutor.execute();
+    }
+
+    public void setSelected (boolean selected) {
+        isSelected = selected;
     }
 }
