@@ -9,24 +9,24 @@ import my_project.Config;
 
 import java.awt.*;
 
-public  class MenuPoint extends GraphicalObject implements VisualList.AnimableList {
+public class MenuOption extends GraphicalObject implements VisualList.AnimableList {
 
-    private final VisualList<MenuUnderPoint> list;
-    private final VisualList<MenuPoint> inList;
+    private final VisualList<MenuSubOption> list;
+    private final VisualList<MenuOption> inList;
     private final ViewController viewController;
     private final String text;
     private double sY;
     private double yS;
-    private boolean up=false;
+    private boolean up = false;
 
-    public MenuPoint(double y,double yS, ViewController viewController, VisualList<MenuPoint> inList,String text){
-        x=30;
-        this.y=y;
+    public MenuOption (double y, double yS, ViewController viewController, VisualList<MenuOption> inList, String text){
+        this.x = 30;
+        this.y = y;
         this.yS = yS;
         this.sY = yS;
         this.inList = inList;
-        this.viewController=viewController;
-        this.text=text;
+        this.viewController = viewController;
+        this.text = text;
         viewController.draw(this,SceneConfig.MENU_SCENE);
 
         list = new VisualList<>(140, 0, 170, y + 30);
@@ -67,23 +67,20 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
 
     @Override
     public void update(double dt){
-        if(up){
-            if(yS > sY - 1){
-                yS -= 1000 * dt;
+        if (up) {
+            if (yS > sY - 1) {
+                yS = Math.max(Config.WINDOW_HEIGHT / 2f - 150, yS - 1000 * dt);
             }
-            if(yS<Config.WINDOW_HEIGHT / 2 - 150) yS=Config.WINDOW_HEIGHT / 2 - 150;
-            updateList();
-        }else{
+        } else {
             if(yS < sY - 1){
-                yS += 1000 * dt;
+                yS = Math.min(Config.WINDOW_HEIGHT + 300, yS + 1000 * dt);
             }
-            if(yS>Config.WINDOW_HEIGHT+ 300) yS=Config.WINDOW_HEIGHT + 300;
-            updateList();
         }
+        updateList();
     }
 
     private void updateList(){
-        MenuUnderPoint current=list.getCurrent();
+        MenuSubOption current=list.getCurrent();
         list.toFirst();
         while(list.getCurrent()!=null){
             list.getCurrent().setY(yS+60);
@@ -108,11 +105,11 @@ public  class MenuPoint extends GraphicalObject implements VisualList.AnimableLi
         }
     }
 
-    public void append(MenuUnderPoint m){
+    public void append(MenuSubOption m){
         list.append(m);
         m.setY(yS);
         viewController.draw(m,SceneConfig.MENU_SCENE);
     }
 
-    public VisualList<MenuUnderPoint> getList(){ return list; }
+    public VisualList<MenuSubOption> getList(){ return list; }
 }

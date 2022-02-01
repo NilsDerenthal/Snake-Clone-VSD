@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class Menu extends GraphicalObject {
 
-    private final VisualList<MenuPoint> leftList;
+    private final VisualList<MenuOption> leftList;
     private final ViewController viewController;
     private final ProgramController p;
 
@@ -25,28 +25,28 @@ public class Menu extends GraphicalObject {
     }
 
     public void creatMenue(){
-        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
+        leftList.append(new MenuOption(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT/2-150,viewController,leftList,"Start"));
         leftList.toFirst();
-        leftList.getCurrent().append(new MenuUnderPoint(30, 100, p::startNewGame,Color.GREEN,"beginnen",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> {
+        leftList.getCurrent().append(new MenuSubOption(30, 100, p::startNewGame,Color.GREEN,"beginnen",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> {
             p.showScene(SceneConfig.GAME_SCENE);
             p.setIsRunning(true);
-        },Color.YELLOW,"Spiel fortsetzen",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList(),p));
-        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
+        },Color.YELLOW,"Spiel fortsetzen",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> System.exit(0),Color.RED,"Spiel beenden",leftList.getCurrent().getList()));
+        leftList.append(new MenuOption(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"farben"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.CYAN),Color.CYAN,"Cyan",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.YELLOW),Color.YELLOW,"Yellow",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.GRAY),Color.GRAY,"Gray",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.DARK_GRAY),Color.DARK_GRAY,"Dark Gray",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setPlayerColor(Color.BLACK),Color.DARK_GRAY,"Black",leftList.getCurrent().getList(),p));
-        leftList.append(new MenuPoint(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"schwierigkeit"));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.BLUE),Color.BLUE,"Blau",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.RED),Color.RED,"Rot",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.GREEN),Color.GREEN,"Gruen",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.CYAN),Color.CYAN,"Cyan",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.YELLOW),Color.YELLOW,"Yellow",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.GRAY),Color.GRAY,"Gray",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.DARK_GRAY),Color.DARK_GRAY,"Dark Gray",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setPlayerColor(Color.BLACK),Color.DARK_GRAY,"Black",leftList.getCurrent().getList()));
+        leftList.append(new MenuOption(Config.WINDOW_HEIGHT/2-150,Config.WINDOW_HEIGHT+200,viewController,leftList,"schwierigkeit"));
         leftList.next();
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setDifficult(false),Color.YELLOW,"leicht",leftList.getCurrent().getList(),p));
-        leftList.getCurrent().append(new MenuUnderPoint(30,100, () -> p.setDifficult(true),Color.RED,"schwer",leftList.getCurrent().getList(),p));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setDifficult(false),Color.YELLOW,"leicht",leftList.getCurrent().getList()));
+        leftList.getCurrent().append(new MenuSubOption(30,100, () -> p.setDifficult(true),Color.RED,"schwer",leftList.getCurrent().getList()));
 
         leftList.toFirst();
         leftList.getCurrent().changeUp(true);
@@ -84,7 +84,7 @@ public class Menu extends GraphicalObject {
 
     public void next(){
         if(leftList.getCurrent()!=null) {
-            MenuPoint current= leftList.getCurrent();
+            MenuOption current= leftList.getCurrent();
             leftList.getCurrent().changeUp(false);
             leftList.next();
             if(leftList.getCurrent()==null) leftList.currentTo(current);
@@ -103,7 +103,7 @@ public class Menu extends GraphicalObject {
     }
 
     public void right(){
-        MenuUnderPoint current= leftList.getCurrent().getList().getCurrent();
+        MenuSubOption current= leftList.getCurrent().getList().getCurrent();
         if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().next();
         if(leftList.getCurrent().getList().getCurrent()==null) leftList.getCurrent().getList().currentTo(current);
     }
