@@ -7,10 +7,7 @@ import my_project.Config;
 import my_project.control.ProgramController;
 import my_project.control.SceneConfig;
 import my_project.model.visual_ds.VisualList;
-
-import javax.swing.colorchooser.ColorChooserComponentFactory;
 import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.Map;
 
 public class Menu extends GraphicalObject {
