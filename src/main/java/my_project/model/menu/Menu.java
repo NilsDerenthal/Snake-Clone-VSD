@@ -10,6 +10,8 @@ import my_project.model.visual_ds.VisualList;
 import java.awt.*;
 import java.util.Map;
 
+import static my_project.control.SceneConfig.*;
+
 public class Menu extends GraphicalObject {
 
     private final VisualList<MenuOption> leftList;
@@ -33,6 +35,8 @@ public class Menu extends GraphicalObject {
                         p.setIsRunning(true);
                     }
                 }, Color.YELLOW),
+                newOption("New Name", () -> p.showScene(NAME_SCENE), Color.CYAN),
+                newOption("Leader Board",() -> p.showScene(LEADERBOARD_SCENE), Color.orange),
                 newOption("Exit", () -> System.exit(0), Color.RED)
         });
 

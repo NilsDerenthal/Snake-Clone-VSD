@@ -3,6 +3,7 @@ package my_project.model.game;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.view.DrawTool;
 import my_project.model.visual_ds.VisualQueue;
+import static my_project.control.SceneConfig.GAME_SCENE;
 
 import java.awt.*;
 
@@ -103,6 +104,11 @@ public class Player extends Entity {
         this.points = points;
         this.color=color;
         System.out.println(color);
+        viewcontroller.draw(this, GAME_SCENE);
+    }
+
+    public String getInfos(){
+        return getName()+": ";
     }
 
     public boolean movePlayer(double moveX, double moveY) {

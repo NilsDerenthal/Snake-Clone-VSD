@@ -20,7 +20,6 @@ public class PointBar extends GraphicalObject implements VisualStack.Animated{
     public void draw(DrawTool drawTool){
         drawTool.setCurrentColor(r,g,b,255);
         drawTool.drawFilledRectangle(x,y,width,20);
-
     }
 
     public void update(double dt){

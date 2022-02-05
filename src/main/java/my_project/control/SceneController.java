@@ -8,7 +8,7 @@ public class SceneController {
 
     public SceneController(ViewController viewController){
         vc=viewController;
-        vc.showScene(SceneConfig.MENU_SCENE);
+        vc.showScene(SceneConfig.NAME_SCENE);
         vc.createScene();
     }
 
@@ -28,6 +28,9 @@ public class SceneController {
         switch(s){
             case "MENU_SCENE" -> vc.showScene(SceneConfig.MENU_SCENE);
             case "GAME_SCENE" -> vc.showScene(SceneConfig.GAME_SCENE);
+            case "NAME_SCENE" -> vc.showScene(SceneConfig.NAME_SCENE);
+            case "DEFEAT_SCENE" -> vc.showScene(SceneConfig.DEFEAT_SCENE);
+            case "LEADERBOARD_SCENE" -> vc.showScene(SceneConfig.LEADERBOARD_SCENE);
         }
     }
 

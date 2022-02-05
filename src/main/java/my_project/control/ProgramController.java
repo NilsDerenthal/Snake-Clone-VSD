@@ -5,6 +5,8 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.abitur.datenstrukturen.List;
 import KAGO_framework.model.abitur.datenstrukturen.Queue;
 import my_project.Config;
+import my_project.model.LeaderBoard;
+import my_project.model.NameField;
 import my_project.model.game.PointBar;
 import my_project.model.game.Point;
 import my_project.model.visual_ds.*;
@@ -12,13 +14,13 @@ import my_project.model.game.GameField;
 import my_project.model.game.*;
 import my_project.model.item.*;
 import my_project.model.menu.Menu;
-import my_project.view.DefeatScreenInputManager;
-import my_project.view.GameInputManager;
-import my_project.view.MenuInputManager;
+import my_project.view.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+
+import static my_project.control.SceneConfig.MENU_SCENE;
 
 /**
  * Ein Objekt der Klasse ProgramController dient dazu das Programm zu steuern. Die updateProgram - Methode wird
@@ -58,6 +60,13 @@ public class ProgramController {
 
     private Random rand;
 
+    private NameField nameField;
+    private List<Player> playerList;
+    private LeaderBoard leaderBoard;
+
+    int halfWinHeight = Config.WINDOW_HEIGHT / 2;
+    int halfWinWidth = Config.WINDOW_WIDTH / 2;
+
     /**
      * Konstruktor
      * Dieser legt das Objekt der Klasse ProgramController an, das den Programmfluss steuert.
@@ -77,21 +86,29 @@ public class ProgramController {
         this.playerColor = Color.BLUE;
         this.rand = new Random();
 
-        // prepare two scenes
+        // prepare four scenes
+        viewController.createScene();
+        viewController.createScene();
         viewController.createScene();
         viewController.createScene();
 
         // default starting scene
-        viewController.showScene(SceneConfig.MENU_SCENE);
+        viewController.showScene(SceneConfig.NAME_SCENE);
 
         // input managers
         new MenuInputManager(this,viewController);
         new GameInputManager(this, viewController);
         new DefeatScreenInputManager(this,viewController);
+        new NameFieldInputManager(this,viewController);
+        new LeaderBoardInputManager(this,viewController);
 
         menu = new Menu(viewController, this);
+        nameField = new NameField(viewController);
         defeat = new DefeatScreen(viewController,this);
         field = new BarField(viewController);
+        playerList = new List<>();
+        leaderBoard = new LeaderBoard(viewController,this);
+        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
 
         loadSounds();
         SoundController.playSound("menu_sound");
@@ -115,12 +132,9 @@ public class ProgramController {
      * Starts a new game by resetting all game-state variables
      */
     public void startNewGame(){
-        int halfWinWidth = Config.WINDOW_WIDTH / 2;
-        int halfWinHeight = Config.WINDOW_HEIGHT / 2;
-
         gameField = new GameField(viewController, halfWinWidth - 225, halfWinHeight - 250, 10, 10);
-        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
+        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
         pointBarOrig = new PointBar(20,255,0,0);
         pointBarStack = new VisualStack<>(viewController);
 
@@ -255,7 +269,7 @@ public class ProgramController {
                     player.setStunned(false);
                 }
             }
-            if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(SceneConfig.MENU_SCENE);
+            if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(MENU_SCENE);
             if (spawned != null && !spawned.isEmpty()) {
                 // check items
                 spawned.toFirst();
@@ -282,10 +296,64 @@ public class ProgramController {
                 }
             }
             if(key == KeyEvent.VK_ESCAPE){
-                viewController.showScene(SceneConfig.MENU_SCENE);
+                viewController.showScene(MENU_SCENE);
                 isRunning=false;
             }
         }
+    }
+
+    public void enterLetter(int key){
+        switch(key){
+            case KeyEvent.VK_A -> nameField.setTextToDraw("a");
+            case KeyEvent.VK_B -> nameField.setTextToDraw("b");
+            case KeyEvent.VK_C -> nameField.setTextToDraw("c");
+            case KeyEvent.VK_D -> nameField.setTextToDraw("d");
+            case KeyEvent.VK_E -> nameField.setTextToDraw("e");
+            case KeyEvent.VK_F -> nameField.setTextToDraw("f");
+            case KeyEvent.VK_G -> nameField.setTextToDraw("g");
+            case KeyEvent.VK_H -> nameField.setTextToDraw("h");
+            case KeyEvent.VK_I -> nameField.setTextToDraw("i");
+            case KeyEvent.VK_J -> nameField.setTextToDraw("j");
+            case KeyEvent.VK_K -> nameField.setTextToDraw("k");
+            case KeyEvent.VK_L -> nameField.setTextToDraw("l");
+            case KeyEvent.VK_M -> nameField.setTextToDraw("m");
+            case KeyEvent.VK_N -> nameField.setTextToDraw("n");
+            case KeyEvent.VK_O -> nameField.setTextToDraw("o");
+            case KeyEvent.VK_P -> nameField.setTextToDraw("p");
+            case KeyEvent.VK_Q -> nameField.setTextToDraw("q");
+            case KeyEvent.VK_R -> nameField.setTextToDraw("r");
+            case KeyEvent.VK_S -> nameField.setTextToDraw("s");
+            case KeyEvent.VK_T -> nameField.setTextToDraw("t");
+            case KeyEvent.VK_U -> nameField.setTextToDraw("u");
+            case KeyEvent.VK_V -> nameField.setTextToDraw("v");
+            case KeyEvent.VK_W -> nameField.setTextToDraw("w");
+            case KeyEvent.VK_X -> nameField.setTextToDraw("x");
+            case KeyEvent.VK_Y -> nameField.setTextToDraw("y");
+            case KeyEvent.VK_Z -> nameField.setTextToDraw("z");
+            case KeyEvent.VK_ENTER -> {
+                playerList.insert(player);
+               if(!playerList.isEmpty()) {
+                    playerList.toFirst();
+                    while (playerList.hasAccess()) {
+                        if (nameField.getTextToDraw().equals(playerList.getContent().getName())) {
+                            nameField.setNameTaken(true);
+                            playerList.next();
+                            nameField.resetTextToDraw();
+                        } else {
+                            nameField.setNameTaken(false);
+                            player.setName(nameField.getTextToDraw());
+                            nameField.resetTextToDraw();
+                            showScene(MENU_SCENE);
+                            playerList.next();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void doLeaderBoardAction(){
+        viewController.showScene(MENU_SCENE);
     }
 
     public void doMenuAction(int key){
@@ -299,7 +367,7 @@ public class ProgramController {
     }
 
     public void doDefeatScreenAction(){
-        viewController.showScene(SceneConfig.MENU_SCENE);
+        viewController.showScene(MENU_SCENE);
         dead = gameExists = false;
         SoundController.playSound("menu_sound");
     }
@@ -368,6 +436,10 @@ public class ProgramController {
 
     public Player getPlayer () {
         return player;
+    }
+
+    public String getPlayerName(){
+        return player.getName();
     }
 
     public ViewController getViewController () {
