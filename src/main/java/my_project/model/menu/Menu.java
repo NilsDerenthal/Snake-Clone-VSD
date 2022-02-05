@@ -34,24 +34,12 @@ public class Menu extends GraphicalObject {
                 newOption("Exit", () -> System.exit(0), Color.RED)
         });
 
-        Map<String, Color> colors = Map.of(
-                "Blue", Color.BLUE,
-                "Green", Color.GREEN,
-                "Orange", Color.ORANGE
-        );
 
-        MenuSubOption[] colorOptions = new MenuSubOption[colors.size()];
-        int index = 0;
-        for (var colorPair : colors.entrySet()) {
-            colorOptions[index] = newOption(
-                    colorPair.getKey(),
-                    () -> p.setPlayerColor(colorPair.getValue()),
-                    colorPair.getValue()
-            );
-            index++;
-        }
-
-        addOption("Colors", colorOptions);
+        addOption("Colors", new MenuSubOption[] {
+                newOption("Blue", () -> p.setPlayerColor(Color.BLUE), Color.BLUE),
+                newOption("Green", () -> p.setPlayerColor(Color.GREEN), Color.GREEN),
+                newOption("Black", () -> p.setPlayerColor(Color.BLACK), Color.BLACK)
+        });
 
         addOption("difficulty", new MenuSubOption[] {
             newOption("easy", () -> p.setDifficult(false), Color.YELLOW),
