@@ -33,6 +33,7 @@ public class ProgramController {
 
     private boolean dead,
             isRunning,
+            gameExists,
             hardDifficulty;
 
     private int playerPosX,
@@ -126,7 +127,7 @@ public class ProgramController {
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
                 new InvertControlsItem(player, "invert.png"),
-                new Stun(player, "chain.png"),
+                new Stun(player, "chain.jpg"),
                 new AddBodypartItem(player, "plus.png"),
                 new DeleteBodypartItem(player, "minus.png")
         };
@@ -140,6 +141,7 @@ public class ProgramController {
         gameTimer = 0;
         pointsSpawned = 0;
         dead = false;
+        gameExists = true;
 
         enemy.setDifficulty(hardDifficulty);
 
@@ -298,7 +300,8 @@ public class ProgramController {
 
     public void doDefeatScreenAction(){
         viewController.showScene(SceneConfig.MENU_SCENE);
-        dead = false;
+        dead = gameExists = false;
+        SoundController.playSound("menu_sound");
     }
 
     public void addPoints(){
@@ -358,6 +361,7 @@ public class ProgramController {
                     showScene(SceneConfig.DEFEAT_SCENE);
                     dead = true;
                     isRunning = false;
+                    SoundController.stopSound("game_sound_alt");
                 }
         }
     }
@@ -376,6 +380,10 @@ public class ProgramController {
 
     public int getPoints () {
         return field.getPoints();
+    }
+
+    public boolean isGameExists() {
+        return gameExists;
     }
 
     public boolean getIsRunning () {

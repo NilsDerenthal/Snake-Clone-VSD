@@ -28,8 +28,10 @@ public class Menu extends GraphicalObject {
         addOption("Control", new MenuSubOption[] {
                 newOption("Start", p::startNewGame, Color.GREEN),
                 newOption("Continue", () -> {
-                    p.showScene(SceneConfig.GAME_SCENE);
-                    p.setIsRunning(true);
+                    if(p.isGameExists()) {
+                        p.showScene(SceneConfig.GAME_SCENE);
+                        p.setIsRunning(true);
+                    }
                 }, Color.YELLOW),
                 newOption("Exit", () -> System.exit(0), Color.RED)
         });

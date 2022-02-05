@@ -31,7 +31,7 @@ public abstract class GameItem extends Entity {
     @Override
     public void draw(DrawTool drawTool) {
         double max = Math.min(img.getHeight(), img.getWidth());
-        drawTool.drawTransformedImage(img, x - 30, y - 30, 0, 30 / max);
+        drawTool.drawTransformedImage(img, x - 32, y - 35, 0, 30 / max);
     }
 
     public int getPosX() {
