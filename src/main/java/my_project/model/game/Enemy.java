@@ -10,12 +10,14 @@ import java.awt.*;
 public class Enemy extends Entity {
 
     private boolean up,left,hardDifficuld=false,twoEnemys=false;
-    private int xPosIngameField,yPosInGameField;
+    private int xPosInGameField,yPosInGameField;
     private final int gameFieldHeight,gameFieldXPos,gameFieldYPos,cellHeight;
     private double t=1;
     private final Player player;
     private final ProgramController programController;
     private Enemy otherEnemy;
+
+
 
     public Enemy(ViewController viewController,int xPosInGameField,int yPosInGameField,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
@@ -23,7 +25,7 @@ public class Enemy extends Entity {
         this.gameFieldHeight=gameFieldHeight;
         this.gameFieldXPos=gameFieldXPos;
         this.gameFieldYPos=gameFieldYPos;
-        this.xPosIngameField=xPosInGameField;
+        this.xPosInGameField =xPosInGameField;
         this.yPosInGameField=yPosInGameField;
         this.programController=programController;
         this.player= programController.getPlayer();
@@ -35,7 +37,7 @@ public class Enemy extends Entity {
 
     public Enemy(ViewController viewController,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
-        xPosIngameField=1;
+        xPosInGameField =1;
         yPosInGameField=1;
         this.cellHeight=cellHeight;
         this.gameFieldHeight=gameFieldHeight;
@@ -83,7 +85,7 @@ public class Enemy extends Entity {
      * setzt den X wert entsprechend der position im Gamefield
      */
     private void xPosToX(){
-        x=xPosIngameField*cellHeight+gameFieldXPos;
+        x= xPosInGameField *cellHeight+gameFieldXPos;
     }
 
     /**
@@ -124,8 +126,8 @@ public class Enemy extends Entity {
         if(d<0.5){
             if(up){
                 if(yPosInGameField<gameFieldHeight){
-                    if(twoEnemys&&otherEnemy.xPosIngameField==xPosIngameField){
-                        if(otherEnemy.yPosInGameField>yPosInGameField+1) return false;
+                    if(twoEnemys&&otherEnemy.getXpos() == xPosInGameField){
+                        if(otherEnemy.getYpos()>yPosInGameField+1) return false;
                     }
                     yPosInGameField+=1;
                     yPosToY();
@@ -133,8 +135,8 @@ public class Enemy extends Entity {
                 }
             }else{
                 if(yPosInGameField>1){
-                    if(twoEnemys&&otherEnemy.xPosIngameField==xPosIngameField){
-                        if(otherEnemy.yPosInGameField<yPosInGameField-1) return false;
+                    if(twoEnemys&&otherEnemy.getXpos() == xPosInGameField){
+                        if(otherEnemy.getYpos()<yPosInGameField-1) return false;
                     }
                     yPosInGameField-=1;
                     yPosToY();
@@ -143,20 +145,20 @@ public class Enemy extends Entity {
             }
         }else{
             if(left){
-                if(xPosIngameField>1){
-                    if(twoEnemys&&otherEnemy.yPosInGameField==yPosInGameField){
-                        if(otherEnemy.xPosIngameField<xPosIngameField-1) return false;
+                if(xPosInGameField >1){
+                    if(twoEnemys&&otherEnemy.getYpos()==yPosInGameField){
+                        if(otherEnemy.getXpos() < xPosInGameField -1) return false;
                     }
-                    xPosIngameField-=1;
+                    xPosInGameField -=1;
                     xPosToX();
                     moved=true;
                 }
             }else{
-                if(xPosIngameField<gameFieldHeight){
-                    if(twoEnemys&&otherEnemy.yPosInGameField==yPosInGameField){
-                        if(otherEnemy.xPosIngameField>xPosIngameField+1) return false;
+                if(xPosInGameField <gameFieldHeight){
+                    if(twoEnemys&&otherEnemy.getYpos()==yPosInGameField){
+                        if(otherEnemy.getXpos() > xPosInGameField +1) return false;
                     }
-                    xPosIngameField+=1;
+                    xPosInGameField +=1;
                     xPosToX();
                     moved=true;
                 }
@@ -178,25 +180,84 @@ public class Enemy extends Entity {
     private void moveToPlayer(){
         double playerX=player.getHeadX();
         double playerY=player.getHeadY();
+        double[] d = getDxDy(playerX,playerY);
+        boolean moved=false;
+        while(!moved) {
+            if (d[0] >= d[1]) {
+                if (playerX > x) {
+                    if (xPosInGameField < gameFieldHeight){
+                        if(twoEnemys&&otherEnemy.getYpos()==yPosInGameField){
+                            if(otherEnemy.getXpos() > xPosInGameField +1){
+                                xPosInGameField += 1;
+                                moved=true;
+                            }else{
+                                d[0]-=1;
+                            }
+                        }else{
+                            xPosInGameField += 1;
+                            moved=true;
+                        }
+                    }
+                } else {
+                    if (xPosInGameField > 0){
+                        if(twoEnemys&&otherEnemy.getYpos()==yPosInGameField){
+                            if(otherEnemy.getXpos() < xPosInGameField -1) {
+                                xPosInGameField -= 1;
+                                moved=true;
+                            }else{
+                                d[0]-=1;
+                            }
+                        }else{
+                            xPosInGameField -= 1;
+                            moved=true;
+                        }
+                    }
+                }
+                xPosToX();
+            } else {
+                if (playerY < y) {
+                    if (yPosInGameField > 0){
+                        if(twoEnemys&&otherEnemy.getXpos() == xPosInGameField){
+                            if(otherEnemy.getYpos()<yPosInGameField-1){
+                                moved=true;
+                                yPosInGameField -= 1;
+                            }else{
+                                d[1]-=1;
+                            }
+                        }else{
+                            yPosInGameField -= 1;
+                            moved=true;
+                        }
+                    }
+                } else {
+                    if (yPosInGameField < gameFieldHeight){
+                        if(twoEnemys&&otherEnemy.getXpos() == xPosInGameField){
+                            if(otherEnemy.getYpos()>yPosInGameField+1){
+                                yPosInGameField += 1;
+                                moved=true;
+                            }else{
+                                d[1]-=1;
+                            }
+                        }else{
+                            yPosInGameField += 1;
+                            moved=true;
+                        }
+                    }
+                }
+                yPosToY();
+            }
+        }
+    }
+
+    public double[] getDxDy(double playerX,double playerY){
+        double[] d=new double[2];
         double dx=playerX-x;
         double dy=playerY-y;
         if(dx<0) dx=-dx;
         if(dy<0) dy=-dy;
-        if(dx>=dy){
-            if(playerX>x){
-                if(xPosIngameField<gameFieldHeight) xPosIngameField+=1;
-            }else{
-                if(xPosIngameField>0) xPosIngameField-=1;
-            }
-            xPosToX();
-        }else {
-            if (playerY<y) {
-                if(yPosInGameField>0) yPosInGameField-=1;
-            } else {
-                if(yPosInGameField<gameFieldHeight) yPosInGameField+=1;
-            }
-            yPosToY();
-        }
+        d[0]=dx;
+        d[1]=dy;
+        return d;
     }
 
     /**
@@ -207,4 +268,7 @@ public class Enemy extends Entity {
     public void setTwoEnemys(boolean to){ twoEnemys=to; }
 
     public void setOtherEnemy(Enemy e){ otherEnemy=e; }
+
+    public double getXpos(){ return xPosInGameField; }
+    public double getYpos(){ return yPosInGameField; }
 }

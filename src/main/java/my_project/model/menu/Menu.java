@@ -47,9 +47,22 @@ public class Menu extends GraphicalObject {
         });
 
         addOption("difficulty", new MenuSubOption[] {
-            newOption("easy", () -> p.setDifficult(false), Color.GREEN),
-            newOption("easy tow Enemys",()->p.setTwoEnemys(true),Color.YELLOW),
-            newOption("hard", () -> p.setDifficult(true), Color.RED)
+            newOption("easy", () -> {
+                p.setTwoEnemys(false);
+                p.setDifficult(false);
+            }, Color.GREEN),
+            newOption("easy two Enemys",()->{
+                p.setTwoEnemys(true);
+                p.setDifficult(false);
+            },Color.YELLOW),
+            newOption("hard", () ->{
+                p.setTwoEnemys(false);
+                p.setDifficult(true);
+            }, Color.RED),
+            newOption("hard two Enemys",()-> {
+                p.setTwoEnemys(true);
+                p.setDifficult(true);
+            },new Color(100,0,0,255))
         });
 
         addOption("Sound",new MenuSubOption[]{

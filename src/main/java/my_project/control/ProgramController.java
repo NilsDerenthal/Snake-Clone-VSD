@@ -133,9 +133,9 @@ public class ProgramController {
      */
     public void startNewGame(){
         gameField = new GameField(viewController, halfWinWidth - 225, halfWinHeight - 250, 10, 10);
+        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
         if(twoEnemys) secondEnemy = new Enemy(viewController,10,10,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
-        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
         pointBarOrig = new PointBar(20,255,0,0);
         pointBarStack = new VisualStack<>(viewController);
 
