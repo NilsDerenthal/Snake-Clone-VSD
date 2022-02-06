@@ -41,6 +41,7 @@ public class ProgramController {
     private int playerPosX,
             playerPosY;
 
+    private String name="?";
 
     private final ViewController viewController;
 
@@ -61,7 +62,6 @@ public class ProgramController {
     private Random rand;
 
     private NameField nameField;
-    private List<Player> playerList;
     private LeaderBoard leaderBoard;
 
     int halfWinHeight = Config.WINDOW_HEIGHT / 2;
@@ -106,9 +106,7 @@ public class ProgramController {
         nameField = new NameField(viewController);
         defeat = new DefeatScreen(viewController,this);
         field = new BarField(viewController);
-        playerList = new List<>();
         leaderBoard = new LeaderBoard(viewController,this);
-        player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
 
         loadSounds();
         SoundController.playSound("menu_sound");
@@ -149,6 +147,7 @@ public class ProgramController {
         field.resetPoints();
         player.addBodyPart();
 
+        player.setName(name);
         playerPosY = 4;
         playerPosX = 4;
         pointsToSpawn = 3;
@@ -331,23 +330,8 @@ public class ProgramController {
             case KeyEvent.VK_Y -> nameField.setTextToDraw("y");
             case KeyEvent.VK_Z -> nameField.setTextToDraw("z");
             case KeyEvent.VK_ENTER -> {
-                playerList.insert(player);
-               if(!playerList.isEmpty()) {
-                    playerList.toFirst();
-                    while (playerList.hasAccess()) {
-                        if (nameField.getTextToDraw().equals(playerList.getContent().getName())) {
-                            nameField.setNameTaken(true);
-                            playerList.next();
-                            nameField.resetTextToDraw();
-                        } else {
-                            nameField.setNameTaken(false);
-                            player.setName(nameField.getTextToDraw());
-                            nameField.resetTextToDraw();
-                            showScene(MENU_SCENE);
-                            playerList.next();
-                        }
-                    }
-                }
+                name=nameField.getTextToDraw();
+                showScene(MENU_SCENE);
             }
         }
     }
@@ -439,7 +423,7 @@ public class ProgramController {
     }
 
     public String getPlayerName(){
-        return player.getName();
+        return name;
     }
 
     public ViewController getViewController () {
