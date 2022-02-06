@@ -11,12 +11,12 @@ import static my_project.control.SceneConfig.NAME_SCENE;
 
 public class NameField extends GraphicalObject {
 
-    private String textToDraw;
+    private StringBuilder textToDraw;
     private boolean nameTaken;
 
     public NameField(ViewController viewController){
         viewController.draw(this, NAME_SCENE);
-        textToDraw = "";
+        textToDraw = new StringBuilder();
     }
 
     public void draw(DrawTool drawTool){
@@ -26,19 +26,24 @@ public class NameField extends GraphicalObject {
         drawTool.drawText(400,290,"Enter Name:");
         drawTool.drawFilledRectangle(400,300,150,30);
         drawTool.setCurrentColor(Color.BLACK);
-        drawTool.drawText(400,320,textToDraw);
-        if(nameTaken){
+        drawTool.drawText(400,320, textToDraw.toString());
+
+        if (nameTaken) {
             drawTool.setCurrentColor(255,0,0,255);
             drawTool.drawText(400,345,"This name is already taken, try another one");
         }
     }
 
     public void setTextToDraw(String content){
-        textToDraw = textToDraw + content;
+        textToDraw.append(content);
     }
 
     public String getTextToDraw(){
-        return textToDraw;
+        return textToDraw.toString();
+    }
+
+    public void removeLast() {
+        textToDraw.deleteCharAt(textToDraw.length() - 1);
     }
 
     public boolean isNameTaken() {
@@ -50,6 +55,6 @@ public class NameField extends GraphicalObject {
     }
 
     public void resetTextToDraw(){
-        textToDraw = "";
+        textToDraw = new StringBuilder();
     }
 }
