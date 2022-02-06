@@ -142,7 +142,7 @@ public class ProgramController {
         items = new GameItem[]{
                 new Shield(player, "shield.png"),
                 new InvertControlsItem(player, "invert.png"),
-                new Stun(player, "chain.jpg"),
+                new Stun(player, "stun.jpg"),
                 new AddBodypartItem(player, "plus.png"),
                 new DeleteBodypartItem(player, "minus.png")
         };
