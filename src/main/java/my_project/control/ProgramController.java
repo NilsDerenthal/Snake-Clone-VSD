@@ -164,6 +164,8 @@ public class ProgramController {
             secondEnemy.setDifficulty(hardDifficulty);
             enemy.setOtherEnemy(secondEnemy);
             secondEnemy.setOtherEnemy(enemy);
+            enemy.setTwoEnemys(true);
+            secondEnemy.setTwoEnemys(true);
         }
 
         spawnable = new List<>();
