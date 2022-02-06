@@ -121,6 +121,7 @@ public class Enemy extends Entity {
      * @return ob der enemy sich bewegt hat
      */
     private boolean move(){
+        //Todo fix
         double d = Math.random()*2-0.5;
         boolean moved=false;
         if(d<0.5){
@@ -178,6 +179,7 @@ public class Enemy extends Entity {
      * enemy bewegt sich ein Feld in richtung des Players
      */
     private void moveToPlayer(){
+        //TODO fix
         double playerX=player.getHeadX();
         double playerY=player.getHeadY();
         double[] d = getDxDy(playerX,playerY);
