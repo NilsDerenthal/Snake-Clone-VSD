@@ -412,7 +412,7 @@ public class ProgramController {
                 pointsSpawned++;
                 gameTimer = 0;
             }
-                if (player.gotHit(enemy.getX(), enemy.getY()) && !dead) {
+                if (player.gotHit(enemy.getX(), enemy.getY()) && !dead ||player.gotHit(secondEnemy.getX(), secondEnemy.getY())&&!dead) {
                     if (getPoints() < 20) {
                         defeat.setFlame();
                     } else if (getPoints() < 100) {
