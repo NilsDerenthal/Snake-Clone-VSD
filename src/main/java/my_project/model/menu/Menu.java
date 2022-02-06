@@ -8,7 +8,6 @@ import my_project.control.ProgramController;
 import my_project.control.SceneConfig;
 import my_project.model.visual_ds.VisualList;
 import java.awt.*;
-import java.util.Map;
 
 import static my_project.control.SceneConfig.*;
 
@@ -50,6 +49,11 @@ public class Menu extends GraphicalObject {
         addOption("difficulty", new MenuSubOption[] {
             newOption("easy", () -> p.setDifficult(false), Color.YELLOW),
             newOption("hard", () -> p.setDifficult(true), Color.RED)
+        });
+
+        addOption("Sound",new MenuSubOption[]{
+                newOption("on",p::soundOn,Color.GREEN),
+                newOption("off",p::soundOff,Color.red)
         });
 
         leftList.toFirst();

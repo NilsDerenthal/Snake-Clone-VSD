@@ -23,7 +23,7 @@ public class LeaderBoard extends GraphicalObject {
     }
 
     public void draw(DrawTool d){
-        d.setCurrentColor(Color.CYAN);
+        d.setCurrentColor(Color.gray);
         d.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
         d.setCurrentColor(0,0,0,255);
         d.drawText(30,30,"The Player "+ p.getPlayerName()+" has " +p.getPoints()+ " Points");

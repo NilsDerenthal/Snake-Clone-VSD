@@ -36,7 +36,8 @@ public class ProgramController {
     private boolean dead,
             isRunning,
             gameExists,
-            hardDifficulty;
+            hardDifficulty,
+            sound=true;
 
     private int playerPosX,
             playerPosY;
@@ -109,7 +110,7 @@ public class ProgramController {
         leaderBoard = new LeaderBoard(viewController,this);
 
         loadSounds();
-        SoundController.playSound("menu_sound");
+        if(sound)SoundController.playSound("menu_sound");
     }
 
     /**
@@ -162,8 +163,10 @@ public class ProgramController {
         spawned = new List<>();
         pointQueue = new Queue<>();
 
-        SoundController.stopSound("menu_sound");
-        SoundController.playSound("game_sound_alt");
+        if(sound) {
+            SoundController.stopSound("menu_sound");
+            SoundController.playSound("game_sound_alt");
+        }
 
         for (var item : items) {
             spawnable.append(item);
@@ -218,7 +221,7 @@ public class ProgramController {
             Point p = new Point(x, y);
             pointQueue.enqueue(p);
             gameField.set(p, x, y);
-            SoundController.playSound("pointSpawned_sound");
+            if(sound)SoundController.playSound("pointSpawned_sound");
         }
     }
 
@@ -353,7 +356,7 @@ public class ProgramController {
     public void doDefeatScreenAction(){
         viewController.showScene(MENU_SCENE);
         dead = gameExists = false;
-        SoundController.playSound("menu_sound");
+        if(sound)SoundController.playSound("menu_sound");
     }
 
     public void addPoints(){
@@ -413,7 +416,7 @@ public class ProgramController {
                     showScene(SceneConfig.DEFEAT_SCENE);
                     dead = true;
                     isRunning = false;
-                    SoundController.stopSound("game_sound_alt");
+                    if(sound)SoundController.stopSound("game_sound_alt");
                 }
         }
     }
@@ -452,5 +455,19 @@ public class ProgramController {
 
     public void setDifficult (boolean hard){
         hardDifficulty = hard;
+    }
+
+    public void soundOn(){
+        if(sound==false){
+            sound=true;
+            SoundController.playSound("menu_sound");
+        }
+    }
+
+    public void soundOff(){
+        if(sound==true){
+            sound=false;
+            SoundController.stopSound("menu_sound");
+        }
     }
 }

@@ -3,7 +3,10 @@ package my_project.model.game;
 import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
+import my_project.Config;
 import my_project.control.ProgramController;
+
+import java.awt.*;
 
 import static my_project.control.SceneConfig.*;
 
@@ -41,6 +44,9 @@ public class DefeatScreen extends GraphicalObject {
 
     @Override
     public void draw(DrawTool drawTool) {
+        drawTool.setCurrentColor(Color.gray);
+        drawTool.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
+        drawTool.setCurrentColor(Color.BLACK);
         drawTool.formatText("", 3, 40);
         drawTool.drawText(250,200,chosenOne);
         drawTool.drawText(260,260,"Score: " + programController.getPoints());
