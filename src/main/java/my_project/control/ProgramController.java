@@ -392,19 +392,19 @@ public class ProgramController {
                 pointsSpawned++;
                 gameTimer = 0;
             }
-                if (player.gotHit(enemy.getX(), enemy.getY()) && !dead ||player.gotHit(secondEnemy.getX(), secondEnemy.getY())&&!dead) {
-                    if (getPoints() < 20) {
-                        defeat.setFlame();
-                    } else if (getPoints() < 100) {
-                        defeat.setNormal();
-                    } else {
-                        defeat.setPraise();
-                    }
-                    showScene(SceneConfig.DEFEAT_SCENE);
-                    dead = true;
-                    isRunning = false;
-                    if(sound)SoundController.stopSound("game_sound_alt");
+            if (player.gotHit(enemy.getX(), enemy.getY()) && !dead ||secondEnemy!=null&& player.gotHit(secondEnemy.getX(), secondEnemy.getY())&&!dead) {
+                if (getPoints() < 20) {
+                    defeat.setFlame();
+                } else if (getPoints() < 100) {
+                    defeat.setNormal();
+                } else {
+                    defeat.setPraise();
                 }
+                showScene(SceneConfig.DEFEAT_SCENE);
+                dead = true;
+                isRunning = false;
+                if(sound)SoundController.stopSound("game_sound_alt");
+            }
         }
     }
 
