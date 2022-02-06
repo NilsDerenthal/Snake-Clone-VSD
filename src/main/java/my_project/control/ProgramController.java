@@ -36,8 +36,9 @@ public class ProgramController {
     private boolean dead,
             isRunning,
             gameExists,
-            hardDifficulty,
-            sound=true;
+            hardDifficulty=false,
+            sound=true,
+            twoEnemys=false;
 
     private int playerPosX,
             playerPosY;
@@ -54,7 +55,7 @@ public class ProgramController {
     private Player player;
     private Color playerColor;
     private Menu menu;
-    private Enemy enemy;
+    private Enemy enemy,secondEnemy;
     private GameField gameField;
     private BarField field;
     private PointBar pointBarOrig;
@@ -133,6 +134,7 @@ public class ProgramController {
     public void startNewGame(){
         gameField = new GameField(viewController, halfWinWidth - 225, halfWinHeight - 250, 10, 10);
         enemy = new Enemy(viewController,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
+        if(twoEnemys) secondEnemy = new Enemy(viewController,10,10,10,halfWinWidth - 235, halfWinHeight - 260,40,this);
         player = new Player(viewController, halfWinWidth - 35, halfWinHeight - 60, playerColor);
         pointBarOrig = new PointBar(20,255,0,0);
         pointBarStack = new VisualStack<>(viewController);
@@ -158,6 +160,11 @@ public class ProgramController {
         gameExists = true;
 
         enemy.setDifficulty(hardDifficulty);
+        if(twoEnemys){
+            secondEnemy.setDifficulty(hardDifficulty);
+            enemy.setOtherEnemy(secondEnemy);
+            secondEnemy.setOtherEnemy(enemy);
+        }
 
         spawnable = new List<>();
         spawned = new List<>();
@@ -455,6 +462,10 @@ public class ProgramController {
 
     public void setDifficult (boolean hard){
         hardDifficulty = hard;
+    }
+
+    public void setTwoEnemys (boolean two){
+        twoEnemys = two;
     }
 
     public void soundOn(){

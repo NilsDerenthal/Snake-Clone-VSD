@@ -9,18 +9,13 @@ import java.awt.*;
 
 public class Enemy extends Entity {
 
-    private boolean up;
-    private boolean left;
-    private int xPosIngameField;
-    private int yPosInGameField;
-    private final int gameFieldHeight;
-    private final int gameFieldXPos;
-    private final int gameFieldYPos;
-    private final int cellHeight;
+    private boolean up,left,hardDifficuld=false,twoEnemys=false;
+    private int xPosIngameField,yPosInGameField;
+    private final int gameFieldHeight,gameFieldXPos,gameFieldYPos,cellHeight;
     private double t=1;
     private final Player player;
     private final ProgramController programController;
-    private boolean hardDifficuld=false;
+    private Enemy otherEnemy;
 
     public Enemy(ViewController viewController,int xPosInGameField,int yPosInGameField,int gameFieldHeight,int gameFieldXPos,int gameFieldYPos, int cellHeight,ProgramController programController) {
         super(0);
@@ -103,15 +98,15 @@ public class Enemy extends Entity {
         if(programController.getIsRunning()) {
             t -= dt;
             if (t <= 0) {
-                if(hardDifficuld){
+                if (hardDifficuld) {
                     moveToPlayer();
-                }else {
-                    boolean moved=false;
-                    int timesTried=0;
-                    while (!moved){
+                } else {
+                    boolean moved = false;
+                    int timesTried = 0;
+                    while (!moved) {
                         timesTried++;
                         moved = move();
-                        if(timesTried>10) changeUpLeft();
+                        if (timesTried > 10) changeUpLeft();
                     }
                 }
                 t = 1;
@@ -129,12 +124,18 @@ public class Enemy extends Entity {
         if(d<0.5){
             if(up){
                 if(yPosInGameField<gameFieldHeight){
+                    if(twoEnemys&&otherEnemy.xPosIngameField==xPosIngameField){
+                        if(otherEnemy.yPosInGameField>yPosInGameField+1) return false;
+                    }
                     yPosInGameField+=1;
                     yPosToY();
                     moved=true;
                 }
             }else{
                 if(yPosInGameField>1){
+                    if(twoEnemys&&otherEnemy.xPosIngameField==xPosIngameField){
+                        if(otherEnemy.yPosInGameField<yPosInGameField-1) return false;
+                    }
                     yPosInGameField-=1;
                     yPosToY();
                     moved=true;
@@ -143,12 +144,18 @@ public class Enemy extends Entity {
         }else{
             if(left){
                 if(xPosIngameField>1){
+                    if(twoEnemys&&otherEnemy.yPosInGameField==yPosInGameField){
+                        if(otherEnemy.xPosIngameField<xPosIngameField-1) return false;
+                    }
                     xPosIngameField-=1;
                     xPosToX();
                     moved=true;
                 }
             }else{
                 if(xPosIngameField<gameFieldHeight){
+                    if(twoEnemys&&otherEnemy.yPosInGameField==yPosInGameField){
+                        if(otherEnemy.xPosIngameField>xPosIngameField+1) return false;
+                    }
                     xPosIngameField+=1;
                     xPosToX();
                     moved=true;
@@ -196,4 +203,8 @@ public class Enemy extends Entity {
      * ändert die schwierigkeit
      */
     public void setDifficulty (boolean hard){ hardDifficuld=hard; }
+
+    public void setTwoEnemys(boolean to){ twoEnemys=to; }
+
+    public void setOtherEnemy(Enemy e){ otherEnemy=e; }
 }
