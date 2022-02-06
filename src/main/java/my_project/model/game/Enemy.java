@@ -10,7 +10,7 @@ import java.awt.*;
 public class Enemy extends Entity {
 
     private boolean up,left,hardDifficuld=false,twoEnemys=false;
-    private int xPosInGameField,yPosInGameField;
+    private int xPosInGameField,yPosInGameField,timesMoved=0;
     private final int gameFieldHeight,gameFieldXPos,gameFieldYPos,cellHeight;
     private double t=1;
     private final Player player;
@@ -101,7 +101,14 @@ public class Enemy extends Entity {
             t -= dt;
             if (t <= 0) {
                 if (hardDifficuld) {
-                    moveToPlayer();
+                    if(twoEnemys) {
+                        double r=Math.random()*25-1;
+                        if(r>0){
+                            moveToPlayer();
+                        }else{
+                            move();
+                        }
+                    }
                 } else {
                     boolean moved = false;
                     int timesTried = 0;
@@ -111,7 +118,13 @@ public class Enemy extends Entity {
                         if (timesTried > 10) changeUpLeft();
                     }
                 }
-                t = 1;
+                if(twoEnemys){
+                    t=1;
+                }else{
+                    timesMoved++;
+                    t=1-timesMoved/60;
+                    if(t<0.2) t=0.2;
+                }
             }
         }
     }
@@ -121,7 +134,6 @@ public class Enemy extends Entity {
      * @return ob der enemy sich bewegt hat
      */
     private boolean move(){
-        //Todo fix
         double d = Math.random()*2-0.5;
         boolean moved=false;
         if(d<0.5){
@@ -179,7 +191,6 @@ public class Enemy extends Entity {
      * enemy bewegt sich ein Feld in richtung des Players
      */
     private void moveToPlayer(){
-        //TODO fix
         double playerX=player.getHeadX();
         double playerY=player.getHeadY();
         double[] d = getDxDy(playerX,playerY);
@@ -251,6 +262,11 @@ public class Enemy extends Entity {
         }
     }
 
+    /**
+     * gibt die differenz der Coordinaten des Enemy und des Players
+     * @param playerX x Coordinate des Players
+     * @param playerY y Coordinate des Players
+     */
     public double[] getDxDy(double playerX,double playerY){
         double[] d=new double[2];
         double dx=playerX-x;
@@ -267,7 +283,13 @@ public class Enemy extends Entity {
      */
     public void setDifficulty (boolean hard){ hardDifficuld=hard; }
 
+    /**
+     * sagt dem Enemy ob er den zweiten enemy beachten soll
+     */
     public void setTwoEnemys(boolean to){ twoEnemys=to; }
 
+    /**
+     * setzt den zweiten enemy
+     */
     public void setOtherEnemy(Enemy e){ otherEnemy=e; }
 }
