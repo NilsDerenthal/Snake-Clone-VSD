@@ -4,8 +4,8 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'de.kkg-do'
+version '0.0.1-alpha'
 
 repositories {
     mavenCentral()
@@ -18,8 +18,4 @@ javafx {
 
 dependencies {
 
-}
-
-test {
-    useJUnitPlatform()
 }
