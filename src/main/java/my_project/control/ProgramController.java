@@ -312,36 +312,16 @@ public class ProgramController {
     }
 
     public void enterLetter(int key){
-        switch(key){
-            case KeyEvent.VK_A -> nameField.setTextToDraw("a");
-            case KeyEvent.VK_B -> nameField.setTextToDraw("b");
-            case KeyEvent.VK_C -> nameField.setTextToDraw("c");
-            case KeyEvent.VK_D -> nameField.setTextToDraw("d");
-            case KeyEvent.VK_E -> nameField.setTextToDraw("e");
-            case KeyEvent.VK_F -> nameField.setTextToDraw("f");
-            case KeyEvent.VK_G -> nameField.setTextToDraw("g");
-            case KeyEvent.VK_H -> nameField.setTextToDraw("h");
-            case KeyEvent.VK_I -> nameField.setTextToDraw("i");
-            case KeyEvent.VK_J -> nameField.setTextToDraw("j");
-            case KeyEvent.VK_K -> nameField.setTextToDraw("k");
-            case KeyEvent.VK_L -> nameField.setTextToDraw("l");
-            case KeyEvent.VK_M -> nameField.setTextToDraw("m");
-            case KeyEvent.VK_N -> nameField.setTextToDraw("n");
-            case KeyEvent.VK_O -> nameField.setTextToDraw("o");
-            case KeyEvent.VK_P -> nameField.setTextToDraw("p");
-            case KeyEvent.VK_Q -> nameField.setTextToDraw("q");
-            case KeyEvent.VK_R -> nameField.setTextToDraw("r");
-            case KeyEvent.VK_S -> nameField.setTextToDraw("s");
-            case KeyEvent.VK_T -> nameField.setTextToDraw("t");
-            case KeyEvent.VK_U -> nameField.setTextToDraw("u");
-            case KeyEvent.VK_V -> nameField.setTextToDraw("v");
-            case KeyEvent.VK_W -> nameField.setTextToDraw("w");
-            case KeyEvent.VK_X -> nameField.setTextToDraw("x");
-            case KeyEvent.VK_Y -> nameField.setTextToDraw("y");
-            case KeyEvent.VK_Z -> nameField.setTextToDraw("z");
+        switch (key) {
             case KeyEvent.VK_ENTER -> {
-                name=nameField.getTextToDraw();
+                name = nameField.getTextToDraw();
                 showScene(MENU_SCENE);
+            }
+            case KeyEvent.VK_BACK_SPACE -> nameField.removeLast();
+            default -> {
+                String inputChar = KeyEvent.getKeyText(key).toLowerCase();
+                if (inputChar.matches("^[a-z]$"))
+                    nameField.setTextToDraw(inputChar);
             }
         }
     }

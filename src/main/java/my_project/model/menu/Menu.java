@@ -66,8 +66,8 @@ public class Menu extends GraphicalObject {
         });
 
         addOption("Sound",new MenuSubOption[]{
-                newOption("on",p::soundOn,Color.GREEN),
-                newOption("off",p::soundOff,Color.red)
+                newOption("on", p::soundOn, Color.GREEN),
+                newOption("off", p::soundOff, Color.red)
         });
 
         leftList.toFirst();
