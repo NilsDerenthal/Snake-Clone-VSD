@@ -1,1 +1,7 @@
+4:gg:easy
+3:gfa:easy
+2:gf:easy
+1:gg:easy
 0:test:easy
+0:gfa:easy
+15:gfa:easy

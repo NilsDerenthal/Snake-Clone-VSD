@@ -59,6 +59,10 @@ public class VisualStack<T extends GraphicalObject & VisualStack.Animated> exten
         }
     }
 
+    public boolean isEmptyVisual(){
+        return stack.isEmpty();
+    }
+
     public int getCounter() {
         return counter;
     }

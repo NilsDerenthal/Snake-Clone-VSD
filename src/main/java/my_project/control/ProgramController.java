@@ -398,6 +398,9 @@ public class ProgramController {
                 gameTimer = 0;
             }
             if (player.gotHit(enemy.getX(), enemy.getY()) && !dead ||secondEnemy!=null&& player.gotHit(secondEnemy.getX(), secondEnemy.getY())&&!dead) {
+                while(!pointBarStack.isEmptyVisual()) {
+                    pointBarStack.popVisual();
+                }
                 if (getPoints() < 20) {
                     defeat.setFlame();
                 } else if (getPoints() < 100) {
@@ -418,9 +421,9 @@ public class ProgramController {
         String s;
         if(twoEnemys){
             if(hardDifficulty){
-                s="hard against two Enemys";
+                s="hard against two Enemies";
             }else{
-                s="easy against two Enemys";
+                s="easy against two Enemies";
             }
         }else{
             if(hardDifficulty){
