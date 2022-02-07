@@ -407,9 +407,28 @@ public class ProgramController {
                 showScene(SceneConfig.DEFEAT_SCENE);
                 dead = true;
                 isRunning = false;
+                l.addToLeaderBoard(player.getName(),getPoints(),getDifficult());
                 if(sound)SoundController.stopSound("game_sound_alt");
             }
         }
+    }
+
+    public String getDifficult(){
+        String s;
+        if(twoEnemys){
+            if(hardDifficulty){
+                s="hard two Enemys";
+            }else{
+                s="easy two Enemys";
+            }
+        }else{
+            if(hardDifficulty){
+                s="hard";
+            }else{
+                s="easy";
+            }
+        }
+        return s;
     }
 
     public Player getPlayer () {

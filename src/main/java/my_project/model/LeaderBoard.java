@@ -13,12 +13,9 @@ import static my_project.control.SceneConfig.LEADERBOARD_SCENE;
 
 public class LeaderBoard extends GraphicalObject {
 
-    private final ProgramController p;
     private final LeaderboardController l;
 
-
     public LeaderBoard(ViewController vc, ProgramController p, LeaderboardController l){
-        this.p = p;
         this.l=l;
         vc.draw(this, LEADERBOARD_SCENE);
     }
@@ -27,6 +24,13 @@ public class LeaderBoard extends GraphicalObject {
         d.setCurrentColor(Color.gray);
         d.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
         d.setCurrentColor(0,0,0,255);
-        d.drawText(30,30,"The Player "+ p.getPlayerName()+" has " +p.getPoints()+ " Points");
+        int x=30;
+        String[] names=l.getNames();
+        String[] difficults=l.getDifficults();
+        int[] scores=l.getScores();
+        for(int i=0;i<names.length&&i<20;i++) {
+            d.drawText(x, 30, "The Player " + names[i] + " has " + scores[i] + " Points with difficult "+difficults[i]);
+            x+=20;
+        }
     }
 }
