@@ -24,13 +24,13 @@ public class LeaderBoard extends GraphicalObject {
         d.setCurrentColor(Color.gray);
         d.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
         d.setCurrentColor(0,0,0,255);
-        int x=30;
+        int y=30;
         String[] names=l.getNames();
         String[] difficults=l.getDifficults();
         int[] scores=l.getScores();
         for(int i=0;i<names.length&&i<20;i++) {
-            d.drawText(x, 30, "The Player " + names[i] + " has " + scores[i] + " Points with difficult "+difficults[i]);
-            x+=20;
+            d.drawText(30, y, "The Player " + names[i] + " has " + scores[i] + " Points with difficuly "+difficults[i]);
+            y+=20;
         }
     }
 }

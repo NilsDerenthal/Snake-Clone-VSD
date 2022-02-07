@@ -14,15 +14,17 @@ public class LeaderboardController {
 
     private void updateArrays(){
         String fileString = getFileContent();
-        String[] fileStringArray = fileString.split("\n");
-        names = new String[fileStringArray.length];
-        scores = new int[fileStringArray.length];
-        difficults = new String[fileStringArray.length];
-        for(int i=0;i< fileStringArray.length-1;i++){
-            String[] strings = fileStringArray[i].split(":");
-            names[i]=strings[0];
-            scores[i]=Integer.parseInt(strings[1]);
-            difficults[i]=strings[2];
+        if(!fileString.equals("")) {
+            String[] fileStringArray = fileString.split("\n");
+            names = new String[fileStringArray.length];
+            scores = new int[fileStringArray.length];
+            difficults = new String[fileStringArray.length];
+            for (int i = 0; i < fileStringArray.length; i++) {
+                String[] strings = fileStringArray[i].split(":");
+                names[i] = strings[0];
+                scores[i] = Integer.parseInt(strings[1]);
+                difficults[i] = strings[2];
+            }
         }
     }
 
@@ -33,9 +35,9 @@ public class LeaderboardController {
         System.arraycopy(difficults,0,oldDifficults,0,names.length);
         int[] oldScores=new int[names.length];
         System.arraycopy(scores,0,oldScores,0,names.length);
-        names=new String[oldNames.length];
-        difficults=new String[oldNames.length];
-        scores=new int[oldNames.length];
+        names=new String[oldNames.length+1];
+        difficults=new String[oldNames.length+1];
+        scores=new int[oldNames.length+1];
         System.arraycopy(oldNames,0,names,0,oldNames.length);
         System.arraycopy(oldDifficults,0,difficults,0,oldNames.length);
         System.arraycopy(oldScores,0,scores,0,oldNames.length);

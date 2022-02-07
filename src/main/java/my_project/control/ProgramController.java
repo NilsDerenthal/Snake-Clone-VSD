@@ -417,9 +417,9 @@ public class ProgramController {
         String s;
         if(twoEnemys){
             if(hardDifficulty){
-                s="hard two Enemys";
+                s="hard against two Enemys";
             }else{
-                s="easy two Enemys";
+                s="easy against two Enemys";
             }
         }else{
             if(hardDifficulty){
