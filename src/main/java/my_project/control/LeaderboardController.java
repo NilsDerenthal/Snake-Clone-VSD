@@ -1,6 +1,7 @@
 package my_project.control;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class LeaderboardController {
 
@@ -10,19 +11,26 @@ public class LeaderboardController {
 
     public LeaderboardController(){
         updateArrays();
+
     }
 
     private void updateArrays(){
         String fileString = getFileContent();
         if(!fileString.equals("")) {
             String[] fileStringArray = fileString.split("\n");
+            String[] stringArray=new String[fileStringArray.length];
+            Arrays.sort(fileStringArray);
+            for(int i=0;i<fileStringArray.length;i++){
+                stringArray[stringArray.length-i-1]=fileStringArray[i];
+            }
+            fileStringArray=stringArray;
             names = new String[fileStringArray.length];
             scores = new int[fileStringArray.length];
             difficults = new String[fileStringArray.length];
             for (int i = 0; i < fileStringArray.length; i++) {
                 String[] strings = fileStringArray[i].split(":");
-                names[i] = strings[0];
-                scores[i] = Integer.parseInt(strings[1]);
+                names[i] = strings[1];
+                scores[i] = Integer.parseInt(strings[0]);
                 difficults[i] = strings[2];
             }
         }
@@ -77,7 +85,7 @@ public class LeaderboardController {
     public void writeLeaderBoard() {
         StringBuilder newFileDataString = new StringBuilder();
 
-        for(int i=0;i< names.length;i++) newFileDataString.append(String.format("%s:%s:%s%n", names[i], scores[i], difficults[i]));
+        for(int i=0;i< names.length;i++) newFileDataString.append(String.format("%s:%s:%s%n", scores[i],names[i], difficults[i]));
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/my_project/control/LeaderBoard.txt"))) {
             writer.write(newFileDataString.toString());
