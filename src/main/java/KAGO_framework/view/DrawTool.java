@@ -1,5 +1,9 @@
 package KAGO_framework.view;
 
+import KAGO_framework.model.dreiD.threeD.PointThreeD;
+import KAGO_framework.model.dreiD.threeD.PolygonThreeD;
+import KAGO_framework.model.dreiD.threeD.Tetrahedron;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
@@ -336,6 +340,29 @@ public class DrawTool {
      */
     public void drawText(double x, double y, String text){
         if (graphics2D!=null) graphics2D.drawString(text,(int)x,(int)y);
+    }
+
+    public void drawCube(double x,double y,double size,double xRotation,double yRotation,double zRotation){
+        PointThreeD p1=new PointThreeD(size/2,-size/2,-size/2);
+        PointThreeD p2=new PointThreeD(size/2,size/2,-size/2);
+        PointThreeD p3=new PointThreeD(size/2,size/2,size/2);
+        PointThreeD p4=new PointThreeD(size/2,-size/2,size/2);
+        PointThreeD p5=new PointThreeD(-size/2,-size/2,-size/2);
+        PointThreeD p6=new PointThreeD(-size/2,size/2,-size/2);
+        PointThreeD p7=new PointThreeD(-size/2,size/2,size/2);
+        PointThreeD p8=new PointThreeD(-size/2,-size/2,size/2);
+        Tetrahedron t=new Tetrahedron(
+                x,
+                y,
+                new PolygonThreeD(Color.DARK_GRAY,p5,p6,p7,p8),
+                new PolygonThreeD(Color.BLUE,p1,p2,p6,p5),
+                new PolygonThreeD(Color.YELLOW,p1,p4,p8,p5),
+                new PolygonThreeD(Color.GREEN,p2,p6,p7,p3),
+                new PolygonThreeD(Color.ORANGE,p4,p3,p7,p8),
+                new PolygonThreeD(Color.RED,p1,p2,p3,p4)
+        );
+        t.rotate(true,xRotation,yRotation,zRotation);
+        if(graphics2D!=null) t.draw(graphics2D);
     }
 
     /**

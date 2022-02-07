@@ -420,4 +420,12 @@ public class Visual2DArray<T extends GraphicalObject & Visual2DArray.Animatable>
     public void mousePressed(MouseEvent e) {
         forEachController(i -> i.mousePressed(e));
     }
+
+    @Override
+    public void update(double dt) {
+        forEach((i, j) -> {
+            T visualObj = internalRepresentation[i][j];
+            if(visualObj!=null) visualObj.update(dt);
+        });
+    }
 }
