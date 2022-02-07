@@ -105,6 +105,7 @@ public class ProgramController {
         new DefeatScreenInputManager(this,viewController);
         new NameFieldInputManager(this,viewController);
         new LeaderBoardInputManager(this,viewController);
+        new Background(viewController);
 
         menu = new Menu(viewController, this);
         nameField = new NameField(viewController);

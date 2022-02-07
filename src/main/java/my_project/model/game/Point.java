@@ -2,8 +2,6 @@ package my_project.model.game;
 
 import KAGO_framework.view.DrawTool;
 
-
-
 public class Point extends Entity {
 
     private final int posX, posY;
