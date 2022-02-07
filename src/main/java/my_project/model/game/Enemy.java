@@ -108,6 +108,8 @@ public class Enemy extends Entity {
                         }else{
                             move();
                         }
+                    }else{
+                        moveToPlayer();
                     }
                 } else {
                     boolean moved = false;
