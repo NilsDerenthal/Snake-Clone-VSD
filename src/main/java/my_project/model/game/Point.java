@@ -23,7 +23,6 @@ public class Point extends Entity {
         /*
         drawTool.setCurrentColor(Color.yellow);
         drawTool.drawFilledRectangle(x,y,width,height);
-
          */
     }
 
