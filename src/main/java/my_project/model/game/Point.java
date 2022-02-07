@@ -40,7 +40,5 @@ public class Point extends Entity {
         super.update(dt);
         yRoation+=20*dt;
         zRotation+=20*dt;
-        System.out.println("a");
-        if(yRoation==0||zRotation==0) System.err.println("rotaion didnt work for: "+this);
     }
 }
