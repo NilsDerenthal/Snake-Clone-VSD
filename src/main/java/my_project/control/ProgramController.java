@@ -285,7 +285,7 @@ public class ProgramController {
             }
             if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(MENU_SCENE);
             if (spawned != null && !spawned.isEmpty()) {
-                // check items
+                //Checks if you collect a item, activates it
                 spawned.toFirst();
                 while (spawned.hasAccess()) {
                     var item = spawned.getContent();
@@ -297,7 +297,7 @@ public class ProgramController {
                     }
                     spawned.next();
                 }
-                //check point
+                //Checks if you collect a point, picks it up if its the right one
                 if (!pointQueue.isEmpty()) {
                     if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
                         gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
@@ -309,6 +309,7 @@ public class ProgramController {
                     }
                 }
             }
+            //Return to menue and pause the game
             if(key == KeyEvent.VK_ESCAPE){
                 viewController.showScene(MENU_SCENE);
                 isRunning=false;
@@ -386,17 +387,19 @@ public class ProgramController {
         if (isRunning) {
             timer += dt;
             gameTimer += dt;
-            // every 5 seconds
+            //Spawn a item every 5 seconds
             if (timer > 5) {
                 timer = 0;
                 if (spawnable != null && !spawnable.isEmpty())
                     spawnRandomItem();
             }
+            //Spawns the first 3 points
             if (gameTimer > 0.5 && pointsSpawned < pointsToSpawn) {
                 spawnPoint();
                 pointsSpawned++;
                 gameTimer = 0;
             }
+            //Checks if you got hit by an enemy
             if (player.gotHit(enemy.getX(), enemy.getY()) && !dead ||secondEnemy!=null&& player.gotHit(secondEnemy.getX(), secondEnemy.getY())&&!dead) {
                 while(!pointBarStack.isEmptyVisual()) {
                     pointBarStack.popVisual();
@@ -437,10 +440,6 @@ public class ProgramController {
 
     public Player getPlayer () {
         return player;
-    }
-
-    public String getPlayerName(){
-        return name;
     }
 
     public ViewController getViewController () {

@@ -51,6 +51,7 @@ public class Player extends Entity {
             return shieldActive;
         }
 
+        //Setup for the VisualQueue
         @Override
         public void setTx(double tx) {
             x = tx;
@@ -95,22 +96,19 @@ public class Player extends Entity {
         // infinitely fast fading -> no fading
         super(Integer.MAX_VALUE);
 
+        //VisualQueue draws the player
         body = new VisualQueue<>(viewcontroller, startX, startY, "movable");
         BodyPart firstPart = new BodyPart(20,color);
 
         body.enqueue(firstPart);
         body.getFront().setHead(true);
 
-        this.points = points;
         this.color=color;
         System.out.println(color);
         viewcontroller.draw(this, GAME_SCENE);
     }
 
-    public String getInfos(){
-        return getName()+": ";
-    }
-
+    //moves the player
     public boolean movePlayer(double moveX, double moveY) {
         if (moveX != 0 || moveY != 0) {
             if (body.isPlaceFree(moveX, moveY)) {
@@ -121,6 +119,7 @@ public class Player extends Entity {
         return false;
     }
 
+    //Creates an object of the innerclass "BodyPart" and enques it into the VisualQueue
     public void addBodyPart(){
         BodyPart body = new BodyPart(20,color);
         this.body.enqueue(body);
@@ -128,6 +127,7 @@ public class Player extends Entity {
         length++;
     }
 
+    //Deques front. Checks if shield is active to keep the marker of it
     public void deleteBodyPart(){
         boolean shielded = body.getFront().isShieldActive();
         body.dequeue();
@@ -159,15 +159,9 @@ public class Player extends Entity {
         this.name = name;
     }
 
-    public boolean isAlive(){
-        return body.getFront() != null;
-    }
-
-
     public boolean isInvertedControls() {
         return invertedControls;
     }
-
 
     public void setShielded(boolean shielded) {
         this.shielded = shielded;
@@ -176,14 +170,6 @@ public class Player extends Entity {
 
     public int getLength() {
         return length;
-    }
-
-    public int getPoints(){
-        return points;
-    }
-
-    public void setPoints(int points){
-        this.points = points;
     }
 
     public void setInvertedControls(boolean invertedControls) {
@@ -207,5 +193,6 @@ public class Player extends Entity {
     }
 
     public double getHeadX(){ return body.getFront().getTx(); }
+
     public double getHeadY(){ return body.getFront().getTy(); }
 }
