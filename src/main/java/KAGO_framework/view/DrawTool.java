@@ -342,6 +342,15 @@ public class DrawTool {
         if (graphics2D!=null) graphics2D.drawString(text,(int)x,(int)y);
     }
 
+    /**
+     * zeichnet einen 3D Würfel
+     * @param x Die x-Position des Mittelpunktes
+     * @param y Die y-Position des Mittelpunktes
+     * @param size Die größe des Würfels
+     * @param xRotation Die rotation um die x-Achse
+     * @param yRotation Die rotation um die y-Achse
+     * @param zRotation Die rotation um die z-Achse
+     */
     public void drawCube(double x,double y,double size,double xRotation,double yRotation,double zRotation){
         PointThreeD p1=new PointThreeD(size/2,-size/2,-size/2);
         PointThreeD p2=new PointThreeD(size/2,size/2,-size/2);

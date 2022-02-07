@@ -6,13 +6,16 @@ public class PointConverter {
 
     private static double scale = 1;
 
+    /**
+     * convertiert einen 3D Punkt zu einem 2D Punkt
+     */
     public static Point convertPoint(PointThreeD p){
         double x3d = p.y*scale;
         double y3d = p.z*scale;
         double depth = p.x*scale;
         double[] newVal = scale(x3d,y3d,depth);
-        int x2d = (int) newVal[0];//(int)(Config.WINDOW_WIDTH/2+newVal[0]);
-        int y2d = (int) newVal[1];//(int)(Config.WINDOW_HEIGHT/2-newVal[1]);
+        int x2d = (int) newVal[0];
+        int y2d = (int) newVal[1];
 
         Point point = new Point(x2d,y2d);
         return point;
@@ -30,6 +33,9 @@ public class PointConverter {
         return newVal;
     }
 
+    /**
+     * rotiert einen Punkt um die X-Achse
+     */
     public static void rotateAxisX(PointThreeD p,boolean cW,double degrees){
         double radius=Math.sqrt(p.y*p.y+p.z*p.z);
         double theta=Math.atan2(p.z,p.y);
@@ -38,6 +44,9 @@ public class PointConverter {
         p.z=radius*Math.sin(theta);
     }
 
+    /**
+     * rotiert einen Punkt um die Y-Achse
+     */
     public static void rotateAxisY(PointThreeD p,boolean cW,double degrees){
         double radius=Math.sqrt(p.x*p.x+p.z*p.z);
         double theta=Math.atan2(p.x,p.z);
@@ -46,6 +55,9 @@ public class PointConverter {
         p.z=radius*Math.cos(theta);
     }
 
+    /**
+     * rotiert einen Punkt um die Z-Achse
+     */
     public static void rotateAxisZ(PointThreeD p,boolean cW,double degrees){
         double radius=Math.sqrt(p.y*p.y+p.x*p.x);
         double theta=Math.atan2(p.y,p.x);

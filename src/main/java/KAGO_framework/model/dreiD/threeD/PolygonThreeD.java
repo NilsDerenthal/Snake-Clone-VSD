@@ -10,6 +10,11 @@ public class PolygonThreeD{
     private PointThreeD[] points;
     private Color color;
 
+    /**
+     * Polygon im 3D Raum
+     * @param color Die Farbe des Polygons
+     * @param points Die Eckpunkte des Polygons
+     */
     public PolygonThreeD(Color color,PointThreeD... points){
         this.points = new PointThreeD[points.length];
         for(int i=0;i< points.length;i++){
@@ -19,6 +24,9 @@ public class PolygonThreeD{
         this.color=color;
     }
 
+    /**
+     * zeichnet das Polygon
+     */
     public void draw(Graphics2D g,double x,double y){
         Polygon poly=new Polygon();
         for(int i=0;i< points.length;i++){
@@ -29,6 +37,9 @@ public class PolygonThreeD{
         g.fillPolygon(poly);
     }
 
+    /**
+     * @return den durchschnitt der x Positionen der einzelnen Punkte des Polygons
+     */
     public double getAverageX(){
         double sum=0;
         for(PointThreeD value:points){
@@ -37,6 +48,10 @@ public class PolygonThreeD{
         return sum/ points.length;
     }
 
+    /**
+     * rotiert das Polygon
+     * @param cW Ob die Rotation im Uhrzeigersinn sein soll
+     */
     public void rotate(boolean cW,double xDegrees,double yDegrees,double zDegrees){
         for(PointThreeD value:points){
             PointConverter.rotateAxisX(value,cW,xDegrees);
@@ -45,10 +60,16 @@ public class PolygonThreeD{
         }
     }
 
+    /**
+     * verändert die Farbe des Polygons
+     */
     public void setColor(Color color){
         this.color=color;
     }
 
+    /**
+     * sortiert ein Array von Polygonen, damit diese in der Richtigen Reihenfolge gezeichnet werden können
+     */
     public static PolygonThreeD[] sortPolygons(PolygonThreeD[] p){
         List<PolygonThreeD> polygonList=new ArrayList<PolygonThreeD>();
 
