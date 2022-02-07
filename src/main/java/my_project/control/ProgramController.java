@@ -65,6 +65,7 @@ public class ProgramController {
 
     private NameField nameField;
     private LeaderBoard leaderBoard;
+    private LeaderboardController l;
 
     int halfWinHeight = Config.WINDOW_HEIGHT / 2;
     int halfWinWidth = Config.WINDOW_WIDTH / 2;
@@ -85,6 +86,7 @@ public class ProgramController {
      * Sie erstellt die leeren Datenstrukturen, zu Beginn nur eine Queue
      */
     public void startProgram() {
+        l=new LeaderboardController();
         this.playerColor = Color.BLUE;
         this.rand = new Random();
 
@@ -108,7 +110,7 @@ public class ProgramController {
         nameField = new NameField(viewController);
         defeat = new DefeatScreen(viewController,this);
         field = new BarField(viewController);
-        leaderBoard = new LeaderBoard(viewController,this);
+        leaderBoard = new LeaderBoard(viewController,this,l);
 
         loadSounds();
         if(sound)SoundController.playSound("menu_sound");

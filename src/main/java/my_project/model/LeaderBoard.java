@@ -4,9 +4,8 @@ import KAGO_framework.control.ViewController;
 import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.Config;
+import my_project.control.LeaderboardController;
 import my_project.control.ProgramController;
-import my_project.model.game.BarField;
-import my_project.model.game.Player;
 
 import java.awt.*;
 
@@ -14,11 +13,13 @@ import static my_project.control.SceneConfig.LEADERBOARD_SCENE;
 
 public class LeaderBoard extends GraphicalObject {
 
-    private ViewController vc;
-    private ProgramController p;
+    private final ProgramController p;
+    private final LeaderboardController l;
 
-    public LeaderBoard(ViewController vc, ProgramController p){
+
+    public LeaderBoard(ViewController vc, ProgramController p, LeaderboardController l){
         this.p = p;
+        this.l=l;
         vc.draw(this, LEADERBOARD_SCENE);
     }
 
