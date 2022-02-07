@@ -120,19 +120,23 @@ public class Menu extends GraphicalObject {
     }
 
     public void next(){
+        if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().getCurrent().setSelected(false);
         if(leftList.getCurrent()!=null) {
             MenuOption current = leftList.getCurrent();
             leftList.getCurrent().changeUp(false);
             leftList.next();
             if (leftList.getCurrent()==null) leftList.currentTo(current);
             leftList.getCurrent().changeUp(true);
+            if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().getCurrent().setSelected(true);
         }
     }
 
     public void previous(){
+        if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().getCurrent().setSelected(false);
         if(leftList.getCurrent()!=null) leftList.getCurrent().changeUp(false);
         leftList.previous();
         if (leftList.getCurrent() != null) leftList.getCurrent().changeUp(true);
+        if(leftList.getCurrent().getList().getCurrent()!=null) leftList.getCurrent().getList().getCurrent().setSelected(true);
     }
 
     public void left(){
