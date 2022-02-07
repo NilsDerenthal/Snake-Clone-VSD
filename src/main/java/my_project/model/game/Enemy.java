@@ -10,9 +10,9 @@ import java.awt.*;
 public class Enemy extends Entity {
 
     private boolean up,left,hardDifficuld=false,twoEnemys=false;
-    private int xPosInGameField,yPosInGameField,timesMoved=0;
+    private int xPosInGameField,yPosInGameField;
     private final int gameFieldHeight,gameFieldXPos,gameFieldYPos,cellHeight;
-    private double t=1;
+    private double t=1,timesMoved=0;
     private final Player player;
     private final ProgramController programController;
     private Enemy otherEnemy;
