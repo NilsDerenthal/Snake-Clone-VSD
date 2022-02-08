@@ -37,7 +37,7 @@ public class ProgramController {
             isRunning,
             gameExists,
             hardDifficulty=false,
-            sound=false,
+            sound=true,
             twoEnemys=false;
 
     private int playerPosX,
