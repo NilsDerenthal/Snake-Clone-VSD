@@ -167,8 +167,8 @@ public class ProgramController {
             secondEnemy.setDifficulty(hardDifficulty);
             enemy.setOtherEnemy(secondEnemy);
             secondEnemy.setOtherEnemy(enemy);
-            enemy.setTwoEnemys(true);
-            secondEnemy.setTwoEnemys(true);
+            enemy.setTwoEnemies(true);
+            secondEnemy.setTwoEnemies(true);
         }
 
         spawnable = new List<>();
@@ -283,9 +283,8 @@ public class ProgramController {
                     player.setStunned(false);
                 }
             }
-            if (effectiveKey == KeyEvent.VK_ESCAPE) viewController.showScene(MENU_SCENE);
             if (spawned != null && !spawned.isEmpty()) {
-                //Checks if you collect a item, activates it
+                //Checks if you collect a item and activates it
                 spawned.toFirst();
                 while (spawned.hasAccess()) {
                     var item = spawned.getContent();
@@ -311,7 +310,7 @@ public class ProgramController {
                 }
 
             //Return to menue and pause the game
-            if(key == KeyEvent.VK_ESCAPE){
+            if(effectiveKey == KeyEvent.VK_ESCAPE){
                 viewController.showScene(MENU_SCENE);
                 isRunning=false;
             }
