@@ -37,7 +37,7 @@ public class ProgramController {
             isRunning,
             gameExists,
             hardDifficulty=false,
-            sound=true,
+            sound=false,
             twoEnemys=false;
 
     private int playerPosX,
@@ -297,6 +297,7 @@ public class ProgramController {
                     }
                     spawned.next();
                 }
+            }
                 //Checks if you collect a point, picks it up if its the right one
                 if (!pointQueue.isEmpty()) {
                     if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
@@ -308,7 +309,7 @@ public class ProgramController {
                         }
                     }
                 }
-            }
+
             //Return to menue and pause the game
             if(key == KeyEvent.VK_ESCAPE){
                 viewController.showScene(MENU_SCENE);
@@ -470,7 +471,7 @@ public class ProgramController {
         hardDifficulty = hard;
     }
 
-    public void setTwoEnemys (boolean two){
+    public void setTwoEnemies(boolean two){
         twoEnemys = two;
     }
 
