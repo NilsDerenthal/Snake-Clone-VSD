@@ -20,18 +20,28 @@ public class NameField extends GraphicalObject {
     }
 
     public void draw(DrawTool drawTool){
-        drawTool.setCurrentColor(0,0,0,255);
+        drawTool.formatText("Arial",4,70);
+        drawTool.setCurrentColor(Color.DARK_GRAY);
         drawTool.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
+
+        drawTool.setCurrentColor(Color.GRAY);
+        drawTool.drawText(150,80," WELCOME TO SNAKE CLONE");
+
+        drawTool.formatText("", 0,40);
         drawTool.setCurrentColor(Color.WHITE);
-        drawTool.drawText(400,290,"Enter Name:");
-        drawTool.drawFilledRectangle(400,300,150,30);
+        drawTool.drawText(380,290,"Please enter a Name:");
+        drawTool.drawFilledRectangle(380,300,450,50);
         drawTool.setCurrentColor(Color.BLACK);
-        drawTool.drawText(400,320, textToDraw.toString());
+        drawTool.drawText(382,330, textToDraw.toString());
 
         if (nameTaken) {
             drawTool.setCurrentColor(255,0,0,255);
             drawTool.drawText(400,345,"This name is already taken, try another one");
         }
+
+        drawTool.formatText("",10,17);
+        drawTool.setCurrentColor(Color.BLACK);
+        drawTool.drawText(370, Config.WINDOW_HEIGHT-50,"Programmed by: Furkan Akdag, Nils Derenthal, Xaver Weste and Fatih Cengel");
     }
 
     public void setTextToDraw(String content){
