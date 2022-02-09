@@ -1,11 +1,7 @@
 package my_project.view;
 
 import KAGO_framework.control.ViewController;
-import KAGO_framework.model.InteractiveGraphicalObject;
 import my_project.control.ProgramController;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import static my_project.control.SceneConfig.NAME_SCENE;
 
@@ -30,6 +26,6 @@ public class NameFieldInputManager extends InteractableAdapter {
 
     @Override
     public void keyReleased(int key) {
-        programController.enterLetter(key);
+        programController.changeName(key);
     }
 }

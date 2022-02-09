@@ -318,7 +318,14 @@ public class ProgramController {
         }
     }
 
-    public void enterLetter(int key){
+    /**
+     * Organizes the name which the player wants
+     * Can confirm the name by pressing ENTER
+     * Can delete one Letter with BACKSPACE
+     * Can add every letter to name, if pressed
+     * @param key
+     */
+    public void changeName(int key){
         switch (key) {
             case KeyEvent.VK_ENTER -> {
                 name = nameField.getTextToDraw();
@@ -353,6 +360,9 @@ public class ProgramController {
         if(sound)SoundController.playSound("menu_sound");
     }
 
+    /**
+     * Adds a point and fills the PointBar, if its full, the rectangles change their colour
+     */
     public void addPoints(){
         if(isRunning) {
             PointBar newRec = new PointBar(20, 255, 0, 0);
