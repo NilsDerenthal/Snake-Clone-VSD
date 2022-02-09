@@ -217,10 +217,10 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
      * Bewegt den Kopf der Schlange in richtung der weitergegebenen werte in x oder y richtung.
      * Die teile davor nehmen die Position von dem, der vor ihm war ein.
      */
-    public void moveQueue(double inX, double inY){
+    public void moveQueue(double toX, double toY){
         if(!queue.isEmpty()) {
-            frontX += inX;
-            frontY += inY;
+            frontX += toX;
+            frontY += toY;
 
             helpX.toFirst();
             helpX.insert(frontX);
@@ -272,7 +272,7 @@ public class VisualQueue<T extends GraphicalObject & VisualQueue.Animatable> {
         return true;
     }
 
-    public boolean collidesWithSnake(double x, double y){
+    public boolean collidesWithQueue(double x, double y){
         helpX.toFirst();
         helpY.toFirst();
         while(helpX.hasAccess()){

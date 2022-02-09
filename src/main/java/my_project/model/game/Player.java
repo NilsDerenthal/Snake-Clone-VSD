@@ -1,24 +1,23 @@
 package my_project.model.game;
 
 import KAGO_framework.control.ViewController;
+import KAGO_framework.model.GraphicalObject;
 import KAGO_framework.view.DrawTool;
 import my_project.model.visual_ds.VisualQueue;
 import static my_project.control.SceneConfig.GAME_SCENE;
 
 import java.awt.*;
 
-public class Player extends Entity {
+public class Player extends GraphicalObject {
 
-    private static class BodyPart extends Entity implements VisualQueue.Animatable {
+    private static class BodyPart extends GraphicalObject implements VisualQueue.Animatable {
 
         private boolean head;
         private boolean shieldActive;
         private Color color;
 
-        public BodyPart(double radius,Color color){
-            super(Integer.MAX_VALUE);
-
-            this.radius = radius;
+        public BodyPart(Color color){
+            radius = 20;
             this.head = false;
             shieldActive = false;
             this.color=color;
@@ -86,26 +85,22 @@ public class Player extends Entity {
     }
 
     private String name;
-    private int points;
     private final VisualQueue<BodyPart> body;
     private boolean shielded, invertedControls, stunned;
     private int length;
     private Color color;
 
     public Player(ViewController viewcontroller, double startX, double startY, Color color){
-        // infinitely fast fading -> no fading
-        super(Integer.MAX_VALUE);
 
         //VisualQueue draws the player
         body = new VisualQueue<>(viewcontroller, startX, startY, "movable");
-        BodyPart firstPart = new BodyPart(20,color);
+        BodyPart firstPart = new BodyPart(color);
 
         body.enqueue(firstPart);
         body.getFront().setHead(true);
 
         this.color=color;
         System.out.println(color);
-        viewcontroller.draw(this, GAME_SCENE);
     }
 
     //moves the player
@@ -121,7 +116,7 @@ public class Player extends Entity {
 
     //Creates an object of the innerclass "BodyPart" and enques it into the VisualQueue
     public void addBodyPart(){
-        BodyPart body = new BodyPart(20,color);
+        BodyPart body = new BodyPart(color);
         this.body.enqueue(body);
         this.body.getFront().setHead(true);
         length++;
@@ -139,7 +134,7 @@ public class Player extends Entity {
     }
 
     public boolean gotHit(double x, double y){
-        return body.collidesWithSnake(x,y);
+        return body.collidesWithQueue(x,y);
     }
 
     @Override

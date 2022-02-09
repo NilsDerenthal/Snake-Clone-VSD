@@ -298,6 +298,7 @@ public class ProgramController {
                 }
             }
                 //Checks if you collect a point, picks it up if its the right one
+
                 if (!pointQueue.isEmpty()) {
                     if (pointQueue.front().getPosX() == playerPosX && pointQueue.front().getPosY() == playerPosY) {
                         gameField.set(null, pointQueue.front().getPosX(), pointQueue.front().getPosY());
