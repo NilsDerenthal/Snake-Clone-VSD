@@ -22,8 +22,8 @@ public class LeaderboardController {
      * @param score the reached score
      * @param difficulty the difficulty
      */
-    public void addToLeaderBoard(String name,int score,String difficulty){
-        entries.append(new LeaderboardEntry(score, name, difficulty));
+    public void addToLeaderBoard(String name, int score, String difficulty){
+        insert(entries, new LeaderboardEntry(name, score, difficulty));
         writeLeaderBoard();
     }
 
@@ -41,12 +41,7 @@ public class LeaderboardController {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(":");
-                    int score = Integer.parseInt(values[0]);
-                    lb.toFirst();
-                    while (lb.hasAccess() && lb.getContent().score() < score) {
-                        lb.next();
-                    }
-                    lb.insert(new LeaderboardEntry(Integer.parseInt(values[0]), values[1], values[2]));
+                    insert(lb, new LeaderboardEntry(values[0], Integer.parseInt(values[1]), values[2]));
                 }
             }
         } catch (IOException exception) {
@@ -57,9 +52,27 @@ public class LeaderboardController {
     }
 
     /**
+     * Inserts a new entry
+     * @param lb the leaderboard
+     * @param entry the new entry
+     */
+    private void insert (List<LeaderboardEntry> lb, LeaderboardEntry entry) {
+        lb.toFirst();
+        while (lb.hasAccess() && lb.getContent().score() > entry.score()) {
+            lb.next();
+        }
+        if (!lb.hasAccess()) {
+            lb.append(entry);
+        } else {
+            lb.insert(entry);
+        }
+        System.out.println("inserted" + entry);
+    }
+
+    /**
      * Writes the data to the leaderboard
      */
-    public void writeLeaderBoard() {
+    private void writeLeaderBoard() {
         StringBuilder newFileDataString = new StringBuilder();
 
         entries.toFirst();

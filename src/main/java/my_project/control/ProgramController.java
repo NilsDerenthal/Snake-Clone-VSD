@@ -414,7 +414,7 @@ public class ProgramController {
                 showScene(SceneConfig.DEFEAT_SCENE);
                 dead = true;
                 isRunning = false;
-                l.addToLeaderBoard(player.getName(),getPoints(),getDifficult());
+                l.addToLeaderBoard(player.getName(), getPoints(), getDifficult());
                 if(sound)SoundController.stopSound("game_sound_alt");
             }
         }

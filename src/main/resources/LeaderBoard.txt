@@ -1,5 +1,4 @@
+abcafs:27:easy
+adasasdd:5:easy
+abcafs:2:easy
 test:0:easy
-gutentag:1:easy
-niemand:2:hard against two Enemys
-hhgh:6:easy
-abcdefffffffffffff:8:easy
