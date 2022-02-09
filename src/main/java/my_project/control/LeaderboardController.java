@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 public class LeaderboardController {
 
+    private final static String filePath = "src/main/resources/LeaderBoard.txt";
     private List<LeaderboardEntry> entries;
 
     public LeaderboardController(){
@@ -35,7 +36,7 @@ public class LeaderboardController {
         FileInputStream inputStream;
 
         try {
-            inputStream = new FileInputStream("src/main/java/my_project/control/LeaderBoard.txt");
+            inputStream = new FileInputStream(filePath);
             try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -63,7 +64,7 @@ public class LeaderboardController {
             entries.next();
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/my_project/control/LeaderBoard.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(newFileDataString.toString());
         } catch (IOException exception) {
             exception.printStackTrace();
