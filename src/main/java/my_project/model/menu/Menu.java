@@ -52,7 +52,7 @@ public class Menu extends GraphicalObject {
                 p.setTwoEnemies(false);
                 p.setDifficult(false);
             }, Color.GREEN),
-            newOption("easy two Enemys",()->{
+            newOption("easy with two Enemies",()->{
                 p.setTwoEnemies(true);
                 p.setDifficult(false);
             },Color.YELLOW),
@@ -60,7 +60,7 @@ public class Menu extends GraphicalObject {
                 p.setTwoEnemies(false);
                 p.setDifficult(true);
             }, Color.RED),
-            newOption("hard two Enemys",()-> {
+            newOption("hard with two Enemies",()-> {
                 p.setTwoEnemies(true);
                 p.setDifficult(true);
             },new Color(100,0,0,255))
