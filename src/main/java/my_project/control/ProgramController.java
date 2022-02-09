@@ -354,23 +354,17 @@ public class ProgramController {
 
     public void addPoints(){
         if(isRunning) {
+            PointBar newRec = new PointBar(20, 255, 0, 0);
             if (pointBarStack.getCounter() == 11) {
                 pointBarStack.setCounter(1);
                 pointBarOrig.setR((int) (Math.random() * 255));
                 pointBarOrig.setG((int) (Math.random() * 255));
                 pointBarOrig.setB((int) (Math.random() * 255));
-                PointBar newRec = new PointBar(20, 255, 0, 0);
-                newRec.setR(pointBarOrig.getR());
-                newRec.setG(pointBarOrig.getG());
-                newRec.setB(pointBarOrig.getB());
-                pointBarStack.pushInVisual(newRec);
-            } else {
-                PointBar newRec = new PointBar(20, 255, 0, 0);
-                newRec.setR(pointBarOrig.getR());
-                newRec.setG(pointBarOrig.getG());
-                newRec.setB(pointBarOrig.getB());
-                pointBarStack.pushInVisual(newRec);
             }
+            newRec.setR(pointBarOrig.getR());
+            newRec.setG(pointBarOrig.getG());
+            newRec.setB(pointBarOrig.getB());
+            pointBarStack.pushInVisual(newRec);
             field.increasePoints();
         }
     }
