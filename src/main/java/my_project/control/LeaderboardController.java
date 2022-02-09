@@ -15,11 +15,21 @@ public class LeaderboardController {
     }
 
 
+    /**
+     * Adds the entry to the leaderboard
+     * @param name the name of the player
+     * @param score the reached score
+     * @param difficulty the difficulty
+     */
     public void addToLeaderBoard(String name,int score,String difficulty){
         entries.append(new LeaderboardEntry(score, name, difficulty));
         writeLeaderBoard();
     }
 
+    /**
+     * Parses the content from the file
+     * @return the list of all entries read from the file
+     */
     private List<LeaderboardEntry> getFileContent() {
         List<LeaderboardEntry> lb = new List<>();
         FileInputStream inputStream;
@@ -40,6 +50,9 @@ public class LeaderboardController {
         return lb;
     }
 
+    /**
+     * Writes the data to the leaderboard
+     */
     public void writeLeaderBoard() {
         StringBuilder newFileDataString = new StringBuilder();
 
