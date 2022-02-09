@@ -1,91 +1,54 @@
 package my_project.control;
 
+import KAGO_framework.model.abitur.datenstrukturen.List;
+import my_project.model.LeaderboardEntry;
+
 import java.io.*;
 import java.util.Arrays;
 
 public class LeaderboardController {
 
-    private String[] names;
-    private int[] scores;
-    private String[] difficults;
+    private List<LeaderboardEntry> entries;
 
     public LeaderboardController(){
-        updateArrays();
-
+        entries = getFileContent();
     }
 
-    private void updateArrays(){
-        String fileString = getFileContent();
-        if(!fileString.equals("")) {
-            String[] fileStringArray = fileString.split("\n");
-            String[] stringArray=new String[fileStringArray.length];
-            Arrays.sort(fileStringArray);
-            for(int i=0;i<fileStringArray.length;i++){
-                stringArray[stringArray.length-i-1]=fileStringArray[i];
-            }
-            fileStringArray=stringArray;
-            names = new String[fileStringArray.length];
-            scores = new int[fileStringArray.length];
-            difficults = new String[fileStringArray.length];
-            for (int i = 0; i < fileStringArray.length; i++) {
-                String[] strings = fileStringArray[i].split(":");
-                names[i] = strings[1];
-                scores[i] = Integer.parseInt(strings[0]);
-                difficults[i] = strings[2];
-            }
-        }
-    }
 
-    public void addToLeaderBoard(String name,int score,String difficult){
-        String[] oldNames=new String[names.length];
-        System.arraycopy(names,0,oldNames,0,names.length);
-        String[] oldDifficults=new String[names.length];
-        System.arraycopy(difficults,0,oldDifficults,0,names.length);
-        int[] oldScores=new int[names.length];
-        System.arraycopy(scores,0,oldScores,0,names.length);
-        names=new String[oldNames.length+1];
-        difficults=new String[oldNames.length+1];
-        scores=new int[oldNames.length+1];
-        System.arraycopy(oldNames,0,names,0,oldNames.length);
-        System.arraycopy(oldDifficults,0,difficults,0,oldNames.length);
-        System.arraycopy(oldScores,0,scores,0,oldNames.length);
-        names[names.length-1]=name;
-        difficults[names.length-1]=difficult;
-        scores[names.length-1]=score;
+    public void addToLeaderBoard(String name,int score,String difficulty){
+        entries.append(new LeaderboardEntry(score, name, difficulty));
         writeLeaderBoard();
-        updateArrays();
     }
 
-    private String getFileContent() {
-        FileInputStream inputStream = null;
+    private List<LeaderboardEntry> getFileContent() {
+        List<LeaderboardEntry> lb = new List<>();
+        FileInputStream inputStream;
 
         try {
             inputStream = new FileInputStream("src/main/java/my_project/control/LeaderBoard.txt");
-        } catch (
-                FileNotFoundException ignore) {
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            assert inputStream != null;
             try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    sb.append(line).append("\n");
+                    String[] values = line.split(":");
+                    lb.append(new LeaderboardEntry(Integer.parseInt(values[0]), values[1], values[2]));
                 }
             }
         } catch (IOException exception) {
             exception.printStackTrace();
         }
 
-        return sb.toString();
+        return lb;
     }
 
     public void writeLeaderBoard() {
         StringBuilder newFileDataString = new StringBuilder();
 
-        for(int i=0;i< names.length;i++) newFileDataString.append(String.format("%s:%s:%s%n", scores[i],names[i], difficults[i]));
+        entries.toFirst();
+        while (entries.hasAccess()) {
+            var entry = entries.getContent();
+            newFileDataString.append(String.format("%s:%d:%s%n", entry.name(), entry.score(), entry.difficulty()));
+            entries.next();
+        }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/my_project/control/LeaderBoard.txt"))) {
             writer.write(newFileDataString.toString());
@@ -94,7 +57,8 @@ public class LeaderboardController {
         }
     }
 
-    public String[] getNames(){ return names; }
-    public String[] getDifficults(){ return difficults; }
-    public int[] getScores(){ return scores; }
+    public List<LeaderboardEntry> getEntries (){
+        return entries;
+    }
+
 }

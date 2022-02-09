@@ -29,13 +29,17 @@ public class LeaderBoard extends GraphicalObject {
         d.drawFilledRectangle(0,0, Config.WINDOW_WIDTH,Config.WINDOW_HEIGHT);
         d.setCurrentColor(0,0,0,255);
         int yText=110;
-        String[] names=l.getNames();
-        String[] difficults=l.getDifficults();
-        int[] scores=l.getScores();
-        for(int i=0;i<names.length&&i<20;i++) {
-            d.drawText(30, yText, "The Player " + names[i] + " has " + scores[i] + " Points with difficuly "+difficults[i]);
+
+        var lb = l.getEntries();
+
+        lb.toFirst();
+        while (lb.hasAccess()) {
+            var content = lb.getContent();
+            d.drawText(30, yText, "The Player " + content.name() + " has " + content.score() + " Points with difficuly " + content.difficulty());
             yText+=20;
+            lb.next();
         }
+
 
         d.formatText("",3,70);
         d.drawText(290,80,"LEADERBOARD");
