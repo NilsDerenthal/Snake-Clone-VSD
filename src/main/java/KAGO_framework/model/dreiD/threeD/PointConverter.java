@@ -10,9 +10,9 @@ public class PointConverter {
      * convertiert einen 3D Punkt zu einem 2D Punkt
      */
     public static Point convertPoint(PointThreeD p){
-        double x3d = p.y*scale;
-        double y3d = p.z*scale;
-        double depth = p.x*scale;
+        double x3d = p.getY()*scale;
+        double y3d = p.getZ()*scale;
+        double depth = p.getX()*scale;
         double[] newVal = scale(x3d,y3d,depth);
         int x2d = (int) newVal[0];
         int y2d = (int) newVal[1];
@@ -37,33 +37,33 @@ public class PointConverter {
      * rotiert einen Punkt um die X-Achse
      */
     public static void rotateAxisX(PointThreeD p,boolean cW,double degrees){
-        double radius=Math.sqrt(p.y*p.y+p.z*p.z);
-        double theta=Math.atan2(p.z,p.y);
+        double radius=Math.sqrt(p.getY()*p.getY()+p.getZ()*p.getZ());
+        double theta=Math.atan2(p.getZ(),p.getY());
         theta+=2*Math.PI/360*degrees*(cW?-1:1);
-        p.y=radius*Math.cos(theta);
-        p.z=radius*Math.sin(theta);
+        p.setY(radius*Math.cos(theta));
+        p.setZ(radius*Math.sin(theta));
     }
 
     /**
      * rotiert einen Punkt um die Y-Achse
      */
     public static void rotateAxisY(PointThreeD p,boolean cW,double degrees){
-        double radius=Math.sqrt(p.x*p.x+p.z*p.z);
-        double theta=Math.atan2(p.x,p.z);
+        double radius=Math.sqrt(p.getX()*p.getX()+p.getZ()*p.getZ());
+        double theta=Math.atan2(p.getX(),p.getZ());
         theta+=2*Math.PI/360*degrees*(cW?-1:1);
-        p.x=radius*Math.sin(theta);
-        p.z=radius*Math.cos(theta);
+        p.setX(radius*Math.sin(theta));
+        p.setZ(radius*Math.cos(theta));
     }
 
     /**
      * rotiert einen Punkt um die Z-Achse
      */
     public static void rotateAxisZ(PointThreeD p,boolean cW,double degrees){
-        double radius=Math.sqrt(p.y*p.y+p.x*p.x);
-        double theta=Math.atan2(p.y,p.x);
+        double radius=Math.sqrt(p.getY()*p.getY()+p.getX()*p.getX());
+        double theta=Math.atan2(p.getY(),p.getX());
         theta+=2*Math.PI/360*degrees*(cW?-1:1);
-        p.y=radius*Math.sin(theta);
-        p.x=radius*Math.cos(theta);
+        p.setY(radius*Math.sin(theta));
+        p.setX(radius*Math.cos(theta));
     }
 
 }

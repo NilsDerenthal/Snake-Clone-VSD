@@ -19,7 +19,7 @@ public class PolygonThreeD{
         this.points = new PointThreeD[points.length];
         for(int i=0;i< points.length;i++){
             PointThreeD p = points[i];
-            this.points[i]=new PointThreeD(p.x,p.y,p.z);
+            this.points[i]=new PointThreeD(p.getX(),p.getY(),p.getZ());
         }
         this.color=color;
     }
@@ -43,7 +43,7 @@ public class PolygonThreeD{
     public double getAverageX(){
         double sum=0;
         for(PointThreeD value:points){
-            sum+=value.x;
+            sum+=value.getX();
         }
         return sum/ points.length;
     }
