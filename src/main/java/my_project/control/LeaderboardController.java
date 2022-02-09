@@ -61,11 +61,13 @@ public class LeaderboardController {
         while (lb.hasAccess() && lb.getContent().score() > entry.score()) {
             lb.next();
         }
+
         if (!lb.hasAccess()) {
             lb.append(entry);
         } else {
             lb.insert(entry);
         }
+
         System.out.println("inserted" + entry);
     }
 

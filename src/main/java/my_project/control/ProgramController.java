@@ -414,28 +414,26 @@ public class ProgramController {
                 showScene(SceneConfig.DEFEAT_SCENE);
                 dead = true;
                 isRunning = false;
-                l.addToLeaderBoard(player.getName(), getPoints(), getDifficult());
+                l.addToLeaderBoard(player.getName(), getPoints(), getDifficulty());
                 if(sound)SoundController.stopSound("game_sound_alt");
             }
         }
     }
 
-    public String getDifficult(){
-        String s;
+    public String getDifficulty (){
         if(twoEnemys){
             if(hardDifficulty){
-                s="hard against two Enemies";
+                return "hard against two Enemies";
             }else{
-                s="easy against two Enemies";
+                return "easy against two Enemies";
             }
         }else{
             if(hardDifficulty){
-                s="hard";
+                return "hard";
             }else{
-                s="easy";
+                return "easy";
             }
         }
-        return s;
     }
 
     public Player getPlayer () {
@@ -475,15 +473,15 @@ public class ProgramController {
     }
 
     public void soundOn(){
-        if(sound==false){
-            sound=true;
+        if(!sound){
+            sound = true;
             SoundController.playSound("menu_sound");
         }
     }
 
     public void soundOff(){
-        if(sound==true){
-            sound=false;
+        if(sound){
+            sound = false;
             SoundController.stopSound("menu_sound");
         }
     }
