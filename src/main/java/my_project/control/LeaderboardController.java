@@ -11,9 +11,11 @@ public class LeaderboardController {
 
     public LeaderboardController(){
         updateArrays();
-
     }
 
+    /**
+     * updatet die Arrays mit den Informationen aus LeaderBoard.txt
+     */
     private void updateArrays(){
         String fileString = getFileContent();
         if(!fileString.equals("")) {
@@ -36,6 +38,9 @@ public class LeaderboardController {
         }
     }
 
+    /**
+     * fügt einen score hinzu
+     */
     public void addToLeaderBoard(String name,int score,String difficult){
         String[] oldNames=new String[names.length];
         System.arraycopy(names,0,oldNames,0,names.length);
@@ -56,6 +61,9 @@ public class LeaderboardController {
         updateArrays();
     }
 
+    /**
+     * @return den Inhalt aus LeaderBoard.txt
+     */
     private String getFileContent() {
         FileInputStream inputStream = null;
 
@@ -82,6 +90,9 @@ public class LeaderboardController {
         return sb.toString();
     }
 
+    /**
+     * schreibt die Informationen über sie scores in LeaderBoard.txt
+     */
     public void writeLeaderBoard() {
         StringBuilder newFileDataString = new StringBuilder();
 

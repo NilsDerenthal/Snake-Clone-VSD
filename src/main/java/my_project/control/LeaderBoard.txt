@@ -1,8 +1,4 @@
-6:hhgh:easy
 61:niemand:hard against two Enemys
 55:niemand:easy
 2:niemand:hard against two Enemys
-1:gutentag:easy
-17:ggh:easy
-0:test:easy
-12::hard against two Enemies
+1:a:easy
