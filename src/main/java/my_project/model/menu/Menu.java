@@ -43,7 +43,8 @@ public class Menu extends GraphicalObject {
         addOption("Colors", new MenuSubOption[] {
                 newOption("Blue", () -> p.setPlayerColor(Color.BLUE), Color.BLUE),
                 newOption("Green", () -> p.setPlayerColor(Color.GREEN), Color.GREEN),
-                newOption("Black", () -> p.setPlayerColor(Color.BLACK), Color.BLACK)
+                newOption("Black", () -> p.setPlayerColor(Color.BLACK), Color.GRAY),
+                newOption("Orange", () -> p.setPlayerColor(Color.ORANGE), Color.ORANGE)
         });
 
         addOption("difficulty", new MenuSubOption[] {
