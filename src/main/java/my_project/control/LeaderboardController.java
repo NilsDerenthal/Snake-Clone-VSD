@@ -41,7 +41,12 @@ public class LeaderboardController {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(":");
-                    lb.append(new LeaderboardEntry(Integer.parseInt(values[0]), values[1], values[2]));
+                    int score = Integer.parseInt(values[0]);
+                    lb.toFirst();
+                    while (lb.hasAccess() && lb.getContent().score() < score) {
+                        lb.next();
+                    }
+                    lb.insert(new LeaderboardEntry(Integer.parseInt(values[0]), values[1], values[2]));
                 }
             }
         } catch (IOException exception) {
